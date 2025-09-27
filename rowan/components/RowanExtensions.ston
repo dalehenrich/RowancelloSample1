@@ -1,0 +1,9 @@
+RwLoadComponent {
+	#name : 'RowanExtensions',
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'RowancelloSample1-Rowan-Classes'
+	],
+	#comment : ''
+}
