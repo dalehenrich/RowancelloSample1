@@ -8,7 +8,7 @@ RwLoadSpecificationV2 {
 	#platformProperties : {
 		'gemstone' : {
 			'allusers' : {
-				#defaultSymbolDictName : 'UserGlobals'
+				#defaultSymbolDictName : 'Globals'
 			}
 		}
 	},
