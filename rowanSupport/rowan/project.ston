@@ -1,0 +1,12 @@
+RwProjectSpecificationV3 {
+	#specName : 'project',
+	#projectVersion : '1.0.0',
+	#projectSpecPath : 'rowanSupport/rowan',
+	#componentsPath : 'rowanSupport/rowan/components',
+	#packagesPath : 'rowanSupport/src',
+	#projectsPath : 'rowanSupport/rowan/projects',
+	#specsPath : 'rowanSupport/rowan/specs',
+	#packageFormat : 'tonel',
+	#packageConvention : 'Rowan',
+	#comment : ''
+}
