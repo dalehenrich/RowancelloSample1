@@ -385,8 +385,8 @@ RwProjectSpecificationV4_cluster_1 >> subclusterPath: object [
 	subclusterPath := object
 ]
 
-{ #category : 'v2 vs v3' }
-RwProjectSpecificationV4_cluster_1 >> useV3ComponentClasses [
+{ #category : 'v3 vs v4' }
+RwProjectSpecificationV4_cluster_1 >> useV4ClusterClasses [
 
 	^ true
 ]

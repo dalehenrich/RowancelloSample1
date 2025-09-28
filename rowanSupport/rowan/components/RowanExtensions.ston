@@ -3,7 +3,19 @@ RwLoadComponent {
 	#projectNames : [ ],
 	#componentNames : [ ],
 	#packageNames : [
-		'RowancelloSample1-Rowan-Classes'
+		'RowancelloSample1-Rowan-Classes',
+		'RowancelloSample1-Rowan-Extensions'
 	],
+	#conditionalPackageMapSpecs : {
+		'gemstone' : {
+			'SystemUser' : {
+				#packageNameToPlatformPropertiesMap : {
+					'RowancelloSample1-Rowan-Extensions' : {
+						'symbolDictName' : 'RowanTools'
+					}
+				}
+			}
+		}
+	},
 	#comment : ''
 }
