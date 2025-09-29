@@ -2,9 +2,7 @@ RwLoadSpecificationV2 {
 	#projectName : 'RowancelloSample1',
 	#gitUrl : 'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1',
 	#projectSpecFile : 'rowan/project.ston',
-	#componentNames : [
-		'RowanExtensions'
-	],
+	#componentNames : [ ],
 	#platformProperties : {
 		'gemstone' : {
 			'allusers' : {

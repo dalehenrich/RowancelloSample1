@@ -1,0 +1,21 @@
+RwSubcomponent {
+	#name : 'RowanExtensionsTests',
+	#condition : 'tests',
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'RowancelloSample1-RowanKernel-Extensions-Tests'
+	],
+	#conditionalPackageMapSpecs : {
+		'gemstone' : {
+			'SystemUser' : {
+				#packageNameToPlatformPropertiesMap : {
+					'RowancelloSample1-RowanKernel-Extensions-Tests' : {
+						'symbolDictName' : 'RowanKernel'
+					}
+				}
+			}
+		}
+	},
+	#comment : 'Rowan Cluster and Subcluster tests'
+}

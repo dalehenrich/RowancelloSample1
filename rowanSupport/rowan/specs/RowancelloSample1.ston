@@ -1,9 +1,13 @@
 RwLoadSpecificationV2 {
-	#projectName : 'RowancelloSample1',
+	#projectName : 'RowancelloSample1_support',
+	#projectAlias : 'RowancelloSample1',
 	#gitUrl : 'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1',
 	#projectSpecFile : 'rowanSupport/rowan/project.ston',
 	#componentNames : [
 		'RowanExtensions'
+	],
+	#customConditionalAttributes: [
+		'tests'
 	],
 	#platformProperties : {
 		'gemstone' : {

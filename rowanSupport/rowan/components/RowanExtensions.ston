@@ -1,17 +1,19 @@
 RwLoadComponent {
 	#name : 'RowanExtensions',
 	#projectNames : [ ],
-	#componentNames : [ ],
+	#componentNames : [
+		'RowanExtensionsTests'
+	],
 	#packageNames : [
-		'RowancelloSample1-Rowan-Classes',
-		'RowancelloSample1-Rowan-Extensions',
+		'RowancelloSample1-RowanClasses',
+		'RowancelloSample1-RowanTools-Extensions',
 		'RowancelloSample1-RowanKernel-Extensions'
 	],
 	#conditionalPackageMapSpecs : {
 		'gemstone' : {
 			'SystemUser' : {
 				#packageNameToPlatformPropertiesMap : {
-					'RowancelloSample1-Rowan-Extensions' : {
+					'RowancelloSample1-RowanTools-Extensions' : {
 						'symbolDictName' : 'RowanTools'
 					},
 					'RowancelloSample1-RowanKernel-Extensions' : {
