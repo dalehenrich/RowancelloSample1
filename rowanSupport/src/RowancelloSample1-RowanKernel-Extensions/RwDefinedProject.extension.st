@@ -16,7 +16,23 @@ RwDefinedProject >> _concreteProjectV4_cluster [
 
 	^ concreteProject
 		ifNil: [ 
-			concreteProject := RwResolvedProjectV2 newV4_cluster
+			concreteProject := RwResolvedProjectV4 newV4_cluster
 				projectName: self name;
 				yourself ]
+]
+
+{ #category : 'clusters' }
+RwDefinedProject >> addClusterNamed: clusterName [
+	"add a new instance of RwCluster to the project clusters and add the clusterName
+		to the load spec (i.e., it will be loaded when the load spec is loaded)"
+
+	^ self addClusterNamed: clusterName comment: ''
+]
+
+{ #category : 'clusters' }
+RwDefinedProject >> addClusterNamed: componentName comment: aString [
+	"add a new instance of RwCluster to the project clusters and add the clusterName
+		to the load spec (i.e., it will be loaded when the load spec is loaded)"
+
+	^ self _concreteProject addClusterNamed: componentName comment: aString
 ]

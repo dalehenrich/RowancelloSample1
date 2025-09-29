@@ -13,11 +13,11 @@ RwLoadComponent {
 		'gemstone' : {
 			'SystemUser' : {
 				#packageNameToPlatformPropertiesMap : {
-					'RowancelloSample1-RowanTools-Extensions' : {
-						'symbolDictName' : 'RowanTools'
-					},
 					'RowancelloSample1-RowanKernel-Extensions' : {
 						'symbolDictName' : 'RowanKernel'
+					},
+					'RowancelloSample1-RowanTools-Extensions' : {
+						'symbolDictName' : 'RowanTools'
 					}
 				}
 			}
