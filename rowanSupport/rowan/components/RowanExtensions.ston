@@ -6,8 +6,9 @@ RwLoadComponent {
 	],
 	#packageNames : [
 		'RowancelloSample1-RowanClasses',
-		'RowancelloSample1-RowanTools-Extensions',
-		'RowancelloSample1-RowanKernel-Extensions'
+		'RowancelloSample1-RowanKernel-Extensions',
+		'RowancelloSample1-RowanTools',
+		'RowancelloSample1-RowanTools-Extensions'
 	],
 	#conditionalPackageMapSpecs : {
 		'gemstone' : {
@@ -15,6 +16,9 @@ RwLoadComponent {
 				#packageNameToPlatformPropertiesMap : {
 					'RowancelloSample1-RowanKernel-Extensions' : {
 						'symbolDictName' : 'RowanKernel'
+					},
+					'RowancelloSample1-RowanTools' : {
+						'symbolDictName' : 'RowanTools'
 					},
 					'RowancelloSample1-RowanTools-Extensions' : {
 						'symbolDictName' : 'RowanTools'

@@ -1,3 +1,12 @@
+"
+A RwLoadSpecificationV4_cluster is used to configure  a project load. One or more clusters may be referenced by a load spec. The load spec includes a list of customConditionalAttributes which may be used in the condition expression in a subcluster. The system generates a set of platform attributes that corresponds to the current platform. Note that platform attributes can be added to a load spec as a customConditionalAttributes ... this is recommended for doing loads, but it useful when reading and writing .gs files for different gemstone versions.
+
+A RwCluster has a name and a list of subclusters. 
+
+A RwSubcluster has a name, and a collection of condition/packageAndProjectNames pairs. When a subcluster is loaded, the list of packageAndProjectNames associated with a condition  that evaluates to true are loaded. A packageOrPronectName may not be present in more than one packageAndProjectName list in a subcluster and a packageOrProjectName may not be referenced by more than one subcluster ... Essentially each packageorProject must be associated with a single, unique condition in a single subcluster. 
+
+These restrictions are put into place, because it can become too difficult to manage the dependencies if a package shows up in multple subclusters ...
+"
 Class {
 	#name : 'RwLoadSpecificationV4_cluster',
 	#superclass : 'RwLoadSpecificationV2',
@@ -17,13 +26,13 @@ RwLoadSpecificationV4_cluster >> addClusterNamed: clusterName [
 ]
 
 { #category : 'accessing' }
-RwLoadSpecificationV4_cluster >> addClusterNames: anArray [
+RwLoadSpecificationV4_cluster >> addClustersNamed: anArray [
 	"add to the existing component names. make sure that we eliminate any duplicate component names (https://github.com/GemTalk/Rowan/issues/942)"
 
 	| set |
-	set := self componentNames asSet.
+	set := self clusterNames asSet.
 	set addAll: anArray.
-	componentNames := set asArray
+	clusterNames := set asArray
 ]
 
 { #category : 'unsupported' }
