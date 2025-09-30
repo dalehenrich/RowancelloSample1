@@ -58,4 +58,14 @@ RwSimpleProjectClusterTest >> testBasic [
 		addClustersNamed: {   'Utility-External' };
 		comment: 'Load spec to be used to load Utility-External code into an external project';
 		yourself.
+	
+	'/bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowan/specs/RowancelloSample1_utility.ston'
+		asFileReference writeStreamDo: [:stream | 
+			stream truncate.
+			externalLoadSpec exportToStream: stream ].
+	"not quite ready"
+	definedProject resolveProject
+		projectsHome: '/bosch1/users/dhenrich/_stones/git/';
+		diskUrl:  'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1';
+		export
 ]
