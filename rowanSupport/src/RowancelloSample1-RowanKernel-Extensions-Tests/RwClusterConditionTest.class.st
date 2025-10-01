@@ -1,11 +1,19 @@
 Class {
-	#name : 'RwSimpleProjectClusterTest',
-	#superclass : 'RwAbstractClusterTest',
+	#name : 'RwClusterConditionTest',
+	#superclass : 'RwCAQEvaluatorTest',
 	#category : 'RowancelloSample1-RowanKernel-Extensions-Tests'
 }
 
+{ #category : 'context management' }
+RwClusterConditionTest >> prepareContext [
+	"Load all of the implicit variables into context."
+
+	super prepareContext.
+	context set: 'gemstone.user' to: GsSession currentSession userProfile userId
+]
+
 { #category : 'tests' }
-RwSimpleProjectClusterTest >> testBasic [
+RwClusterConditionTest >> testBasic [
 	"Create a project that with clusters and subclusters ... has embedded utility functionality that can be leveraged by other external projects"
 	"specify condition expressions for the subclusters"
 
