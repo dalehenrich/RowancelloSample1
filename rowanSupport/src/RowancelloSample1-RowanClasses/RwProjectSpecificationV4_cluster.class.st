@@ -9,12 +9,7 @@ Class {
 
 { #category : 'comparing' }
 RwProjectSpecificationV4_cluster >> = anObject [
-	^ super = anObject and: [ self clusterPath = anObject clusterPath and: [self subclusterPath = anObject subclusterPath] ]
-]
-
-{ #category : 'accessing' }
-RwProjectSpecificationV4_cluster >> clusterPath [
-	^ self clustersPath , '/clusters'
+	^ super = anObject and: [ self clustersPath = anObject clustersPath ]
 ]
 
 { #category : 'accessing' }
@@ -38,8 +33,7 @@ RwProjectSpecificationV4_cluster >> excludedInstVars [
 RwProjectSpecificationV4_cluster >> hash [
 	| hashValue |
 	hashValue := super hash.
-	hashValue := hashValue bitXor: self clusterPath hash.
-	hashValue := hashValue bitXor: self clusterPath hash.
+	hashValue := hashValue bitXor: self clustersPath hash.
 	^ hashValue
 ]
 
@@ -49,11 +43,6 @@ RwProjectSpecificationV4_cluster >> initialize [
 
 	super initialize.
 	clustersPath := 'rowan/clusters'.
-]
-
-{ #category : 'accessing' }
-RwProjectSpecificationV4_cluster >> subclusterPath [
-	^self clustersPath, '/subclusters'
 ]
 
 { #category : 'v3 vs v4' }

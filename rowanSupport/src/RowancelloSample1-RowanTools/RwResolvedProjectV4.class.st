@@ -77,7 +77,7 @@ RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clust
 
 { #category : 'accessing' }
 RwResolvedProjectV4 >> clustersRoot [
-	^ self repositoryRoot / self _projectSpecification clusterPath
+	^ self repositoryRoot / self _projectSpecification clustersPath
 ]
 
 { #category : 'actions' }

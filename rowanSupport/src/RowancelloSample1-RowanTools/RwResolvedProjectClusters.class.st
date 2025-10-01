@@ -88,15 +88,15 @@ RwResolvedProjectClusters >> clusters [
 ]
 
 { #category : 'exporting' }
-RwResolvedProjectClusters >> export: clusterRoot [
+RwResolvedProjectClusters >> export: clustersRoot [
 	self clusters values
-		do: [ :cluster | cluster exportToUrl: 'file:' , clusterRoot pathString , '/' ].
+		do: [ :cluster | cluster exportToUrl: 'file:' , clustersRoot pathString , '/clusters/' ].
 	self subclusters values
-		do: [ :packgeGroup | packgeGroup exportToUrl: 'file:' , clusterRoot pathString , '/' ].
+		do: [ :packgeGroup | packgeGroup exportToUrl: 'file:' , clustersRoot pathString , '/subclusters/' ].
 	(self clusters isEmpty and: [ self subclusters isEmpty ])
 		ifTrue: [ 
 			"add README.md as placeholder to ensure that the directory is preserved by git"
-			clusterRoot / 'README' , 'md' writeStreamDo: [ :fileStream | fileStream truncate. ] ]
+			clustersRoot / 'README' , 'md' writeStreamDo: [ :fileStream | fileStream truncate. ] ]
 ]
 
 { #category : 'initialization' }
