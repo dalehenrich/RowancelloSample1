@@ -1,7 +1,7 @@
 RwLoadSpecificationV2 {
 	#projectName : 'RowancelloSample1_support',
 	#projectAlias : 'RowancelloSample1',
-	#gitUrl : 'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1',
+	#gitUrl : 'git@github.com:dalehenrich/RowancelloSample1.git',
 	#projectSpecFile : 'rowanSupport/rowan/project.ston',
 	#componentNames : [
 		'RowanExtensions'

@@ -75,6 +75,25 @@ RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clust
 			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
 ]
 
+{ #category : 'accessing' }
+RwResolvedProjectV4 >> clustersRoot [
+	^ self repositoryRoot / self _projectSpecification clusterPath
+]
+
+{ #category : 'actions' }
+RwResolvedProjectV4 >> export [
+	"export project artifacts, EXCEPT load spec as the load spec is typically modified during load.
+		The load spec should be exported shortly after being read from disk AFTER any
+		intentional changes have been made"
+
+	Rowan projectTools writeV4 writeResolvedProject: self
+]
+
+{ #category : 'exporting' }
+RwResolvedProjectV4 >> exportClusters [
+	self _projectClusters export: self clustersRoot
+]
+
 { #category : 'initialization' }
 RwResolvedProjectV4 >> initialize [
 
@@ -121,7 +140,7 @@ RwResolvedProjectV4 >> projectSpecification [
 
 { #category : 'accessing' }
 RwResolvedProjectV4 >> repository [
-	^ RwResolvedRepositoryV2 new
+	^ RwResolvedRepositoryV4 new
 		_projectDefinition: projectDefinition;
 		_projectRepository: projectRepository;
 		_loadSpecification: loadSpecification;

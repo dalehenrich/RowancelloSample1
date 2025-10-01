@@ -24,6 +24,26 @@ RwCluster class >> new [
 	^ self basicNew initialize
 ]
 
+{ #category : 'exporting' }
+RwCluster >> _exportToUrl: directoryUrl [
+	| url |
+	url := directoryUrl asRwUrl.
+	url schemeName = 'file'
+		ifTrue: [ 
+			| fileRef |
+			fileRef := url pathForDirectory asFileReference / self clusterName , 'ston'.
+			fileRef parent ensureCreateDirectory.
+			fileRef
+				writeStreamDo: [ :stream | 
+					| string |
+					string := STON toStringPretty: self.
+					stream
+						truncate;
+						nextPutAll: string.
+					^ self ] ].
+	^ nil	"otherwise a noop"
+]
+
 { #category : 'accessing' }
 RwCluster >> addSubclusterNamed: aSubclusterName comment: aString [
 
@@ -54,9 +74,20 @@ RwCluster >> comment: object [
 	comment := object
 ]
 
+{ #category : 'exporting' }
+RwCluster >> exportToUrl: directoryUrl [
+	^ self copy initializeForExport
+		_exportToUrl: directoryUrl;
+		yourself
+]
+
 { #category : 'initialization' }
 RwCluster >> initialize [
 	subclusters := Dictionary new
+]
+
+{ #category : 'initialization' }
+RwCluster >> initializeForExport [
 ]
 
 { #category : 'accessing' }

@@ -17,6 +17,26 @@ Class {
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
 
+{ #category : 'exporting' }
+RwSubcluster >> _exportToUrl: directoryUrl [
+	| url |
+	url := directoryUrl asRwUrl.
+	url schemeName = 'file'
+		ifTrue: [ 
+			| fileRef |
+			fileRef := url pathForDirectory asFileReference / self subclusterName , 'ston'.
+			fileRef parent ensureCreateDirectory.
+			fileRef
+				writeStreamDo: [ :stream | 
+					| string |
+					string := STON toStringPretty: self.
+					stream
+						truncate;
+						nextPutAll: string.
+					^ self ] ].
+	^ nil	"otherwise a noop"
+]
+
 { #category : 'accessing' }
 RwSubcluster >> addPackagesNamed: packageNames condition: conditionExpression [
 	(self conditionalPackageMap at: conditionExpression ifAbsentPut: [ Set new ])
@@ -47,6 +67,17 @@ RwSubcluster >> conditionalPackageMap [
 { #category : 'accessing' }
 RwSubcluster >> conditionalProjectMap [
 	^conditionalProjectMap  ifNil: [  conditionalProjectMap := Dictionary new ]
+]
+
+{ #category : 'exporting' }
+RwSubcluster >> exportToUrl: directoryUrl [
+	^ self copy initializeForExport
+		_exportToUrl: directoryUrl;
+		yourself
+]
+
+{ #category : 'initialization' }
+RwSubcluster >> initializeForExport [
 ]
 
 { #category : 'accessing' }

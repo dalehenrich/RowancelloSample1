@@ -1,6 +1,6 @@
-RwLoadSpecificationV2 {
+ RwLoadSpecificationV4_cluster{
 	#projectName : 'RowancelloSample1',
-	#gitUrl : 'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1',
+	#gitUrl : 'git@github.com:dalehenrich/RowancelloSample1.git',
 	#projectSpecFile : 'rowan/project.ston',
 	#componentNames : [ ],
 	#platformProperties : {

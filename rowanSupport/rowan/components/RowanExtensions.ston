@@ -1,6 +1,6 @@
 RwLoadComponent {
 	#name : 'RowanExtensions',
-	#projectNames : [ 
+	#projectNames : [
 		'RwCAQ'
 	],
 	#componentNames : [

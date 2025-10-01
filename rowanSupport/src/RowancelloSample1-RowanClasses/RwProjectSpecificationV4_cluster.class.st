@@ -2,8 +2,7 @@ Class {
 	#name : 'RwProjectSpecificationV4_cluster',
 	#superclass : 'RwProjectSpecificationV4',
 	#instVars : [
-		'clusterPath',
-		'subclusterPath'
+		'clustersPath'
 	],
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
@@ -15,12 +14,17 @@ RwProjectSpecificationV4_cluster >> = anObject [
 
 { #category : 'accessing' }
 RwProjectSpecificationV4_cluster >> clusterPath [
-	^clusterPath
+	^ self clustersPath , '/clusters'
 ]
 
 { #category : 'accessing' }
-RwProjectSpecificationV4_cluster >> clusterPath: object [
-	clusterPath := object
+RwProjectSpecificationV4_cluster >> clustersPath [
+	^clustersPath
+]
+
+{ #category : 'accessing' }
+RwProjectSpecificationV4_cluster >> clustersPath: object [
+	clustersPath := object
 ]
 
 { #category : 'ston' }
@@ -39,14 +43,17 @@ RwProjectSpecificationV4_cluster >> hash [
 	^ hashValue
 ]
 
-{ #category : 'accessing' }
-RwProjectSpecificationV4_cluster >> subclusterPath [
-	^subclusterPath
+{ #category : 'initilizaton' }
+RwProjectSpecificationV4_cluster >> initialize [
+	"for v3, packageConvention and packageForm is explicit and the default location of the packages directory is the root of the project tree ... keep the Rowan meta data isolated in the rowan directory"
+
+	super initialize.
+	clustersPath := 'rowan/clusters'.
 ]
 
 { #category : 'accessing' }
-RwProjectSpecificationV4_cluster >> subclusterPath: object [
-	subclusterPath := object
+RwProjectSpecificationV4_cluster >> subclusterPath [
+	^self clustersPath, '/subclusters'
 ]
 
 { #category : 'v3 vs v4' }

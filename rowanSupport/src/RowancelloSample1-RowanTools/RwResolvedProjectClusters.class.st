@@ -24,11 +24,11 @@ RwResolvedProjectClusters >> addClusterNamed: aClusterName comment: aString [
 						, ' defined in the project named ' , self projectName printString ].
 	self clusters
 		at: aClusterName
-		put: [ 
-			RwCluster new
+		put:
+			(RwCluster new
 				clusterName: aClusterName;
 				comment: aString;
-				yourself ]
+				yourself)
 ]
 
 { #category : 'accessing' }
@@ -85,6 +85,18 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 { #category : 'accessing' }
 RwResolvedProjectClusters >> clusters [
 	^clusters
+]
+
+{ #category : 'exporting' }
+RwResolvedProjectClusters >> export: clusterRoot [
+	self clusters values
+		do: [ :cluster | cluster exportToUrl: 'file:' , clusterRoot pathString , '/' ].
+	self subclusters values
+		do: [ :packgeGroup | packgeGroup exportToUrl: 'file:' , clusterRoot pathString , '/' ].
+	(self clusters isEmpty and: [ self subclusters isEmpty ])
+		ifTrue: [ 
+			"add README.md as placeholder to ensure that the directory is preserved by git"
+			clusterRoot / 'README' , 'md' writeStreamDo: [ :fileStream | fileStream truncate. ] ]
 ]
 
 { #category : 'initialization' }

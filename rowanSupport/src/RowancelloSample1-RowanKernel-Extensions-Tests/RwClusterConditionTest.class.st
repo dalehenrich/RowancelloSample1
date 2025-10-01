@@ -1,16 +1,8 @@
 Class {
 	#name : 'RwClusterConditionTest',
-	#superclass : 'RwCAQEvaluatorTest',
+	#superclass : 'TestCase',
 	#category : 'RowancelloSample1-RowanKernel-Extensions-Tests'
 }
-
-{ #category : 'context management' }
-RwClusterConditionTest >> prepareContext [
-	"Load all of the implicit variables into context."
-
-	super prepareContext.
-	context set: 'gemstone.user' to: GsSession currentSession userProfile userId
-]
 
 { #category : 'tests' }
 RwClusterConditionTest >> testBasic [
