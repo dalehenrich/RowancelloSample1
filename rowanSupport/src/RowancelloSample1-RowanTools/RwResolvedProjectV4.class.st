@@ -49,10 +49,28 @@ RwResolvedProjectV4 >> addPackagesNamed: packageNames toSubclusterNamed: subclus
 RwResolvedProjectV4 >> addPackagesNamed: packageNames toSubclusterNamed: subclusterName condition: conditionExpression [
 	"add the list of packagesNamed to the named subclusterName"
 
+	packageNames
+		do: [ :packageName | 
+			self
+				packageNamed: packageName
+				ifAbsent: [ 
+					| package |
+					package := RwPackageDefinition newNamed: packageName.
+					self _projectDefinition
+						_addPackage: package
+						ifPresent: [ 
+							"no problem ... just update the component"
+							 ] ] ].
 	self _projectSpecification useV4ClusterClasses
-		ifTrue: [ ^ self _projectClusters  addPackagesNamed: packageNames toSubclusterNamed: subclusterName  condition: conditionExpression ]
+		ifTrue: [ 
+			^ self _projectClusters
+				addPackagesNamed: packageNames
+				toSubclusterNamed: subclusterName
+				condition: conditionExpression ]
 		ifFalse: [ 
-			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
+			^ self
+				error:
+					self _projectSpecification projectName , ' does not support subclusters.' ]
 ]
 
 { #category : 'clusters' }
@@ -127,6 +145,14 @@ RwResolvedProjectV4 >> projectDefinition [
 		yourself
 ]
 
+{ #category : 'exporting' }
+RwResolvedProjectV4 >> projectRoots [
+	^ {(self clustersRoot).
+	(self packagesRoot).
+	(self specsRoot).
+	(self projectsRoot)}
+]
+
 { #category : 'accessing' }
 RwResolvedProjectV4 >> projectSpecification [
 	^ RwResolvedProjectSpecificationV2 new
@@ -147,4 +173,13 @@ RwResolvedProjectV4 >> repository [
 		_projectSpecification: projectSpecification;
 		_projectClusters: projectClusters;
 		yourself
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectV4 >> requiredProjectRoots [
+
+	^ {(self clustersRoot).
+	(self packagesRoot).
+	(self specsRoot).
+	(self projectsRoot)}
 ]

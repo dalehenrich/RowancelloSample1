@@ -10,7 +10,7 @@ RwClusterConditionTest >> testBasic_1 [
 
 	"Separate subclusters for tests and core"
 	
-	| definedProject packageName1 packageName2 packageName3 packageName4 packageName5 packageName6 packageName7 packageName8 packageName9 projectName loadSpec specName externalLoadSpec projectName1 |
+	| definedProject packageName1 packageName2 packageName3 packageName4 packageName5 packageName6 packageName7 packageName8 packageName9 projectName loadSpec specName externalLoadSpec projectName1 resolvedProject testLoadSpec |
 	projectName := 'Cluster_Example'.
 	specName := projectName, 'External'.
 	
@@ -79,10 +79,16 @@ RwClusterConditionTest >> testBasic_1 [
 			stream truncate.
 			externalLoadSpec exportToStream: stream ].
 	"and here we export the entire project to disk"
-	definedProject resolveProject
+	resolvedProject := definedProject resolveProject
 		projectsHome: '/bosch1/users/dhenrich/_stones/git/';
 		diskUrl:  'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1';
-		export
+		export;
+		exportLoadSpecification.
+	testLoadSpec := resolvedProject loadSpecification copy.
+	testLoadSpec 
+		specName: 'Cluster_Example_Tests';
+		addCustomConditionalAttributes: {'tests'}.
+	testLoadSpec exportTo: resolvedProject specsRoot asFileReference
 ]
 
 { #category : 'tests' }
@@ -91,7 +97,7 @@ RwClusterConditionTest >> testBasic_2 [
 
 	"Combine tests and core in a single subcluster ... clusters should exist for a reason ... so the standard implementation is in Core cluster and the standalone Utility cluster allows the Utility code to be used independently of the Core"
 	
-	| definedProject packageName1 packageName2 packageName3 packageName4 packageName5 packageName6 packageName7 packageName8 packageName9 projectName loadSpec specName externalLoadSpec projectName1 |
+	| definedProject packageName1 packageName2 packageName3 packageName4 packageName5 packageName6 packageName7 packageName8 packageName9 projectName loadSpec specName externalLoadSpec projectName1 resolvedProject testLoadSpec  |
 	projectName := 'Cluster_Example'.
 	specName := projectName, 'External'.
 	projectName1 := 'RequiredProject'.
@@ -170,8 +176,14 @@ RwClusterConditionTest >> testBasic_2 [
 			stream truncate.
 			externalLoadSpec exportToStream: stream ].
 	"and here we export the entire project to disk"
-	definedProject resolveProject
+	resolvedProject :=  definedProject resolveProject
 		projectsHome: '/bosch1/users/dhenrich/_stones/git/';
 		diskUrl:  'file:/bosch1/users/dhenrich/_stones/git/RowancelloSample1';
-		export
+		export;
+		exportLoadSpecification.
+	testLoadSpec := resolvedProject loadSpecification copy.
+	testLoadSpec 
+		specName: 'Cluster_Example_Tests';
+		addCustomConditionalAttributes: {'tests'}.
+	testLoadSpec exportTo: resolvedProject specsRoot asFileReference
 ]

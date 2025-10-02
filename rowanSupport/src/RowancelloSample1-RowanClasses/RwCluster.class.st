@@ -46,7 +46,8 @@ RwCluster >> _exportToUrl: directoryUrl [
 
 { #category : 'exporting' }
 RwCluster >> addSubclusterNamed: aSubclusterName [
-	subclusters add: aSubclusterName
+	(subclusters includes: aSubclusterName)
+		ifFalse: [ subclusters add: aSubclusterName ]
 ]
 
 { #category : 'accessing' }
@@ -78,7 +79,7 @@ RwCluster >> exportToUrl: directoryUrl [
 
 { #category : 'initialization' }
 RwCluster >> initialize [
-	subclusters := Set new
+	subclusters := Array new
 ]
 
 { #category : 'initialization' }

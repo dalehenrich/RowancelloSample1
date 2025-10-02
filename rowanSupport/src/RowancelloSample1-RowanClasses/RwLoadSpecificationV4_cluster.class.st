@@ -29,10 +29,7 @@ RwLoadSpecificationV4_cluster >> addClusterNamed: clusterName [
 RwLoadSpecificationV4_cluster >> addClustersNamed: anArray [
 	"add to the existing component names. make sure that we eliminate any duplicate component names (https://github.com/GemTalk/Rowan/issues/942)"
 
-	| set |
-	set := self clusterNames asSet.
-	set addAll: anArray.
-	clusterNames := set asArray
+	anArray do: [ :each | self addClusterNamed: each ]
 ]
 
 { #category : 'unsupported' }
@@ -76,7 +73,7 @@ RwLoadSpecificationV4_cluster >> excludedInstVars [
 { #category : 'initialization' }
 RwLoadSpecificationV4_cluster >> initialize [
 	super initialize.
-	clusterNames := {}.
+	clusterNames := Array new.
 	projectSpecFile := 'rowan/project.ston'.
 	comment := ''.
 	componentNames := nil

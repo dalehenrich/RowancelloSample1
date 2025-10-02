@@ -13,3 +13,24 @@ RwResolvedRepositoryV4 >> _projectClusters: object [
 
 	projectClusters := object
 ]
+
+{ #category : 'accessing' }
+RwResolvedRepositoryV4 >> clustersRoot [
+	^ self repositoryRoot / self _projectSpecification clustersPath
+]
+
+{ #category : 'accessing' }
+RwResolvedRepositoryV4 >> projectRoots [
+	^ {(self clustersRoot).
+	(self packagesRoot).
+	(self specsRoot).
+	(self projectsRoot)}
+]
+
+{ #category : 'accessing' }
+RwResolvedRepositoryV4 >> requiredProjectRoots [
+	^ {(self clustersRoot).
+	(self packagesRoot).
+	(self specsRoot).
+	(self projectsRoot)}
+]
