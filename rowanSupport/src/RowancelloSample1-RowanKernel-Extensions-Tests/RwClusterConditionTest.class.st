@@ -89,21 +89,29 @@ RwClusterConditionTest >> testBasic_1 [
 RwClusterConditionTest >> testBasic_2 [
 	"Create a project that with clusters and subclusters ... has embedded utility functionality that can be leveraged by other external projects"
 
-	"Combine tests and core in a single subcluster"
+	"Combine tests and core in a single subcluster ... clusters should exist for a reason ... so the standard implementation is in Core cluster and the standalone Utility cluster allows the Utility code to be used independently of the Core"
 	
 	| definedProject packageName1 packageName2 packageName3 packageName4 packageName5 packageName6 packageName7 packageName8 packageName9 projectName loadSpec specName externalLoadSpec projectName1 |
 	projectName := 'Cluster_Example'.
 	specName := projectName, 'External'.
 	projectName1 := 'RequiredProject'.
-	packageName1 := projectName , '-Utiity-Internal'.
-	packageName2 := projectName , '-Utiity-Core'.
+
+	"Core cluster"
+	packageName1 := projectName , '-Utility-Internal'.
 	
-	packageName3 := projectName , '-Utiity-External'.
+	"Core and Utility cluster"
+	packageName2 := projectName , '-Utility-Common'.
+	
+	"Utility cluster"
+	packageName3 := projectName , '-Utility-External'.
+	
+	"Core cluster"
 	packageName4 := projectName , '-Core'.
 	packageName5 := projectName , '-GemStone'.
-	
 	packageName6 := projectName , '-Core-Tests'.
 	packageName7:= projectName , '-GemStone-Tests'.
+
+	"Utility cluster"
 	packageName8 := projectName , '-Utility-Tests'.
 	packageName9 := projectName , '-Utility-External-Tests'.
 
@@ -113,25 +121,30 @@ RwClusterConditionTest >> testBasic_2 [
 	definedProject := (Rowan newV4_clusterProjectNamed: projectName)
 		projectsHome: '$ROWAN_PROJECTS_SANDBOX';
 		gemstoneSetDefaultSymbolDictNameTo: 'UserGlobals';
-		"clusters are the loadable components of a project -- Core, Utility-Core, and Utility-External -- are the three independently loadable entities defined in this project"
+
+		"clusters are the loadable components of a project -- Core and Utility -- are the the independently loadable entities defined in this project"
 		addClusterNamed: 'Core'  comment: 'Core implementation';
-		addClusterNamed: 'Utility-Core'  comment: 'Utility code is code that is used by other projects and hasn''t been split out into a project of it''s own';
-		addClusterNamed: 'Utility-External' comment: 'External API for core utility code -- shares an API with anouther project with a slightly different implementation' ;
+		addClusterNamed: 'Utility'  comment: 'Utility code is code that is used by other projects and hasn''t been split out into a project of it''s own';
+
 		"subclusters are added to clusters ... and subclusters hold onlto conditional lists of package names and package properties"
+		
 		addSubclusterNamed: 'Core' toClusterNamed: 'Core';
-		addSubclusterNamed: 'Utility-Core' toClusterNamed: 'Utility-Core';
-		addSubclusterNamed: 'Utility-External' toClusterNamed: 'Utility-External';
+
+		"Utiilty-Common has code that is common to both internal (Core) and external (Utility) applications"
+		addSubclusterNamed: 'Utility-Common' toClusterNamed: 'Core';
+		addSubclusterNamed: 'Utility-Common' toClusterNamed: 'Utility';
+		addSubclusterNamed: 'Utility-External' toClusterNamed: 'Utility';
 
 		"Here we add packages to subclusters"
-		addPackagesNamed: {packageName1} toSubclusterNamed: 'Core';
-		addPackagesNamed: {packageName4} toSubclusterNamed: 'Core';
-		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Core';
+		addPackagesNamed: {packageName1 . packageName4} toSubclusterNamed: 'Core';
+		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Common';
 		addPackagesNamed: {packageName3} toSubclusterNamed: 'Utility-External';
+
 		"Here we are adding packages to subclusters with conditional expressions ... typically the conditions conrol platform or tests"
 		addPackagesNamed: {packageName5} toSubclusterNamed: 'Core' condition: 'gemstone';
 		addPackagesNamed: {packageName6} toSubclusterNamed: 'Core' condition: 'tests';
 		addPackagesNamed: {packageName7} toSubclusterNamed: 'Core' condition: 'gemstone & tests';
-		addPackagesNamed: {packageName8} toSubclusterNamed: 'Utility-Core' condition: 'tests';
+		addPackagesNamed: {packageName8} toSubclusterNamed: 'Utility-Common' condition: 'tests';
 		addPackagesNamed: {packageName9} toSubclusterNamed: 'Utility-External' condition: 'tests';
 
 		addProjectsNamed: {projectName1} toSubclusterNamed: 'Core' condition: 'gemstone';

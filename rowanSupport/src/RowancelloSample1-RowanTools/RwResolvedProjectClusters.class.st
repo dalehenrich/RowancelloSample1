@@ -68,18 +68,15 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 					'There is no cluster named ' , aClusterName printString
 						, ' defined in the project named ' , self projectName printString ].
 	(self subclusters at: aSubclusterName ifAbsent: [  ])
-		ifNotNil: [ 
-			self
-				error:
-					'There is a subcluster named ' , aSubclusterName printString
-						, ' already defined in the project named ' , self projectName printString ].
-	self subclusters
-		at: aSubclusterName
-		put:
-			(RwSubcluster new
-				subclusterName: aSubclusterName;
-				comment: aString;
-				yourself).
+		ifNil: [ 
+			self subclusters
+				at: aSubclusterName
+				put:
+					(RwSubcluster new
+						subclusterName: aSubclusterName;
+						comment: aString;
+						yourself) ].
+
 	cluster addSubclusterNamed: aSubclusterName
 ]
 
