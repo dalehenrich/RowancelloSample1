@@ -44,14 +44,9 @@ RwCluster >> _exportToUrl: directoryUrl [
 	^ nil	"otherwise a noop"
 ]
 
-{ #category : 'accessing' }
-RwCluster >> addSubclusterNamed: aSubclusterName comment: aString [
-
-	| subcluster |
-	subcluster := RwSubcluster new
-		subclusterName: aSubclusterName;
-		comment: aString
-		yourself
+{ #category : 'exporting' }
+RwCluster >> addSubclusterNamed: aSubclusterName [
+	subclusters add: aSubclusterName
 ]
 
 { #category : 'accessing' }
@@ -83,7 +78,7 @@ RwCluster >> exportToUrl: directoryUrl [
 
 { #category : 'initialization' }
 RwCluster >> initialize [
-	subclusters := Dictionary new
+	subclusters := Set new
 ]
 
 { #category : 'initialization' }

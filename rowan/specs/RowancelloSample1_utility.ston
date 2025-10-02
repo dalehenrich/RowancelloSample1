@@ -1,6 +1,6 @@
 RwLoadSpecificationV4_cluster {
-	#specName : 'Cluster_testExternal',
-	#projectName : 'Cluster_test',
+	#specName : 'Cluster_ExampleExternal',
+	#projectName : 'Cluster_Example',
 	#projectSpecFile : 'rowan/project.ston',
 	#comment : 'Load spec to be used to load Utility-External code into an external project',
 	#clusterNames : [

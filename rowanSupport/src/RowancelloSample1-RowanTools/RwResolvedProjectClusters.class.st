@@ -79,7 +79,8 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 			(RwSubcluster new
 				subclusterName: aSubclusterName;
 				comment: aString;
-				yourself)
+				yourself).
+	cluster addSubclusterNamed: aSubclusterName
 ]
 
 { #category : 'accessing' }
