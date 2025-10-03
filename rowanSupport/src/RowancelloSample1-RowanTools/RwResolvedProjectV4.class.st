@@ -26,6 +26,28 @@ RwResolvedProjectV4 >> _projectClusters: object [
 	projectClusters := object
 ]
 
+{ #category : 'private' }
+RwResolvedProjectV4 >> _projectSpecification [
+	"project specification should not be accessed directly -- Rowan private state"
+
+	"lazy initialization, since project specification must be read from disk during resolve
+		if it is present on disk"
+
+	^ projectSpecification
+		ifNil: [ 
+			| projectSpecFileRef pName |
+			projectSpecFileRef := self repositoryRoot / self projectSpecFile.
+			pName := self projectName.	"projectSpecification is involved in default logic for projectName"
+			projectSpecification := projectSpecFileRef exists
+				ifTrue: [ (RwSpecification fromFile: projectSpecFileRef) copyAsV4_cluster]
+				ifFalse: [ 
+					Rowan projectTools trace trace: '--- creating new project spec. The project spec file ', projectSpecFileRef pathString printString, ' does not exist'.
+					RwProjectSpecificationV4_cluster new ].
+			projectSpecification
+				projectName: pName;
+				yourself ]
+]
+
 { #category : 'clusters' }
 RwResolvedProjectV4 >> addClusterNamed: aClusterName comment: aString [
 	"add a new instance of RwCluster to the project clusters and add the clusterName
@@ -136,7 +158,7 @@ RwResolvedProjectV4 >> postCopy [
 
 { #category : 'accessing' }
 RwResolvedProjectV4 >> projectDefinition [
-	^ RwResolvedProjectV2 new
+	^ RwResolvedProjectV4 new
 		_projectDefinition: projectDefinition;
 		_projectRepository: projectRepository;
 		_loadSpecification: loadSpecification;
@@ -155,7 +177,7 @@ RwResolvedProjectV4 >> projectRoots [
 
 { #category : 'accessing' }
 RwResolvedProjectV4 >> projectSpecification [
-	^ RwResolvedProjectSpecificationV2 new
+	^ RwResolvedProjectSpecificationV4_cluster new
 		_projectDefinition: projectDefinition;
 		_projectRepository: projectRepository;
 		_loadSpecification: loadSpecification;

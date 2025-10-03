@@ -52,47 +52,30 @@ EXAMPLES
 -----
 %
 instvars
-clusters
-subclusters
+loadSpec
 %
 method
-clusters
-	clusters ifNil: [ clusters := Dictionary new ].
-	^ clusters
-%
-method
-subclusters
-	subclusters ifNil: [ subclusters := Dictionary new ].
-	^ subclusters
-%
-method
-clusterNamed: clusterName 
-	^ self clusters at: clusterName ifAbsentPut: [ RwCluster new clusterName: clusterName; yourself ]
-% 
-method
-subclusterNamed: subclusterName for: clusterName
-	self subclusters at: subclusterName ifAbsentPut: [ RwSubcluster new subclusterName: clusterName; yourself ]
-% 
-method
-translateComponentsInProjectToClusters: resolvedProject and: loadSpec
+translateComponentsInProjectToClusters: resolvedProject
+	"translate the components in the resolvedProject into clusters and subclusters"
 	loadSpec componentNames do: [ :componentName |
 		| component cluster |
 		component := resolvedProject componentNamed: componentName.
+self halt: 'NOW do the translation!!'.
 		cluster := self clusterNamed: component name.
 		component populateCluster: cluster fromProject: resolvedProject script: self ].
 %
 doit
-	| loadSpec resolvedProject |
+	| resolvedProject |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
 				ifNil: [ self error: 'ROWAN_PROJECTS_HOME not definied. Define ROWAN_PROJECTS_HOME or use --projectsHome option' ] ]
 		ifNotNil: [:rowanProjectsHome | System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME' put: rowanProjectsHome ].
 	self positionalArgs size = 0 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument' ].
-	loadSpec := RwSpecification fromUrl: (self positionalArgs at: 1). 
+	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 	loadSpec 
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString.
 	resolvedProject := loadSpec read.
-	self translateComponentsInProjectToClusters: resolvedProject projectDefinition and: loadSpec.
+	self translateComponentsInProjectToClusters: resolvedProject projectDefinition.
 	^ self noResult
 %

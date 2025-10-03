@@ -16,6 +16,11 @@ Class {
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
 
+{ #category : 'unsupported' }
+RwLoadSpecificationV4_cluster >> _componentNames: anArray [
+	componentNames := anArray
+]
+
 { #category : 'accessing' }
 RwLoadSpecificationV4_cluster >> addClusterNamed: clusterName [
 	(clusterNames includes: clusterName)
@@ -53,14 +58,9 @@ RwLoadSpecificationV4_cluster >> clusterNames: object [
 	clusterNames := object
 ]
 
-{ #category : 'unsupported' }
-RwLoadSpecificationV4_cluster >> componentNames [
-	self error: 'The receiver does not support components, use clusters instead.'
-]
-
-{ #category : 'unsupported' }
-RwLoadSpecificationV4_cluster >> componentNames: anArray [
-	self error: 'The receiver does not support components, use clusters instead.'
+{ #category : 'copying' }
+RwLoadSpecificationV4_cluster >> copyAsV4_cluster [
+	^ self
 ]
 
 { #category : 'ston' }
@@ -85,4 +85,14 @@ RwLoadSpecificationV4_cluster >> postCopy [
 
 	super postCopy.
 	clusterNames := clusterNames copy.
+]
+
+{ #category : 'actions' }
+RwLoadSpecificationV4_cluster >> resolveProject [
+	"resolve ensures that the project directory already exists on disk (cloned for git projects) or created on disk for new projects
+		answer  the project definition specified by the receiver ignoring any required projects"
+
+	"if the project directory already exists on disk, then read the project definition(s) from disk"
+
+	^ RwResolvedProjectV4 loadSpecification: self
 ]
