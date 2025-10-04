@@ -52,20 +52,16 @@ EXAMPLES
 -----
 %
 instvars
-loadSpec
 %
 method
 translateComponentsInProjectToClusters: resolvedProject
 	"translate the components in the resolvedProject into clusters and subclusters"
-	loadSpec componentNames do: [ :componentName |
-		| component cluster |
-		component := resolvedProject componentNamed: componentName.
-self halt: 'NOW do the translation!!'.
-		cluster := self clusterNamed: component name.
-		component populateCluster: cluster fromProject: resolvedProject script: self ].
+	resolvedProject _projectComponents do: [:component |
+		component class == RwSimpleProjectLoadComponentV2
+			ifTrue: [ component populateClustersForProject: resolvedProject ] ].
 %
 doit
-	| resolvedProject |
+	| resolvedProject loadSpec |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 

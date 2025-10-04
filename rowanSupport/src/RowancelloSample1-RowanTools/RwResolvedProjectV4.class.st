@@ -8,6 +8,32 @@ Class {
 }
 
 { #category : 'instance creation' }
+RwResolvedProjectV4 class >> basicLoadSpecification: anRwLoadSpecificationV2 [
+	"
+		Create a new instance of the receiver based on anRwLoadSpecificationV2.
+		Return an instance of the receiver that is ready to be resolved (cloned to disk)
+	"
+
+	| loadSpecification projectDefinition pDict |
+	loadSpecification := anRwLoadSpecificationV2 copy.
+	(pDict := SymbolDictionary new) at: #'name' put: loadSpecification projectName.
+	(projectDefinition := RwProjectDefinition basicNew)
+		properties: pDict;
+		packages: Dictionary new;
+		projectDefinitionSourceProperty:
+				RwLoadedProject _projectModifiedProjectSourceValue.
+	^ self basicNew
+		_projectDefinition: projectDefinition;
+		_projectComponents: RwResolvedProjectComponentsV2 new;
+		_projectClusters:
+				(RwResolvedProjectClusters new
+						projectName: loadSpecification projectName;
+						yourself);
+		_loadSpecification: loadSpecification;
+		yourself
+]
+
+{ #category : 'instance creation' }
 RwResolvedProjectV4 class >> newV4_cluster [
 	"Create a new project that uses project spec and cluster classes that are default for Rowan v4 clusters"
 
@@ -146,7 +172,9 @@ RwResolvedProjectV4 >> initializeV4 [
 	projectDefinition := RwProjectDefinition new.
 	projectClusters := RwResolvedProjectClusters new
 		projectName: self projectName;
-		yourself
+		yourself.
+	"for now"
+	projectComponents := RwResolvedProjectComponentsV2 new
 ]
 
 { #category : 'copying' }
@@ -164,6 +192,7 @@ RwResolvedProjectV4 >> projectDefinition [
 		_loadSpecification: loadSpecification;
 		_projectSpecification: projectSpecification;
 		_projectClusters: projectClusters;
+		_projectComponents: projectComponents;	"for the time being ... doing translation of components to clusters so having both is convenient"
 		yourself
 ]
 
@@ -178,17 +207,6 @@ RwResolvedProjectV4 >> projectRoots [
 { #category : 'accessing' }
 RwResolvedProjectV4 >> projectSpecification [
 	^ RwResolvedProjectSpecificationV4_cluster new
-		_projectDefinition: projectDefinition;
-		_projectRepository: projectRepository;
-		_loadSpecification: loadSpecification;
-		_projectSpecification: projectSpecification;
-		_projectClusters: projectClusters;
-		yourself
-]
-
-{ #category : 'accessing' }
-RwResolvedProjectV4 >> repository [
-	^ RwResolvedRepositoryV4 new
 		_projectDefinition: projectDefinition;
 		_projectRepository: projectRepository;
 		_loadSpecification: loadSpecification;
