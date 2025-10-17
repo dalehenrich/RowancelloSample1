@@ -12,6 +12,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'clusterName',
+		'packageNames',
+		'projectNames',
 		'subclusters',
 		'comment'
 	],
@@ -42,6 +44,26 @@ RwCluster >> _exportToUrl: directoryUrl [
 						nextPutAll: string.
 					^ self ] ].
 	^ nil	"otherwise a noop"
+]
+
+{ #category : 'accessing' }
+RwCluster >> addPackagesNamed: packagesNamed [
+	"list of unconditional package names associated with the cluster"
+
+	packagesNamed
+		do: [ :each | 
+			(packageNames includes: each)
+				ifFalse: [ packageNames add: each ] ]
+]
+
+{ #category : 'accessing' }
+RwCluster >> addProjectsNamed: projectsNamed [
+	"list of unconditional project names associated with the cluster"
+
+	projectsNamed
+		do: [ :each | 
+			(projectNames includes: each)
+				ifFalse: [ projectNames add: each ] ]
 ]
 
 { #category : 'exporting' }
@@ -79,11 +101,23 @@ RwCluster >> exportToUrl: directoryUrl [
 
 { #category : 'initialization' }
 RwCluster >> initialize [
-	subclusters := Array new
+	subclusters := Array new.
+	packageNames := Array new.
+	projectNames := Array new
 ]
 
 { #category : 'initialization' }
 RwCluster >> initializeForExport [
+]
+
+{ #category : 'accessing' }
+RwCluster >> packageNames [
+	^packageNames
+]
+
+{ #category : 'accessing' }
+RwCluster >> projectNames [
+	^projectNames
 ]
 
 { #category : 'accessing' }

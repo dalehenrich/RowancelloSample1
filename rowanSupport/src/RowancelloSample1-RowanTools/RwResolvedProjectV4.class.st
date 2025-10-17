@@ -141,6 +141,20 @@ RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clust
 			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
 ]
 
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> clusterNamed: aClusterName [
+	"return a cluster with the given name"
+
+	^ self _projectClusters clusterNamed: aClusterName
+]
+
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> clusterNamed: aClusterName ifAbsent: absentBlock [
+	"return a cluster with the given name"
+
+	^ self _projectClusters clusterNamed: aClusterName  ifAbsent: absentBlock
+]
+
 { #category : 'accessing' }
 RwResolvedProjectV4 >> clustersRoot [
 	^ self repositoryRoot / self _projectSpecification clustersPath
@@ -222,4 +236,18 @@ RwResolvedProjectV4 >> requiredProjectRoots [
 	(self packagesRoot).
 	(self specsRoot).
 	(self projectsRoot)}
+]
+
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> subclusterNamed: aClusterName [
+	"return a cluster with the given name"
+
+	^ self _projectClusters subclusterNamed: aClusterName
+]
+
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> subclusterNamed: aClusterName ifAbsent: absentBlock [
+	"return a cluster with the given name"
+
+	^ self _projectClusters subclusterNamed: aClusterName ifAbsent: absentBlock
 ]

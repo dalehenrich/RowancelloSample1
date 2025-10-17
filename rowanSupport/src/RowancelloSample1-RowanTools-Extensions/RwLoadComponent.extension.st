@@ -1,11 +1,15 @@
-Extension { #name : 'RwSimpleProjectLoadComponentV2' }
+Extension { #name : 'RwLoadComponent' }
 
-{ #category : 'conversion' }
-RwSimpleProjectLoadComponentV2 >> populateClustersForProject: aResolvedProject [ 
+{ #category : 'accessing' }
+RwLoadComponent >> clusterCondition [
+	^ 'common'
+]
+
+{ #category : 'extensions' }
+RwLoadComponent >> populateClustersForProject: aResolvedProject [
 	"create a subcluster to hold the condition, packageNames, and projectNames for the components in this project; ignore  conditionalPackageMapSpecs for now; pre and post load doits"
 
 	| theCluster  clusterName |
-self halt: self class name.
 	clusterName := self name.
 	theCluster := aResolvedProject
 		addClusterNamed: clusterName
