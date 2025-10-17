@@ -22,7 +22,7 @@ RwResolvedProjectClusters >> addClusterNamed: aClusterName comment: aString [
 				error:
 					'There is already a cluster named ' , aClusterName printString
 						, ' defined in the project named ' , self projectName printString ].
-	self clusters
+	^ self clusters
 		at: aClusterName
 		put:
 			(RwCluster new
@@ -60,14 +60,14 @@ RwResolvedProjectClusters >> addProjectsNamed: projectNames toSubclusterNamed: s
 
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName comment: aString [
-	| cluster |
+	| cluster subcluster |
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
 		ifNil: [ 
 			self
 				error:
 					'There is no cluster named ' , aClusterName printString
 						, ' defined in the project named ' , self projectName printString ].
-	(self subclusters at: aSubclusterName ifAbsent: [  ])
+	subcluster := (self subclusters at: aSubclusterName ifAbsent: [  ])
 		ifNil: [ 
 			self subclusters
 				at: aSubclusterName
@@ -76,8 +76,24 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 						subclusterName: aSubclusterName;
 						comment: aString;
 						yourself) ].
+	cluster addSubclusterNamed: aSubclusterName.
+	^ subcluster
+]
 
-	cluster addSubclusterNamed: aSubclusterName
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> clusterNamed: aClusterName [
+	^ self
+		clusterNamed: aClusterName
+		ifAbsent: [ 
+			self
+				error:
+					'There is no cluster named ' , aClusterName printString
+						, ' defined in the project named ' , self projectName printString ]
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> clusterNamed: aClusterName ifAbsent: absentBlock [
+	^ self clusters at: aClusterName ifAbsent: absentBlock
 ]
 
 { #category : 'accessing' }
@@ -111,6 +127,22 @@ RwResolvedProjectClusters >> projectName [
 { #category : 'accessing' }
 RwResolvedProjectClusters >> projectName: object [
 	projectName := object
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> subclusterNamed: aClusterName [
+	^ self
+		subclusterNamed: aClusterName
+		ifAbsent: [ 
+			self
+				error:
+					'There is no subcluster named ' , aClusterName printString
+						, ' defined in the project named ' , self projectName printString ]
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> subclusterNamed: aClusterName ifAbsent: absentBlock [
+	^ self subclusters at: aClusterName ifAbsent: absentBlock
 ]
 
 { #category : 'accessing' }
