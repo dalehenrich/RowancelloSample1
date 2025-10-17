@@ -57,8 +57,20 @@ method
 translateComponentsInProjectToClusters: resolvedProject
 	"translate the components in the resolvedProject into clusters and subclusters"
 	resolvedProject _projectComponents do: [:component |
-		component class == RwSimpleProjectLoadComponentV2
-			ifTrue: [ component populateClustersForProject: resolvedProject ] ].
+		component populateClustersForProject: resolvedProject ].
+%
+method
+exportClusterStructuresFor: resolvedProject
+	| rowanRoot |
+	rowanRoot := (self positionalArgs at: 2) asFileReference.
+	resolvedProject _projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
+		(rowanRoot / 'clusters' / clusterName , 'ston') writeStreamDo: [:fileStream |
+			fileStream truncate.
+			STON put: cluster onStreamPretty: fileStream ] ].
+	resolvedProject _projectClusters subclusters keysAndValuesDo: [:subclusterName :subcluster |
+		(rowanRoot / 'subclusters' / subclusterName , 'ston') writeStreamDo: [:fileStream |
+			fileStream truncate.
+			STON put: subcluster onStreamPretty: fileStream ] ].
 %
 doit
 	| resolvedProject loadSpec |
@@ -73,5 +85,6 @@ doit
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString.
 	resolvedProject := loadSpec read.
 	self translateComponentsInProjectToClusters: resolvedProject projectDefinition.
+	self exportClusterStructuresFor: resolvedProject.
 	^ self noResult
 %

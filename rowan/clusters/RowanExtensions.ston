@@ -1,0 +1,16 @@
+RwCluster {
+	#clusterName : 'RowanExtensions',
+	#packageNames : [
+		'RowancelloSample1-RowanClasses',
+		'RowancelloSample1-RowanKernel-Extensions',
+		'RowancelloSample1-RowanTools',
+		'RowancelloSample1-RowanTools-Extensions'
+	],
+	#projectNames : [
+		'RwCAQ'
+	],
+	#subclusters : [
+		'RowanExtensionsTests'
+	],
+	#comment : ''
+}
