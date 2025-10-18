@@ -2,11 +2,11 @@ RwSubcluster {
 	#subclusterName : 'RowanExtensionsTests',
 	#comment : 'subcluster containing the conditional package and required project details',
 	#conditionalPackageMap : {
-		'common' : [
+		'common & tests' : [
 			'RowancelloSample1-RowanKernel-Extensions-Tests'
 		]
 	},
 	#conditionalProjectMap : {
-		'common' : [ ]
+		'common & tests' : [ ]
 	}
 }
