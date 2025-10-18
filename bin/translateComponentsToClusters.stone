@@ -49,9 +49,27 @@ EXAMPLES
   $basename -D <script-arguments>            <topaz-arguments>
   $basename --debugGem <script-arguments>    <topaz-arguments>
   $basename <script-arguments>               <topaz-arguments>
+
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            file:///bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan/specs/RowancelloSample1.ston \
+            /bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowan \
+            -D
+  # translate the 
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan \
+            Rowan SharedTests Upgrade
+            -D
 -----
 %
 instvars
+rowanRoot
+%
+method
+translateComponentsInProjectToClusters: toplevelComponentNames resolvedProject: resolvedProject
+	toplevelComponentNames do: [:componentName |
+		(resolvedProject componentNamed: componentName)
+			populateClustersForProject: resolvedProject ].
 %
 method
 translateComponentsInProjectToClusters: resolvedProject
@@ -61,8 +79,6 @@ translateComponentsInProjectToClusters: resolvedProject
 %
 method
 exportClusterStructuresFor: resolvedProject
-	| rowanRoot |
-	rowanRoot := (self positionalArgs at: 2) asFileReference.
 	resolvedProject _projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
 		(rowanRoot / 'clusters' / clusterName , 'ston') writeStreamDo: [:fileStream |
 			fileStream truncate.
@@ -73,18 +89,26 @@ exportClusterStructuresFor: resolvedProject
 			STON put: subcluster onStreamPretty: fileStream ] ].
 %
 doit
-	| resolvedProject loadSpec |
+	| resolvedProject loadSpec loadComponentNames |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
 				ifNil: [ self error: 'ROWAN_PROJECTS_HOME not definied. Define ROWAN_PROJECTS_HOME or use --projectsHome option' ] ]
 		ifNotNil: [:rowanProjectsHome | System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME' put: rowanProjectsHome ].
-	self positionalArgs size = 0 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument' ].
+	self positionalArgs size < 2 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument and rowanRoot (location where clusters and subclusters directories will be created'].
+	loadComponentNames := self positionalArgs copyFrom: 3 to: self positionalArgs size.
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 	loadSpec 
-		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString.
+		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString;
+		componentNames: loadComponentNames.
 	resolvedProject := loadSpec read.
-	self translateComponentsInProjectToClusters: resolvedProject projectDefinition.
-	self exportClusterStructuresFor: resolvedProject.
+  rowanRoot := (self positionalArgs at: 2) asFileReference.
+	self positionalArgs size > 2
+		ifTrue: [ 
+			self 
+				translateComponentsInProjectToClusters: loadComponentNames
+				resolvedProject: resolvedProject projectDefinition ]
+		ifFalse: [ self translateComponentsInProjectToClusters: resolvedProject projectDefinition ].
+  self exportClusterStructuresFor: resolvedProject.
 	^ self noResult
 %
