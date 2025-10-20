@@ -80,11 +80,17 @@ translateComponentsInProjectToClusters: resolvedProject
 method
 exportClusterStructuresFor: resolvedProject
 	resolvedProject _projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
-		(rowanRoot / 'clusters' / clusterName , 'ston') writeStreamDo: [:fileStream |
+		| filename |
+		filename := rowanRoot / 'clusters' / clusterName , 'ston'.
+		filename parent ensureCreateDirectory.
+		filename writeStreamDo: [:fileStream |
 			fileStream truncate.
 			STON put: cluster onStreamPretty: fileStream ] ].
 	resolvedProject _projectClusters subclusters keysAndValuesDo: [:subclusterName :subcluster |
-		(rowanRoot / 'subclusters' / subclusterName , 'ston') writeStreamDo: [:fileStream |
+			| filename |
+		filename := rowanRoot / 'subclusters' / subclusterName , 'ston'.
+		filename parent ensureCreateDirectory.
+		filename writeStreamDo: [:fileStream |
 			fileStream truncate.
 			STON put: subcluster onStreamPretty: fileStream ] ].
 %
