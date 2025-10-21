@@ -23,8 +23,8 @@ RwSimpleProjectLoadComponentV2 >> populateClustersForProject: aResolvedProject [
 	| theCluster  clusterName |
 	clusterName := self name.
 	theCluster := aResolvedProject
-		addClusterNamed: clusterName
-		comment: self comment.
+		clusterNamed: clusterName
+		ifAbsent: [ aResolvedProject addClusterNamed: clusterName comment: self comment ].
 	theCluster
 		addProjectsNamed: self projectNames;
 		addPackagesNamed: self packageNames;
@@ -41,7 +41,7 @@ RwSimpleProjectLoadComponentV2 >> populateClustersForProject: aResolvedProject [
 
 { #category : 'extensions' }
 RwSimpleProjectLoadComponentV2 >> populateSubclustersForProject: aResolvedProject conditions: conditions clusterName: clusterName [
-	"A RwsimpleProjectLoadComponent can be used as a load component OR subcomponent"
+	"A RwSimpleProjectLoadComponent can be used as a load component OR subcomponent"
 	"create a subcluster to hold the condition, packageNames, and projectNames for the components in this project; ignore  conditionalPackageMapSpecs for now; pre and post load doits ..."
 
 	"the clusterPath will provide the list of conditionals that should be anded together when creating the condtion expression for the cluster"

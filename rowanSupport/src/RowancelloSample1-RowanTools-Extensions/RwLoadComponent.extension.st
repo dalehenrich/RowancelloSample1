@@ -18,6 +18,7 @@ RwLoadComponent >> populateClustersForProject: aResolvedProject [
 		addProjectsNamed: self projectNames;
 		addPackagesNamed: self packageNames;
 		yourself.
+false ifTrue: [ 
 	self componentNames
 		do: [ :componentName | 
 			| aComponent |
@@ -26,4 +27,5 @@ RwLoadComponent >> populateClustersForProject: aResolvedProject [
 				populateSubclustersForProject: aResolvedProject
 				conditions: {(self clusterCondition)}
 				clusterName: clusterName ]
+]
 ]

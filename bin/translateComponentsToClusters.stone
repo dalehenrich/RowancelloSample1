@@ -70,10 +70,20 @@ translateComponentsInProjectToClusters: toplevelComponentNames resolvedProject: 
 	toplevelComponentNames do: [:componentName |
 		(resolvedProject componentNamed: componentName)
 			populateClustersForProject: resolvedProject ].
+	toplevelComponentNames do: [:componentName |
+		| component |
+		component := resolvedProject componentNamed: componentName.
+		(component condition ~= 'common')
+			ifTrue: [ 
+				component
+					populateSubclustersForProject: resolvedProject
+						conditions: {(component clusterCondition)}
+						clusterName: componentName ] ].
 %
 method
 translateComponentsInProjectToClusters: resolvedProject
 	"translate the components in the resolvedProject into clusters and subclusters"
+self halt: 'when this guy is used, we need to traverse all of the "top-level" components ... so perhaps require at least one top-level component name?'
 	resolvedProject _projectComponents do: [:component |
 		component populateClustersForProject: resolvedProject ].
 %
@@ -104,8 +114,11 @@ doit
 	self positionalArgs size < 2 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument and rowanRoot (location where clusters and subclusters directories will be created'].
 	loadComponentNames := self positionalArgs copyFrom: 3 to: self positionalArgs size.
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
+	"note when reading from disk we have to make sure that ALL components are read from disk 
+		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
 	loadSpec 
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString;
+		addCustomConditionalAttributes: { 'tests' };
 		componentNames: loadComponentNames.
 	resolvedProject := loadSpec read.
   rowanRoot := (self positionalArgs at: 2) asFileReference.

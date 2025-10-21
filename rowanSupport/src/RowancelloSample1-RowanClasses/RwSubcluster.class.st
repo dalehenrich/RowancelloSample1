@@ -38,24 +38,24 @@ RwSubcluster >> _exportToUrl: directoryUrl [
 ]
 
 { #category : 'accessing' }
-RwSubcluster >> addPackagesNamed: packageNames condition: conditionExpression [
+RwSubcluster >> addPackagesNamed: packagesNamed condition: conditionExpression [
 	| ar |
 	ar := self conditionalPackageMap
 		at: conditionExpression
 		ifAbsentPut: [ Array new ].
-	packageNames
+	packagesNamed
 		do: [ :each | 
 			(ar includes: each)
 				ifFalse: [ ar add: each ] ]
 ]
 
 { #category : 'accessing' }
-RwSubcluster >> addProjectsNamed: projectNames condition: conditionExpression [
+RwSubcluster >> addProjectsNamed: projectsNamed condition: conditionExpression [
 	| ar |
 	ar := self conditionalProjectMap
 		at: conditionExpression
 		ifAbsentPut: [ Array new ].
-	projectNames
+	projectsNamed
 		do:
 			[ :each | 
 			(ar includes: each)
