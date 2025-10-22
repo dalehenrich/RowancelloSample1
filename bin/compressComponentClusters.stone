@@ -29,7 +29,14 @@ USAGE
   $basename [--help | -h] [--debug | -D]  [--debugGem] -- (-r | -l | -L) -I <path-to-.topazini> [<topaz-command-line-args>]
 
 DESCRIPTION
-  <put your description here>
+  I'm imagining that theres is a way to compress the current component structure which is distributed across
+  a complex hiearchy of components where each component has a single condition and may or may not resolve to a 
+  list of packages or projects ... 
+
+  Some (or most) of the components are transitive where they simply provide a condition that is ANDed with their 
+  parent components and may not provide any package/project info at all ...
+
+	I'll attempt to tease that structure out with this script.
 
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
@@ -52,63 +59,22 @@ EXAMPLES
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             file:///bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan/specs/RowancelloSample1.ston \
-            /bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowan \
-            -D
-  # translate the 
-  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
-            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan \
-            Rowan SharedTests Upgrade \
-            -D
+            /bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan RowanExtensions -D
+
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
-            /bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan \
-            RowanExtensions RowanExtensionsTests \
-            -D
------
+            /bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan Core -D
+  -----
 %
 instvars
 rowanRoot
 %
 method
-translateComponentsInProjectToClusters: toplevelComponentNames resolvedProject: resolvedProject
-	toplevelComponentNames do: [:componentName |
-		(resolvedProject componentNamed: componentName)
-			populateClustersForProject: resolvedProject ].
-	toplevelComponentNames do: [:componentName |
-		| component |
-		component := resolvedProject componentNamed: componentName.
-		component
-			populateSubclustersForProject: resolvedProject
-				conditions: {(component clusterCondition)}
-				clusterName: componentName ].
-%
-method
-translateComponentsInProjectToClusters: resolvedProject
-	"translate the components in the resolvedProject into clusters and subclusters"
-self exportClusterStructuresFor: resolvedProject.
-self halt: 'when this guy is used, we need to traverse all of the "top-level" components ... so perhaps require at least one top-level component name?'
-	resolvedProject _projectComponents do: [:component |
-		component populateClustersForProject: resolvedProject ].
-%
-method
-exportClusterStructuresFor: resolvedProject
-	resolvedProject _projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
-		| filename |
-		filename := rowanRoot / 'clusters' / clusterName , 'ston'.
-		filename parent ensureCreateDirectory.
-		filename writeStreamDo: [:fileStream |
-			fileStream truncate.
-			STON put: cluster onStreamPretty: fileStream ] ].
-	resolvedProject _projectClusters subclusters keysAndValuesDo: [:subclusterName :subcluster |
-			| filename |
-		filename := rowanRoot / 'subclusters' / subclusterName , 'ston'.
-		filename parent ensureCreateDirectory.
-		filename writeStreamDo: [:fileStream |
-			fileStream truncate.
-			STON put: subcluster onStreamPretty: fileStream ] ].
+traverseComponentsInProject: resolvedProject
+	^ resolvedProject _projectComponents halt
 %
 doit
+
 	| resolvedProject loadSpec loadComponentNames |
 	self projectsHome
 		ifNil: [
@@ -117,6 +83,7 @@ doit
 		ifNotNil: [:rowanProjectsHome | System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME' put: rowanProjectsHome ].
 	self positionalArgs size < 2 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument and rowanRoot (location where clusters and subclusters directories will be created'].
 	loadComponentNames := self positionalArgs copyFrom: 3 to: self positionalArgs size.
+	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 	"note when reading from disk we have to make sure that ALL components are read from disk 
 		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
@@ -125,13 +92,6 @@ doit
 		addCustomConditionalAttributes: { 'tests' };
 		componentNames: loadComponentNames.
 	resolvedProject := loadSpec read.
-  rowanRoot := (self positionalArgs at: 2) asFileReference.
-	self positionalArgs size > 2
-		ifTrue: [ 
-			self 
-				translateComponentsInProjectToClusters: loadComponentNames
-				resolvedProject: resolvedProject projectDefinition ]
-		ifFalse: [ self translateComponentsInProjectToClusters: resolvedProject projectDefinition ].
-  self exportClusterStructuresFor: resolvedProject.
-	^ self noResult
+	rowanRoot := (self positionalArgs at: 2) asFileReference.
+	^ self traverseComponentsInProject: resolvedProject projectDefinition.
 %
