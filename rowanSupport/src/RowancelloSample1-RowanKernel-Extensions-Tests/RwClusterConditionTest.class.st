@@ -45,10 +45,10 @@ RwClusterConditionTest >> testBasic_1 [
 		addSubclusterNamed: 'Utility-Tests' toClusterNamed: 'Utility-Core';
 		addSubclusterNamed: 'Utility-External-Tests' toClusterNamed: 'Utility-External';
 		"Here we add packages to subclusters"
-		addPackagesNamed: {packageName1} toSubclusterNamed: 'Core';
-		addPackagesNamed: {packageName4} toSubclusterNamed: 'Core';
-		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Core';
-		addPackagesNamed: {packageName3} toSubclusterNamed: 'Utility-External';
+		addPackagesNamed: {packageName1} toSubclusterNamed: 'Core'  condition: 'common';
+		addPackagesNamed: {packageName4} toSubclusterNamed: 'Core' condition: 'common';
+		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Core' condition: 'common';
+		addPackagesNamed: {packageName3} toSubclusterNamed: 'Utility-External' condition: 'common';
 		"Here we are adding packages to subclusters with conditional expressions ... typically the conditions conrol platform or tests"
 		addPackagesNamed: {packageName5} toSubclusterNamed: 'Core' condition: 'gemstone';
 		addPackagesNamed: {packageName6} toSubclusterNamed: 'Tests' condition: 'tests';
@@ -142,9 +142,9 @@ RwClusterConditionTest >> testBasic_2 [
 		addSubclusterNamed: 'Utility-External' toClusterNamed: 'Utility';
 
 		"Here we add packages to subclusters"
-		addPackagesNamed: {packageName1 . packageName4} toSubclusterNamed: 'Core';
-		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Common';
-		addPackagesNamed: {packageName3} toSubclusterNamed: 'Utility-External';
+		addPackagesNamed: {packageName1 . packageName4} toSubclusterNamed: 'Core' condition: 'common';
+		addPackagesNamed: {packageName2} toSubclusterNamed: 'Utility-Common' condition: 'common';
+		addPackagesNamed: {packageName3} toSubclusterNamed: 'Utility-External' condition: 'common';
 
 		"Here we are adding packages to subclusters with conditional expressions ... typically the conditions conrol platform or tests"
 		addPackagesNamed: {packageName5} toSubclusterNamed: 'Core' condition: 'gemstone';

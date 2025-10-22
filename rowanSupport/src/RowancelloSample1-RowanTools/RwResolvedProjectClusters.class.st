@@ -33,7 +33,7 @@ RwResolvedProjectClusters >> addClusterNamed: aClusterName comment: aString [
 
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addPackagesNamed: packageNames toSubclusterNamed: aSubclusterName [
-	self addPackagesNamed: packageNames toSubclusterNamed: aSubclusterName condition: 'true'
+	self addPackagesNamed: packageNames toSubclusterNamed: aSubclusterName
 ]
 
 { #category : 'accessing' }
@@ -75,6 +75,29 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 					(RwSubcluster new
 						subclusterName: aSubclusterName;
 						comment: aString;
+						yourself) ].
+	cluster addSubclusterNamed: aSubclusterName.
+	^ subcluster
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName condition: aCondition comment: aString [
+	| cluster subcluster |
+	(cluster := self clusters at: aClusterName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no cluster named ' , aClusterName printString
+						, ' defined in the project named ' , self projectName printString ].
+	subcluster := (self subclusters at: aSubclusterName ifAbsent: [  ])
+		ifNil: [ 
+			self subclusters
+				at: aSubclusterName
+				put:
+					(RwSubclusterV2 new
+						subclusterName: aSubclusterName;
+						comment: aString;
+						condition: aCondition;
 						yourself) ].
 	cluster addSubclusterNamed: aSubclusterName.
 	^ subcluster

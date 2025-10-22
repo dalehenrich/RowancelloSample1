@@ -41,10 +41,10 @@ RwDefinedProject >> addClusterNamed: componentName comment: aString [
 RwDefinedProject >> addPackagesNamed: packageNames toSubclusterNamed: subclusterName [
 	"add the named packages to the given subcluster"
 
-	^ self _concreteProject addPackagesNamed: packageNames toSubclusterNamed: subclusterName condition: 'true'
+	^ self _concreteProject addPackagesNamed: packageNames toSubclusterNamed: subclusterName
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwDefinedProject >> addPackagesNamed: packageNames toSubclusterNamed: subclusterName condition: conditionExpression [
 	"add the named packages to the given subcluster"
 
@@ -55,17 +55,17 @@ RwDefinedProject >> addPackagesNamed: packageNames toSubclusterNamed: subcluster
 RwDefinedProject >> addProjectsNamed: projectNames toSubclusterNamed: subclusterName [
 	"add the named projects to the given subcluster"
 
-	^ self _concreteProject addProjectsNamed: projectNames toSubclusterNamed: subclusterName  condition: 'true'
+	^ self _concreteProject addProjectsNamed: projectNames toSubclusterNamed: subclusterName
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwDefinedProject >> addProjectsNamed: projectNames toSubclusterNamed: subclusterName condition: conditionExpression [
 	"add the named projects to the given subcluster"
 
 	^ self _concreteProject addProjectsNamed: projectNames toSubclusterNamed: subclusterName condition: conditionExpression
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwDefinedProject >> addSubclusterNamed: subclusterNamed toClusterNamed: clusterName [
 	"add a new instance of RwCluster to the project clusters and add the clusterName
 		to the load spec (i.e., it will be loaded when the load spec is loaded)"
@@ -73,9 +73,24 @@ RwDefinedProject >> addSubclusterNamed: subclusterNamed toClusterNamed: clusterN
 	^ self addSubclusterNamed: subclusterNamed toClusterNamed: clusterName comment: ''
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwDefinedProject >> addSubclusterNamed: subclusterNamed toClusterNamed: clusterName comment: aString [
 	"add a new instance of RwSubcluster to the project subclusters"
 
 	^ self _concreteProject addSubclusterNamed: subclusterNamed toClusterNamed: clusterName comment: aString
+]
+
+{ #category : 'clusters' }
+RwDefinedProject >> addSubclusterNamed: subclusterNamed toClusterNamed: clusterName condition: aCondition [
+	"add a new instance of RwCluster to the project clusters and add the clusterName
+		to the load spec (i.e., it will be loaded when the load spec is loaded)"
+
+	^ self addSubclusterNamed: subclusterNamed toClusterNamed: clusterName condition: aCondition comment: ''
+]
+
+{ #category : 'clusters' }
+RwDefinedProject >> addSubclusterNamed: subclusterNamed toClusterNamed: clusterName  condition: aCondition comment: aString [
+	"add a new instance of RwSubcluster to the project subclusters"
+
+	^ self _concreteProject addSubclusterNamed: subclusterNamed toClusterNamed: clusterName  condition: aCondition comment: aString
 ]

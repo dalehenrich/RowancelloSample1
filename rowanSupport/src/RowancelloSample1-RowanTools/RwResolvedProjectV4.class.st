@@ -74,7 +74,7 @@ RwResolvedProjectV4 >> _projectSpecification [
 				yourself ]
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwResolvedProjectV4 >> addClusterNamed: aClusterName comment: aString [
 	"add a new instance of RwCluster to the project clusters and add the clusterName
 		to the load spec (i.e., it will be loaded when the load spec is loaded)"
@@ -90,10 +90,10 @@ RwResolvedProjectV4 >> addClusterNamed: aClusterName comment: aString [
 RwResolvedProjectV4 >> addPackagesNamed: packageNames toSubclusterNamed: subclusterName [
 	"add the list of packagesNamed to the named subclusterName"
 
-	self  addPackagesNamed: packageNames toSubclusterNamed: subclusterName condition: 'true'
+	self  addPackagesNamed: packageNames toSubclusterNamed: subclusterName
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwResolvedProjectV4 >> addPackagesNamed: packageNames toSubclusterNamed: subclusterName condition: conditionExpression [
 	"add the list of packagesNamed to the named subclusterName"
 
@@ -122,6 +122,16 @@ RwResolvedProjectV4 >> addPackagesNamed: packageNames toSubclusterNamed: subclus
 ]
 
 { #category : 'clusters' }
+RwResolvedProjectV4 >> addProjectsNamed: projectNames toSubclusterNamed: subclusterName [
+	"add the list of packagesNamed to the named subclusterName"
+
+	self _projectSpecification useV4ClusterClasses
+		ifTrue: [ ^ self _projectClusters  addProjectsNamed: projectNames toSubclusterNamed: subclusterName ]
+		ifFalse: [ 
+			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
+]
+
+{ #category : 'obsolete' }
 RwResolvedProjectV4 >> addProjectsNamed: projectNames toSubclusterNamed: subclusterName condition: conditionExpression [
 	"add the list of packagesNamed to the named subclusterName"
 
@@ -131,7 +141,7 @@ RwResolvedProjectV4 >> addProjectsNamed: projectNames toSubclusterNamed: subclus
 			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
 ]
 
-{ #category : 'clusters' }
+{ #category : 'obsolete' }
 RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clusterName comment: aString [
 	"add a new instance of RwSubcluster to the project clusters"
 
@@ -139,6 +149,24 @@ RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clust
 		ifTrue: [ ^ self _projectClusters addSubclusterNamed: aSubclusterName toClusterNamed: clusterName comment: aString ]
 		ifFalse: [ 
 			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
+]
+
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clusterName condition: aCondition comment: aString [
+	"add a new instance of RwSubcluster to the project clusters"
+
+	self _projectSpecification useV4ClusterClasses
+		ifTrue: [ ^ self _projectClusters addSubclusterNamed: aSubclusterName toClusterNamed: clusterName condition: aCondition comment: aString ]
+		ifFalse: [ 
+			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
+]
+
+{ #category : 'visiting' }
+RwResolvedProjectV4 >> clusterAnalysis [
+	(self requiredProjectNames: self customConditionalAttributes) isEmpty
+		ifTrue: [ ^ #() ].
+	RwProjectComponentClusterVisitor clusterAnalysisForProject: self.
+	^ self _projectClusters
 ]
 
 { #category : 'clusters' }

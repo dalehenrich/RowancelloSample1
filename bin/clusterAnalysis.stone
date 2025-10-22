@@ -70,8 +70,17 @@ instvars
 rowanRoot
 %
 method
-traverseComponentsInProject: resolvedProject
-	^ resolvedProject _projectComponents halt
+analyzeClustersInProject: resolvedProject
+"
+	For each load component create an cluster, follow the chain of subcomponents, accumulating a conditional 
+	expression for each component visited. When a component contains a package or project reference create 
+	an subcluster to record the expression and references. Ideally I should be able identify shared subclusters.
+
+	Start with recording things in a dictionary by name.
+
+  Will need to run against multiple projects work out the kinks and validate the approach.
+"
+	^ resolvedProject clusterAnalysis
 %
 doit
 
@@ -93,5 +102,5 @@ doit
 		componentNames: loadComponentNames.
 	resolvedProject := loadSpec read.
 	rowanRoot := (self positionalArgs at: 2) asFileReference.
-	^ self traverseComponentsInProject: resolvedProject projectDefinition.
+	^ self analyzeClustersInProject: resolvedProject projectDefinition.
 %
