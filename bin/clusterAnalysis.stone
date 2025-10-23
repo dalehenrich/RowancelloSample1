@@ -67,7 +67,7 @@ EXAMPLES
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
-            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan Rowan -D
+            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan Rowan SharedTests Upgrade -D
   -----
 %
 instvars

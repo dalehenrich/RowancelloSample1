@@ -10,6 +10,14 @@ RwProjectComponentClusterVisitor class >> clusterAnalysisForProject: resolvedPro
 	visitor := self readLoadSpecForProject: resolvedProject.
 ]
 
+{ #category : 'private' }
+RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject withComponentNames: componentNamesToRead  customConditionalAttributes: aCustomConditionalAttributes platformConditionalAttributes: aPlatformConditionalAttributes [
+	resolvedProject := aResolvedProject.
+	platformConditionalAttributes := aPlatformConditionalAttributes.
+	customConditionalAttributes := aCustomConditionalAttributes.
+	^ self _visitComponents: componentNamesToRead
+]
+
 { #category : 'visiting' }
 RwProjectComponentClusterVisitor >> visit: aProjectLoadComponent [
 
