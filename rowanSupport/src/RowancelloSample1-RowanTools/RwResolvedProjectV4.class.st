@@ -163,8 +163,6 @@ RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clust
 
 { #category : 'visiting' }
 RwResolvedProjectV4 >> clusterAnalysis [
-	(self requiredProjectNames: self customConditionalAttributes) isEmpty
-		ifTrue: [ ^ #() ].
 	RwProjectComponentClusterVisitor clusterAnalysisForProject: self.
 	^ self _projectClusters
 ]

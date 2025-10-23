@@ -48,26 +48,32 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
 	expression for each component visited. When a component contains a package or project reference create 
 	a subcluster to record the expression and references. Ideally I should be able identify shared subclusters.
 	"
+
 	| theCluster |
-	aComponent class == RwLoadComponent ifFalse: [ self error: 'expected a RwLoadComponent'].
+	(aComponent class == RwLoadComponent
+		or: [ aComponent class == RwSimpleProjectLoadComponentV2 ])
+		ifFalse: [ self error: 'expected a RwLoadComponent or RwSimpleProjectLoadComponentV2' ].
 
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
 
-	theCluster := (resolvedProject addClusterNamed: aComponent name comment: aComponent comment)
+	theCluster := (resolvedProject
+		addClusterNamed: aComponent name
+		comment: aComponent comment)
 		addPackagesNamed: aComponent packageNames;
 		addProjectsNamed: aComponent projectNames;
 		yourself.
 
-	(aComponent packageNames isEmpty not or: [aComponent projectNames isEmpty not])
-		ifTrue: [
+	(aComponent packageNames isEmpty not
+		or: [ aComponent projectNames isEmpty not ])
+		ifTrue: [ 
 			| theSubcluster subclusterName |
-			theSubcluster := resolvedProject 
-				addSubclusterNamed: (subclusterName := aComponent name, '_subcluster') 
+			theSubcluster := resolvedProject
+				addSubclusterNamed: (subclusterName := aComponent name , '_subcluster')
 				toClusterNamed: aComponent name
-				condition: '' 
+				condition: ''
 				comment: ''.
-		theCluster addSubclusterNamed: subclusterName ].
+			theCluster addSubclusterNamed: subclusterName ].
 
 	self _visited: aComponent.
 	(self _components: self componentsPath forProject: aComponent projectName)
@@ -76,5 +82,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
 				ifFalse: [ component acceptClusterVisitor: self ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
-		do: [ :projectSpec | self halt. projectSpec acceptClusterVisitor: self ].
+		do: [ :projectSpec | 
+			self halt.
+			projectSpec acceptClusterVisitor: self ]
 ]

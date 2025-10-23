@@ -1,5 +1,10 @@
 Extension { #name : 'RwSubcomponent' }
 
+{ #category : 'visiting' }
+RwSubcomponent >> acceptClusterVisitor: aVisitor [
+	^ aVisitor visitComponent: self
+]
+
 { #category : 'accessing' }
 RwSubcomponent >> clusterConditionExpression: conditions [
 	| expression |

@@ -64,6 +64,10 @@ EXAMPLES
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
             /bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan Core -D
+
+   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan Rowan -D
   -----
 %
 instvars
@@ -76,7 +80,8 @@ analyzeClustersInProject: resolvedProject
 	expression for each component visited. When a component contains a package or project reference create 
 	an subcluster to record the expression and references. Ideally I should be able identify shared subclusters.
 
-	Start with recording things in a dictionary by name.
+	Running through process of converting the components to clusters and subclusers ... and returning 
+	the _projectClusters object ... which when displayed with STON is pretty reasonable result.
 
   Will need to run against multiple projects work out the kinks and validate the approach.
 "
