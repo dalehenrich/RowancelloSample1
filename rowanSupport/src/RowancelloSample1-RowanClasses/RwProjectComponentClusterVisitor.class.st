@@ -11,6 +11,15 @@ RwProjectComponentClusterVisitor class >> clusterAnalysisForProject: resolvedPro
 ]
 
 { #category : 'private' }
+RwProjectComponentClusterVisitor >> _component: componentPath forProject: aProjectName [
+	| componentFile component |
+	componentFile := componentPath asFileReference.
+	component := RwAbstractComponent _readStonFrom: componentFile readStream.
+	self readComponents at: component name ifAbsentPut: [ component ].
+	^ component
+]
+
+{ #category : 'private' }
 RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject withComponentNames: componentNamesToRead  customConditionalAttributes: aCustomConditionalAttributes platformConditionalAttributes: aPlatformConditionalAttributes [
 	resolvedProject := aResolvedProject.
 	platformConditionalAttributes := aPlatformConditionalAttributes.
@@ -26,11 +35,11 @@ RwProjectComponentClusterVisitor >> visit: aProjectLoadComponent [
 
 { #category : 'visiting' }
 RwProjectComponentClusterVisitor >> visitComponent: aComponent [
+	| component |
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
 
 	self _visited: aComponent.
-
 	aComponent conditionalPropertyMatchers
 		keysAndValuesDo: [ :platformMatchers :ignored | 
 			(self _platformAttributeMatchIn: platformMatchers)
@@ -39,13 +48,16 @@ RwProjectComponentClusterVisitor >> visitComponent: aComponent [
 					self componentNames addAll: aComponent componentNames.
 					self projectNames addAll: aComponent projectNames ] ].
 
-	(self _components: self componentsPath forProject: aComponent projectName)
-		do: [ :component | 
-			(visitedComponentNames includes: component name)
-				ifFalse: [ component acceptClusterVisitor: self ] ].
+	component := self
+		_component: self componentsPath
+		forProject: aComponent projectName.
+	(visitedComponentNames includes: component name)
+		ifFalse: [ component acceptClusterVisitor: self ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
-		do: [ :projectSpec | projectSpec acceptVisitor: self ]
+		do: [ :projectSpec | 
+			self halt: 'may not be necessary'.
+			projectSpec acceptVisitor: self ]
 ]
 
 { #category : 'visiting' }
