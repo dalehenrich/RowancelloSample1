@@ -12,10 +12,18 @@ RwProjectComponentClusterVisitor class >> clusterAnalysisForProject: resolvedPro
 
 { #category : 'private' }
 RwProjectComponentClusterVisitor >> _component: componentPath forProject: aProjectName [
-	| componentFile component |
+	| componentFile component visit |
+self halt: 'am I used?'.
 	componentFile := componentPath asFileReference.
 	component := RwAbstractComponent _readStonFrom: componentFile readStream.
-	self readComponents at: component name ifAbsentPut: [ component ].
+	visit := false.
+	self readComponents
+		at: component name
+		ifAbsentPut: [ 
+			visit := true.
+			component ].
+	visit
+		ifTrue: [ component acceptClusterVisitor: self ].
 	^ component
 ]
 
@@ -62,11 +70,11 @@ RwProjectComponentClusterVisitor >> visitComponent: aComponent [
 
 { #category : 'visiting' }
 RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
-	"RwLoad component 
-	
-	For each load component create a cluster, follow the chain of subcomponents, accumulating a conditional 
-	expression for each component visited. When a component contains a package or project reference create 
-	a subcluster to record the expression and references. Ideally I should be able identify shared subclusters.
+	"RwLoad component .
+	For each load component create a cluster andfollow the depth first chain of components reference by this
+	top level component, creating subcomponents, accumulating a conditional expression for each component 
+	visited. When a component contains a package or project reference create a subcluster to record the 
+	expression and references. Ideally I should be able identify shared subclusters.
 	"
 
 	| theCluster |
@@ -84,17 +92,12 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
 		addProjectsNamed: aComponent projectNames;
 		yourself.
 
-	(aComponent packageNames isEmpty not
-		or: [ aComponent projectNames isEmpty not ])
-		ifTrue: [ 
-			| theSubcluster subclusterName |
-			theSubcluster := resolvedProject
-				addSubclusterNamed: (subclusterName := aComponent name , '_subcluster')
-				toClusterNamed: aComponent name
-				condition: ''
-				comment: ''.
-			theCluster addSubclusterNamed: subclusterName ].
-
+	aComponent conditionalPackageMapSpecs isEmpty
+		ifFalse: [ 
+			"The conditionaPackageMapSpecs requires the creation of subclusters"
+			self
+				halt:
+					'non-empty conditionalPackageMapSpecs will require the creation of subclusters ... NOT EMPLEMENTED yet' ].
 	self _visited: aComponent.
 	(self _components: self componentsPath forProject: aComponent projectName)
 		do: [ :component | 

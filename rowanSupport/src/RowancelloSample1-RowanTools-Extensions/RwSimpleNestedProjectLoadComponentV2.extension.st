@@ -1,5 +1,10 @@
 Extension { #name : 'RwSimpleNestedProjectLoadComponentV2' }
 
+{ #category : 'visiting' }
+RwSimpleNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
+	^ aVisitor visitSubcomponent: self
+]
+
 { #category : 'accessing' }
 RwSimpleNestedProjectLoadComponentV2 >> clusterCondition [
 	^ self condition
