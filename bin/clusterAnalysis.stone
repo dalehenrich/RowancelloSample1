@@ -102,6 +102,7 @@ doit
 	"note when reading from disk we have to make sure that ALL components are read from disk 
 		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
 	loadSpec 
+		projectAlias: 'RowanV3';
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString;
 		addCustomConditionalAttributes: { 'tests' };
 		componentNames: loadComponentNames.

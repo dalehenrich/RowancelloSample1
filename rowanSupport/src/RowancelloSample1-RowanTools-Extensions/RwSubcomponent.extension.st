@@ -2,7 +2,12 @@ Extension { #name : 'RwSubcomponent' }
 
 { #category : 'visiting' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor [
-	^ aVisitor visitComponent: self
+	^ self acceptClusterVisitor: aVisitor withConditions: []
+]
+
+{ #category : 'visiting' }
+RwSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
+	^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions
 ]
 
 { #category : 'accessing' }

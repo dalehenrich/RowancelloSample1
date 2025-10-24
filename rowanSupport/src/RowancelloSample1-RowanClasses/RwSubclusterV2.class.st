@@ -33,17 +33,17 @@ RwSubclusterV2 >> _exportToUrl: directoryUrl [
 
 { #category : 'accessing' }
 RwSubclusterV2 >> addPackagesNamed: packagesNamed [
-	self packagesNamed
+	packagesNamed
 		do: [ :each | 
-			(packageNames includes: each)
+			(self packageNames includes: each)
 				ifFalse: [ packageNames add: each ] ]
 ]
 
 { #category : 'accessing' }
 RwSubclusterV2 >> addProjectsNamed: projectsNamed [
-	self projectsNamed
+	projectsNamed
 		do: [ :each | 
-			(projectNames includes: each)
+			(self projectNames includes: each)
 				ifFalse: [ projectNames add: each ] ]
 ]
 

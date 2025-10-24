@@ -72,7 +72,7 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 			self subclusters
 				at: aSubclusterName
 				put:
-					(RwSubcluster new
+					(RwSubclusterV2 new
 						subclusterName: aSubclusterName;
 						comment: aString;
 						yourself) ].
