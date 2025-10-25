@@ -2,12 +2,21 @@ Extension { #name : 'RwSubcomponent' }
 
 { #category : 'visiting' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor [
-	^ self acceptClusterVisitor: aVisitor withConditions: []
+	"single condition ... string"
+
+	| conditions |
+	conditions := {}.
+	self condition ifNotNil: [ :c | conditions add: c ].
+	^ self acceptClusterVisitor: aVisitor withConditions: {(self conditions)}
 ]
 
 { #category : 'visiting' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
-	^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions
+	"single condition ... string"
+
+	^ aVisitor
+		visitSubcomponent: self
+		withConditions: (accumulatedConditions copy add: self condition)
 ]
 
 { #category : 'accessing' }

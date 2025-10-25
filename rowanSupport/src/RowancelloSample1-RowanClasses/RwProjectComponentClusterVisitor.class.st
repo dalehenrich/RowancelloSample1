@@ -38,6 +38,16 @@ RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject 
 	^ self _visitComponents: componentNamesToRead
 ]
 
+{ #category : 'accessing' }
+RwProjectComponentClusterVisitor >> currentCluster [
+	^currentCluster
+]
+
+{ #category : 'accessing' }
+RwProjectComponentClusterVisitor >> currentCluster: object [
+	currentCluster := object
+]
+
 { #category : 'visiting' }
 RwProjectComponentClusterVisitor >> visit: aProjectLoadComponent [
 
@@ -172,7 +182,9 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 
 	| theSubCluster componentsToBeVisited |
 	(aComponent class == RwSimpleNestedProjectLoadComponentV2
-		or: [ aComponent class == RwPlatformNestedProjectLoadComponentV2 ])
+		or: [ 
+			aComponent class == RwPlatformNestedProjectLoadComponentV2
+				or: [ aComponent class == RwSimpleProjectLoadComponentV2 ] ])
 		ifFalse: [ self error: 'expected a RwLoadComponent or RwSimpleProjectLoadComponentV2' ].
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
