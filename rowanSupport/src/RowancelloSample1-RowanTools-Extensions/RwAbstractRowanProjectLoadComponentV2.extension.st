@@ -7,7 +7,7 @@ RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 	| conditions |
 	conditions := {}.
 	self condition ifNotNil: [ :c | conditions add: c ].
-	^ self acceptClusterVisitor: aVisitor withConditions: {(self condition)}
+	^ self acceptClusterVisitor: aVisitor withConditions: conditions
 ]
 
 { #category : 'visiting' }
@@ -16,5 +16,8 @@ RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withCond
 
 	^ aVisitor
 		visitLoadComponent: self
-		withConditions: (accumulatedConditions copy add: self condition)
+		withConditions:
+			(accumulatedConditions copy
+				add: self condition;
+				yourself)
 ]
