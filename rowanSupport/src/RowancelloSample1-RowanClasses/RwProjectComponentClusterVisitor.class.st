@@ -146,6 +146,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 										, currentCluster clusterName , ')' ] ].
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
+					false ifTrue: [
 					| theSubcluster |
 					aComponent conditionalPackageMapSpecs
 						keysAndValuesDo: [ :condition :thePackageNames | 
@@ -154,7 +155,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 								toClusterNamed: theCluster clusterName
 								condition: condition
 								comment: 'subcluster generated from ' , aComponent name.
-							theSubcluster addPackagesNamed: thePackageNames ] ] ].
+							theSubcluster addPackagesNamed: thePackageNames ]  ] ] ].
 	self _visited: aComponent.
 
 	componentsToBeVisited := aComponent componentNames
@@ -216,6 +217,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 			theSubCluster := (resolvedProject
 				addSubclusterNamed: aComponent name
 				toClusterNamed: currentCluster clusterName
+				condition: conditionsArray
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
 				addProjectsNamed: aComponent projectNames;
@@ -223,6 +225,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
+					false ifTrue: [
 					| theSubcluster |
 					aComponent conditionalPackageMapSpecs
 						keysAndValuesDo: [ :condition :thePackageNames | 
@@ -231,7 +234,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 								toClusterNamed: currentCluster clusterName
 								condition: condition
 								comment: 'subcluster generated from ' , aComponent name.
-							theSubcluster addPackagesNamed: thePackageNames ] ].
+							theSubcluster addPackagesNamed: thePackageNames] ] ].
 			self _visited: aComponent.
 
 			componentsToBeVisited := aComponent componentNames
