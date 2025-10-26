@@ -9,16 +9,19 @@ RwSubcomponent >> acceptClusterVisitor: aVisitor [
 	self condition ifNotNil: [ :c | 
 		(c isKindOf: CharacterCollection) ifFalse: [self halt].
 		conditions add: c ].
-	^ self acceptClusterVisitor: aVisitor withConditions: {conditions}
+	^ self acceptClusterVisitor: aVisitor withConditions: conditions
 ]
 
 { #category : 'visiting' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
 	"single condition ... string"
 
+	| conditions |
+	conditions := accumulatedConditions copy.
+	(conditions includes: self condition) ifFalse: [ conditions add: self condition ].
 	^ aVisitor
 		visitSubcomponent: self
-		withConditions: (accumulatedConditions copy add: self condition; yourself)
+		withConditions: conditions
 ]
 
 { #category : 'accessing' }

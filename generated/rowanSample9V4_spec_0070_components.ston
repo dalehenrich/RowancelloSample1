@@ -1,0 +1,74 @@
+RwResolvedProjectClusters {
+	#projectName : 'RowanSample9V4',
+	#clusters : {
+		'Core' : RwCluster {
+			#clusterName : 'Core',
+			#packageNames : [
+				'RowanSample9V4-Core'
+			],
+			#projectNames : [ ],
+			#subclusters : [
+				'attr1/Core',
+				'attr1/tests/Core',
+				'attr2/Core',
+				'attr2/tests/Core',
+				'tests/Tests'
+			],
+			#comment : 'Primary component used for loading the core classes.'
+		}
+	},
+	#subclusters : {
+		'tests/Tests' : RwSubclusterV2 {
+			#subclusterName : 'tests/Tests',
+			#packageNames : [
+				'RowanSample9V4-Tests'
+			],
+			#comment : 'Primary component used for loading the test classes.',
+			#condition : [
+				'tests'
+			]
+		},
+		'attr2/tests/Core' : RwSubclusterV2 {
+			#subclusterName : 'attr2/tests/Core',
+			#packageNames : [
+				'RowanSample9V4-Core2-Tests'
+			],
+			#comment : '',
+			#condition : [
+				'attr2',
+				'tests'
+			]
+		},
+		'attr1/Core' : RwSubclusterV2 {
+			#subclusterName : 'attr1/Core',
+			#packageNames : [
+				'RowanSample9V4-Core1'
+			],
+			#comment : '',
+			#condition : [
+				'attr1'
+			]
+		},
+		'attr1/tests/Core' : RwSubclusterV2 {
+			#subclusterName : 'attr1/tests/Core',
+			#packageNames : [
+				'RowanSample9V4-Core1-Tests'
+			],
+			#comment : '',
+			#condition : [
+				'attr1',
+				'tests'
+			]
+		},
+		'attr2/Core' : RwSubclusterV2 {
+			#subclusterName : 'attr2/Core',
+			#packageNames : [
+				'RowanSample9V4-Core2'
+			],
+			#comment : '',
+			#condition : [
+				'attr2'
+			]
+		}
+	}
+}

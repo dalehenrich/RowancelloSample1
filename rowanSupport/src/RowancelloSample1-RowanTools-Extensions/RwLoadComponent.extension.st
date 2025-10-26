@@ -4,7 +4,7 @@ Extension { #name : 'RwLoadComponent' }
 RwLoadComponent >> acceptClusterVisitor: aVisitor [
 	"no conditions"
 
-	^ self acceptClusterVisitor: self withConditions: {}
+	^ self acceptClusterVisitor: aVisitor withConditions: {}
 ]
 
 { #category : 'visiting' }

@@ -11,13 +11,17 @@ RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
 	"condition is an array"
 
+	| conditions |
 	aVisitor currentCluster
 		ifNil: [ 
 			"if there is no current cluster, then this  guy should create a cluster"
 			^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions ].
+	conditions := accumulatedConditions copy.
+	self condition do: [:each |
+		(conditions includes: each) ifFalse: [ conditions add: each ]].
 	^ aVisitor
 		visitSubcomponent: self
-		withConditions: (accumulatedConditions copy addAll: self condition)
+		withConditions: conditions
 ]
 
 { #category : 'accessing' }

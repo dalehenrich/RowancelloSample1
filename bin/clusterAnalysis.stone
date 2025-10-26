@@ -99,13 +99,22 @@ doit
 	loadComponentNames := self positionalArgs copyFrom: 3 to: self positionalArgs size.
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
+
 	"note when reading from disk we have to make sure that ALL components are read from disk 
 		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
+true ifTrue: [
 	loadSpec 
 		projectAlias: 'RowanV3';
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString;
 		addCustomConditionalAttributes: { 'tests' };
-		componentNames: loadComponentNames.
+		componentNames: loadComponentNames ]
+ifFalse: [
+	loadSpec 
+		projectAlias: 'RowanSample9V4';
+		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanSample9V4') pathString;
+		addCustomConditionalAttributes: { 'attr1' . 'attr2' . 'attr3' . 'tests' };
+		componentNames: loadComponentNames ].
+
 	resolvedProject := loadSpec read.
 	rowanRoot := (self positionalArgs at: 2) asFileReference.
 	^ self analyzeClustersInProject: resolvedProject projectDefinition.

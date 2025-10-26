@@ -117,15 +117,16 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	(aComponent packageNames isEmpty
 		and: [ 
 			aComponent projectNames isEmpty
-				and: [ 
+				"and: [ 
 					aComponent conditionalPackageMapSpecs isEmpty
-						and: [ self currentCluster notNil ] ] ])
+						and: [ self currentCluster notNil ] ]" ])
 		ifTrue: [ 
 			accumulateConditions := true.
 			accumulatedConditions := conditionsArray copy ]
 		ifFalse: [ 
 			| theCluster |
 			accumulateConditions := false.
+			conditionsArray isEmpty ifFalse: [ "have to create an empty cluster and add a subcluster to hold the conditional packages and projects"self halt].
 			theCluster := (resolvedProject
 				addClusterNamed: aComponent name
 				comment: aComponent comment)
@@ -146,16 +147,17 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 										, currentCluster clusterName , ')' ] ].
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
-					false ifTrue: [
-					| theSubcluster |
-					aComponent conditionalPackageMapSpecs
-						keysAndValuesDo: [ :condition :thePackageNames | 
-							theSubcluster := resolvedProject
-								addSubclusterNamed: aComponent name , '_condition'
-								toClusterNamed: theCluster clusterName
-								condition: condition
-								comment: 'subcluster generated from ' , aComponent name.
-							theSubcluster addPackagesNamed: thePackageNames ]  ] ] ].
+					false
+						ifTrue: [ 
+							| theSubcluster |
+							aComponent conditionalPackageMapSpecs
+								keysAndValuesDo: [ :condition :thePackageNames | 
+									theSubcluster := resolvedProject
+										addSubclusterNamed: aComponent name , '_condition'
+										toClusterNamed: theCluster clusterName
+										condition: condition
+										comment: 'subcluster generated from ' , aComponent name.
+									theSubcluster addPackagesNamed: thePackageNames ] ] ] ].
 	self _visited: aComponent.
 
 	componentsToBeVisited := aComponent componentNames
@@ -169,7 +171,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 						named: theComponentName)
 						projectName: resolvedProject projectName;
 						yourself ] ].
-
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
@@ -205,8 +206,8 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 	(aComponent class == RwSimpleNestedProjectLoadComponentV2
 		or: [ 
 			aComponent class == RwPlatformNestedProjectLoadComponentV2
-				or: [ aComponent class == RwSimpleProjectLoadComponentV2 ] ])
-		ifFalse: [ self error: 'expected a RwLoadComponent or RwSimpleProjectLoadComponentV2' ].
+				or: [ aComponent class == RwSimpleProjectLoadComponentV2 or: [aComponent class = RwSubcomponent] ] ])
+		ifFalse: [ self error: 'expected a RwPlatformNestedProjectLoadComponentV2 or RwSimpleProjectLoadComponentV2 or RwSubcomponent' ].
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
 	self componentNames add: aComponent name.	"make this guy happy"

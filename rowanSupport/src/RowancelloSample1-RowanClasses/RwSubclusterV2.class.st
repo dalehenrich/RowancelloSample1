@@ -63,8 +63,10 @@ RwSubclusterV2 >> condition [
 ]
 
 { #category : 'accessing' }
-RwSubclusterV2 >> condition: object [
-	condition := object
+RwSubclusterV2 >> condition: anArray [
+	anArray _isArray
+		ifFalse: [ self error: 'The condition is constrained to be an array' ].
+	condition := anArray
 ]
 
 { #category : 'exporting' }

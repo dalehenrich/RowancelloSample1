@@ -11,7 +11,11 @@ RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor [
 RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
 	"condition is an array"
 
+	| conditions |
+	conditions := accumulatedConditions copy.
+	self condition do: [:each |
+		(conditions includes: each) ifFalse: [ conditions add: each ]].
 	^ aVisitor
 		visitSubcomponent: self
-		withConditions: (accumulatedConditions copy addAll: self condition)
+		withConditions: conditions
 ]

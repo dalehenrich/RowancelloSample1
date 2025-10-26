@@ -14,10 +14,10 @@ RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
 	"single condition ... string"
 
+	| conditions |
+	conditions := accumulatedConditions copy.
+	(conditions includes: self condition) ifFalse: [ conditions add: self condition].
 	^ aVisitor
 		visitLoadComponent: self
-		withConditions:
-			(accumulatedConditions copy
-				add: self condition;
-				yourself)
+		withConditions: conditions
 ]
