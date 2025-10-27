@@ -1,0 +1,29 @@
+RwResolvedProjectClusters {
+	#projectName : 'RowanSample9V4',
+	#clusters : {
+		'Core' : RwCluster {
+			#clusterName : 'Core',
+			#packageNames : [
+				'RowanSample9V4-Core',
+				'RowanSample9V4-Extensions'
+			],
+			#projectNames : [ ],
+			#subclusters : [
+				'tests/Tests'
+			],
+			#comment : 'Top-level component for loading the application'
+		}
+	},
+	#subclusters : {
+		'tests/Tests' : RwSubclusterV2 {
+			#subclusterName : 'tests/Tests',
+			#packageNames : [
+				'RowanSample9V4-Tests'
+			],
+			#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
+			#condition : [
+				'tests'
+			]
+		}
+	}
+}

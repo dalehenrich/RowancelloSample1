@@ -90,7 +90,7 @@ analyzeClustersInProject: resolvedProject
 %
 doit
 
-	| resolvedProject loadSpec loadComponentNames |
+	| resolvedProject loadSpec loadComponentNames x |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -107,18 +107,26 @@ self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
 		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / self projectName) pathString;
-		addCustomConditionalAttributes: { 'tests' };
 		componentNames: loadComponentNames ]
 ifFalse: [
-	self projectName = 'RowanSample9V4'
+	| baseProjectName |
+	baseProjectName := 'RowanSample9V4'.
+	self projectName = 'RowanSample9V4_0070'
 		ifTrue: [
 			loadSpec 
-				projectAlias: self projectName;
-				diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / self projectName) pathString;
-				addCustomConditionalAttributes: { 'attr1' . 'attr2' . 'attr3' . 'tests' };
-				componentNames: loadComponentNames ]
-		ifFalse: [ self error: 'Unknown project: ', self projectName printString] ].
-
+				projectAlias: baseProjectName;
+				diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
+				componentNames: loadComponentNames]
+		ifFalse: [
+			| x1 x2 |
+			self projectName = 'RowanSample9V4_0024'
+				ifTrue: [
+					loadSpec 
+						projectAlias: baseProjectName;
+						diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
+						componentNames: loadComponentNames ]
+				ifFalse: [ self error: 'Unknown label: ', self projectName printString] ] ].
+	"all project components are read when the loadSpec is read"
 	resolvedProject := loadSpec read.
 	^ self analyzeClustersInProject: resolvedProject projectDefinition.
 %
