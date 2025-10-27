@@ -2,6 +2,7 @@
 options
 {
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
 }
 %
 #
@@ -58,20 +59,20 @@ EXAMPLES
   $basename <script-arguments>               <topaz-arguments>
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            file:///bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan/specs/RowancelloSample1.ston \
+            --projectName=RowancelloSample1
+            --loadSpecUrl=file:///bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan/specs/RowancelloSample1.ston \
             /bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan RowanExtensions -D
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanSample9V4
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
-            /bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan Core -D
+            Core -D
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
-            /bosch1/users/dhenrich/_stones/git/RowanV3/rowan Rowan SharedTests Upgrade -D
+            Rowan SharedTests Upgrade -D
   -----
-%
-instvars
-rowanRoot
 %
 method
 analyzeClustersInProject: resolvedProject
@@ -95,27 +96,29 @@ doit
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
 				ifNil: [ self error: 'ROWAN_PROJECTS_HOME not definied. Define ROWAN_PROJECTS_HOME or use --projectsHome option' ] ]
 		ifNotNil: [:rowanProjectsHome | System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME' put: rowanProjectsHome ].
-	self positionalArgs size < 2 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument and rowanRoot (location where clusters and subclusters directories will be created'].
-	loadComponentNames := self positionalArgs copyFrom: 3 to: self positionalArgs size.
+	self positionalArgs size < 1 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument'].
+	loadComponentNames := self positionalArgs copyFrom: 2 to: self positionalArgs size.
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 
 	"note when reading from disk we have to make sure that ALL components are read from disk 
 		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
-true ifTrue: [
+self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
-		projectAlias: 'RowanV3';
-		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanV3') pathString;
+		projectAlias: self projectName;
+		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / self projectName) pathString;
 		addCustomConditionalAttributes: { 'tests' };
 		componentNames: loadComponentNames ]
 ifFalse: [
-	loadSpec 
-		projectAlias: 'RowanSample9V4';
-		diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / 'RowanSample9V4') pathString;
-		addCustomConditionalAttributes: { 'attr1' . 'attr2' . 'attr3' . 'tests' };
-		componentNames: loadComponentNames ].
+	self projectName = 'RowanSample9V4'
+		ifTrue: [
+			loadSpec 
+				projectAlias: self projectName;
+				diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / self projectName) pathString;
+				addCustomConditionalAttributes: { 'attr1' . 'attr2' . 'attr3' . 'tests' };
+				componentNames: loadComponentNames ]
+		ifFalse: [ self error: 'Unknown project: ', self projectName printString] ].
 
 	resolvedProject := loadSpec read.
-	rowanRoot := (self positionalArgs at: 2) asFileReference.
 	^ self analyzeClustersInProject: resolvedProject projectDefinition.
 %
