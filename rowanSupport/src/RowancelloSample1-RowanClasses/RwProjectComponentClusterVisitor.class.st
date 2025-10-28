@@ -106,18 +106,20 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	(aComponent class == RwLoadComponent
 		or: [ 
 			aComponent class == RwSimpleProjectLoadComponentV2
-				or: [ 
-					aComponent class == RwSimpleNestedProjectLoadComponentV2
-						or: [ aComponent class == RwPlatformNestedProjectLoadComponentV2 ] ] ])
+				or: [ aComponent isKindOf: RwSimpleNestedProjectLoadComponentV2 ] ])
 		ifFalse: [ self error: 'expected a RwLoadComponent or RwSimpleProjectLoadComponentV2' ].
 
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
+	((aComponent isKindOf: RwSimpleNestedProjectLoadComponentV2)
+		and: [ self currentCluster notNil ])
+		ifTrue: [ 
+			"this guy is being used as a  subcluster"
+			^ self visitSubcomponent: aComponent withConditions: conditionsArray ].
 	self componentNames add: aComponent name.	"make this guy happy"
 	(aComponent packageNames isEmpty
 		and: [ 
-			aComponent projectNames isEmpty
-				"and: [ 
+			aComponent projectNames isEmpty	"and: [ 
 					aComponent conditionalPackageMapSpecs isEmpty
 						and: [ self currentCluster notNil ] ]" ])
 		ifTrue: [ 
@@ -126,7 +128,10 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 		ifFalse: [ 
 			| theCluster |
 			accumulateConditions := false.
-			conditionsArray isEmpty ifFalse: [ "have to create an empty cluster and add a subcluster to hold the conditional packages and projects"self halt].
+			(conditionsArray isEmpty or: [ conditionsArray = {'common'} ])
+				ifFalse: [ 
+					"have to create an empty cluster and add a subcluster to hold the conditional packages and projects"
+					self halt ].
 			theCluster := (resolvedProject
 				addClusterNamed: aComponent name
 				comment: aComponent comment)
@@ -139,7 +144,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 					(aComponent class == RwLoadComponent
 						or: [ aComponent class == RwSimpleProjectLoadComponentV2 ])
 						ifTrue: [ 
-							"these guys are expected to have a cluster associated with them, and subclusters will be added to them"
 							self
 								error:
 									'Unexpected use of a top-level cluster {' aComponent name

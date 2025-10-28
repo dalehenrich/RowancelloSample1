@@ -1,0 +1,201 @@
+RwResolvedProjectClusters {
+	#projectName : 'Rowan',
+	#clusters : {
+		'Rowan' : RwCluster {
+			#clusterName : 'Rowan',
+			#packageNames : [ ],
+			#projectNames : [
+				'Cypress',
+				'STON'
+			],
+			#subclusters : [
+				'common/Components',
+				'common/v2/Components',
+				'common/Core',
+				'common/tests/Core',
+				'common/tonel/Core',
+				'common/v2/Core',
+				'common/v3/Core',
+				'common/Definitions',
+				'common/v2/Definitions',
+				'common/Specifications',
+				'common/v2/Specifications',
+				'common/Tools',
+				'common/examples/Tools',
+				'common/v2/Tools',
+				'common/v2/v2Only/Tools'
+			],
+			#comment : 'top-level component for loading entire Rowan project.'
+		}
+	},
+	#subclusters : {
+		'common/Definitions' : RwSubclusterV2 {
+			#subclusterName : 'common/Definitions',
+			#packageNames : [
+				'Rowan-Definitions'
+			],
+			#comment : 'Organize all definition classes under one component',
+			#condition : [
+				'common'
+			]
+		},
+		'common/Tools' : RwSubclusterV2 {
+			#subclusterName : 'common/Tools',
+			#packageNames : [
+				'Rowan-Cypress-Core',
+				'Rowan-Tools-Core'
+			],
+			#comment : 'Organize all tool classes under one component. Shared between Rowan and RowanDiskAPI.',
+			#condition : [
+				'common'
+			]
+		},
+		'common/v2/Components' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/Components',
+			#packageNames : [
+				'Rowan-ComponentsV2'
+			],
+			#comment : 'Organize all v2 component classes under one component',
+			#condition : [
+				'common',
+				'v2'
+			]
+		},
+		'common/Specifications' : RwSubclusterV2 {
+			#subclusterName : 'common/Specifications',
+			#packageNames : [
+				'Rowan-Specifications'
+			],
+			#comment : 'Organize all specification classes under one component. Shared between Rowan and RowanDiskAPI.',
+			#condition : [
+				'common'
+			]
+		},
+		'common/tonel/Core' : RwSubclusterV2 {
+			#subclusterName : 'common/tonel/Core',
+			#packageNames : [
+				'Rowan-Tonel-Core'
+			],
+			#comment : 'tonel packages contain the RwTonelParser, RwTonelParseError, RwTonelParseRequireMethodCategoryNotification, and RwTopazTonelReader class . These classes are loaded into the base image in support of the tmethod and tfile topaz commands. The tests for these classes are part of the Rowan test suite. These classes are present in the RowanKernel symbol dictionary',
+			#condition : [
+				'common',
+				'tonel'
+			]
+		},
+		'common/v2/Tools' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/Tools',
+			#packageNames : [
+				'Rowan-Tools-CoreV2'
+			],
+			#comment : 'Organize all v2 tools classes under one component',
+			#condition : [
+				'common',
+				'v2'
+			]
+		},
+		'common/tests/Core' : RwSubclusterV2 {
+			#subclusterName : 'common/tests/Core',
+			#packageNames : [
+				'Rowan-Tests-Core'
+			],
+			#comment : 'Organize all core tests under one component',
+			#condition : [
+				'common',
+				'tests'
+			]
+		},
+		'common/Components' : RwSubclusterV2 {
+			#subclusterName : 'common/Components',
+			#packageNames : [
+				'Rowan-Components'
+			],
+			#comment : '',
+			#condition : [
+				'common'
+			]
+		},
+		'common/v2/Definitions' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/Definitions',
+			#packageNames : [
+				'Rowan-Core-DefinitionsV2',
+				'Rowan-Definitions-Common',
+				'Rowan-DefinitionsV2'
+			],
+			#comment : 'Organize all v2 definitions classes under one component',
+			#condition : [
+				'common',
+				'v2'
+			]
+		},
+		'common/v3/Core' : RwSubclusterV2 {
+			#subclusterName : 'common/v3/Core',
+			#packageNames : [
+				'Rowan-CoreV4'
+			],
+			#comment : 'Organize all v3/v4 core classes under one component',
+			#condition : [
+				'common',
+				'v3'
+			]
+		},
+		'common/v2/Specifications' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/Specifications',
+			#packageNames : [
+				'Rowan-SpecificationsV2'
+			],
+			#comment : 'Organize all v2 specification classes under one component',
+			#condition : [
+				'common',
+				'v2'
+			]
+		},
+		'common/Core' : RwSubclusterV2 {
+			#subclusterName : 'common/Core',
+			#packageNames : [
+				'Rowan-Core',
+				'Rowan-Core-Conditional-Support',
+				'Rowan-Core-Definitions-Extensions',
+				'Rowan-Kernel',
+				'Rowan-Loader',
+				'Rowan-Url-Core'
+			],
+			#comment : 'Organize all core classes under one component. Shared between Rowan and RowanDiskAPI.',
+			#condition : [
+				'common'
+			]
+		},
+		'common/v2/Core' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/Core',
+			#packageNames : [
+				'Rowan-CoreV2'
+			],
+			#comment : 'Organize all v2 core classes under one component',
+			#condition : [
+				'common',
+				'v2'
+			]
+		},
+		'common/examples/Tools' : RwSubclusterV2 {
+			#subclusterName : 'common/examples/Tools',
+			#packageNames : [
+				'Rowan-Tools-Examples'
+			],
+			#comment : 'Organize all tool classes under one component. Shared between Rowan and RowanDiskAPI.',
+			#condition : [
+				'common',
+				'examples'
+			]
+		},
+		'common/v2/v2Only/Tools' : RwSubclusterV2 {
+			#subclusterName : 'common/v2/v2Only/Tools',
+			#packageNames : [
+				'Rowan-Tools-OnlyV2'
+			],
+			#comment : '',
+			#condition : [
+				'v2',
+				'v2Only'
+			]
+		}
+	}
+}
