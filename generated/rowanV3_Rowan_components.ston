@@ -376,9 +376,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-DefinitionsV2'
 			],
 			#comment : 'Definitions vw gemstone packages',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone36-_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone36-_Core',
@@ -386,9 +384,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Core-36x'
 			],
 			#comment : 'Core gs3.[6-]  packages ',
-			#condition : [
-				'gs3.[6-]'
-			]
+			#condition : 'gs3.[6-]'
 		},
 		'common_platforms_gemstone_gemstoneBase_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_gemstoneBase_Core',
@@ -396,10 +392,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Url'
 			],
 			#comment : 'Core gemstone or gemstoneBase packages',
-			#condition : [
-				'gemstone',
-				'gemstoneBase'
-			]
+			#condition : 'gemstone & gemstoneBase'
 		},
 		'common_platforms_gemstone_CoreUpgrade' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_CoreUpgrade',
@@ -407,9 +400,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Kernel'
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone_AST' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_AST',
@@ -418,9 +409,7 @@ RwResolvedProjectClusters {
 				'AST-Kernel-Core'
 			],
 			#comment : 'AST gemstone  packages ',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone37-_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone37-_Core',
@@ -428,9 +417,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Core-37x'
 			],
 			#comment : 'Core gs3.[7-]  packages ',
-			#condition : [
-				'gs3.[7-]'
-			]
+			#condition : 'gs3.[7-]'
 		},
 		'common_platforms_gemstone35-_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone35-_Core',
@@ -438,9 +425,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-35x'
 			],
 			#comment : 'Core gs3.[5-]  packages ',
-			#condition : [
-				'gs3.[5-]'
-			]
+			#condition : 'gs3.[5-]'
 		},
 		'common_platforms_gemstone36-_CoreUpgrade' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone36-_CoreUpgrade',
@@ -448,9 +433,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Kernel-36x'
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
-			#condition : [
-				'gs3.[6-]'
-			]
+			#condition : 'gs3.[6-]'
 		},
 		'common_obsolete_gemstone_Obsolete' : RwSubclusterV2 {
 			#subclusterName : 'common_obsolete_gemstone_Obsolete',
@@ -458,9 +441,7 @@ RwResolvedProjectClusters {
 				'Rowan-Obsolete-GemStone'
 			],
 			#comment : 'ObsoleteTools gemstone  packages ',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_v2_platforms_gemstoneBase_Components' : RwSubclusterV2 {
 			#subclusterName : 'common_v2_platforms_gemstoneBase_Components',
@@ -468,9 +449,7 @@ RwResolvedProjectClusters {
 				'Rowan-GsBase-ComponentsV2'
 			],
 			#comment : 'Components gemstoneBase packages',
-			#condition : [
-				'gemstoneBase'
-			]
+			#condition : 'gemstoneBase'
 		},
 		'common_v2_platforms_gemstone_Components' : RwSubclusterV2 {
 			#subclusterName : 'common_v2_platforms_gemstone_Components',
@@ -478,9 +457,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-ComponentsV2'
 			],
 			#comment : 'Components gemstone packages',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_Core',
@@ -488,9 +465,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Core'
 			],
 			#comment : 'Core gemstone  packages ',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone32-_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone32-_Core',
@@ -500,9 +475,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-3215'
 			],
 			#comment : 'Core gs3.[2-]  packages ',
-			#condition : [
-				'gs3.[2-]'
-			]
+			#condition : 'gs3.[2-]'
 		},
 		'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
@@ -510,10 +483,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Components-Kernel'
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
-			#condition : [
-				'gemstone',
-				'gemstoneBase'
-			]
+			#condition : 'gemstone & gemstoneBase'
 		},
 		'common_v2_platforms_gemstone_Core' : RwSubclusterV2 {
 			#subclusterName : 'common_v2_platforms_gemstone_Core',
@@ -521,9 +491,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-CoreV2'
 			],
 			#comment : 'Core vw gemstone packages',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone_Definitions' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_Definitions',
@@ -533,9 +501,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Definitions'
 			],
 			#comment : 'Definitions gemstone  packages ',
-			#condition : [
-				'gemstone'
-			]
+			#condition : 'gemstone'
 		},
 		'common_platforms_gemstone37-_Definitions' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone37-_Definitions',
@@ -543,9 +509,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Definitions-Extensions-37x'
 			],
 			#comment : 'Definitions gemstone packages 3.7.x',
-			#condition : [
-				'gs3.[7-]'
-			]
+			#condition : 'gs3.[7-]'
 		},
 		'common_platforms_gemstone_gemstoneBase_Specifications' : RwSubclusterV2 {
 			#subclusterName : 'common_platforms_gemstone_gemstoneBase_Specifications',
@@ -553,10 +517,7 @@ RwResolvedProjectClusters {
 				'Rowan-GemStone-Specifications'
 			],
 			#comment : 'Specifications gemstone or gemstoneBase packages',
-			#condition : [
-				'gemstone',
-				'gemstoneBase'
-			]
+			#condition : 'gemstone & gemstoneBase'
 		}
 	}
 }

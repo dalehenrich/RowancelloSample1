@@ -66,7 +66,10 @@ RwSubclusterV2 >> condition [
 RwSubclusterV2 >> condition: anArray [
 	anArray _isArray
 		ifFalse: [ self error: 'The condition is constrained to be an array' ].
-	condition := anArray
+	condition := String new.
+	1 to: anArray size do: [:index |
+		condition add: (anArray at: index).
+		index < anArray size ifTrue: [ condition add: ' & ' ] ].
 ]
 
 { #category : 'exporting' }
