@@ -11,3 +11,6 @@ The first round of work will also involve supporting conditional expressions usi
 
 ### Clusters and Subclusters
 ...
+
+# NOTES
+lost AST components on branch round4a commits
