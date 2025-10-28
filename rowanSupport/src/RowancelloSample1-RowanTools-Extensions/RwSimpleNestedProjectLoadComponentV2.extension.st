@@ -1,5 +1,29 @@
 Extension { #name : 'RwSimpleNestedProjectLoadComponentV2' }
 
+{ #category : 'visiting' }
+RwSimpleNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
+	"condition is a String"
+
+	^ aVisitor visitSubcomponent: self withConditions: {self condition}
+]
+
+{ #category : 'visiting' }
+RwSimpleNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
+	"single condition ... string"
+
+	| conditions |
+	self halt.
+	aVisitor currentCluster
+		ifNil: [ 
+			"if there is no current cluster, then this  guy should create a cluster"
+			^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions ].
+	conditions := accumulatedConditions copy.
+	(conditions includes: self condition) ifFalse: [ conditions add: self condition].
+	^ aVisitor
+		visitLoadComponent: self
+		withConditions: conditions
+]
+
 { #category : 'accessing' }
 RwSimpleNestedProjectLoadComponentV2 >> clusterCondition [
 	^ self condition
