@@ -39,6 +39,18 @@ RwProjectComponentClusterVisitor >> _conditionComponentName: aComponentName [
 ]
 
 { #category : 'private' }
+RwProjectComponentClusterVisitor >> _conditionConditionsArray: aConditionStringOrArray [
+	"remove `common` condition from incoming String or Array "
+
+	aConditionStringOrArray _isArray
+		ifTrue: [ ^ aConditionStringOrArray copyWithout: 'common' ]
+		ifFalse: [ 
+			aConditionStringOrArray = 'common'
+				ifTrue: [ ^ '' ]
+				ifFalse: [ ^ aConditionStringOrArray ] ]
+]
+
+{ #category : 'private' }
 RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject withComponentNames: componentNamesToRead  customConditionalAttributes: aCustomConditionalAttributes platformConditionalAttributes: aPlatformConditionalAttributes [
 	resolvedProject := aResolvedProject.
 	platformConditionalAttributes := aPlatformConditionalAttributes.
@@ -129,7 +141,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent_alt: aComponent withCondi
 						and: [ self currentCluster notNil ] ]" ])
 		ifTrue: [ 
 			accumulateConditions := true.
-			accumulatedConditions := conditionsArray copy ]
+			accumulatedConditions := self _conditionConditionsArray:  conditionsArray copy ]
 		ifFalse: [ 
 			| theCluster |
 			accumulateConditions := false.
@@ -233,7 +245,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 						and: [ self currentCluster notNil ] ]" ])
 		ifTrue: [ 
 			accumulateConditions := true.
-			accumulatedConditions := conditionsArray copy ]
+			accumulatedConditions :=self _conditionConditionsArray:  ( conditionsArray copy) ]
 		ifFalse: [ 
 			| theCluster |
 			accumulateConditions := false.
@@ -330,7 +342,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 			theSubCluster := (resolvedProject
 				addSubclusterNamed:  (self _conditionComponentName: aComponent name)
 				toClusterNamed: currentCluster clusterName
-				condition: conditionsArray
+				condition: (self _conditionConditionsArray:  conditionsArray)
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
 				addProjectsNamed: aComponent projectNames;
@@ -370,5 +382,5 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 			self halt.
 			projectSpec
 				acceptClusterVisitor: self
-				withConditions: {(aComponent condition)} ]
+				withConditions: {(self _conditionConditionsArray: aComponent condition)} ]
 ]

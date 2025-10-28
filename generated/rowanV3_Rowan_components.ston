@@ -377,7 +377,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Definitions vw gemstone packages',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -388,7 +387,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gs3.[6-]  packages ',
 			#condition : [
-				'common',
 				'gs3.[6-]'
 			]
 		},
@@ -399,7 +397,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gemstone or gemstoneBase packages',
 			#condition : [
-				'common',
 				'gemstone',
 				'gemstoneBase'
 			]
@@ -411,7 +408,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -423,7 +419,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'AST gemstone  packages ',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -434,7 +429,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gs3.[7-]  packages ',
 			#condition : [
-				'common',
 				'gs3.[7-]'
 			]
 		},
@@ -445,7 +439,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gs3.[5-]  packages ',
 			#condition : [
-				'common',
 				'gs3.[5-]'
 			]
 		},
@@ -456,7 +449,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 			#condition : [
-				'common',
 				'gs3.[6-]'
 			]
 		},
@@ -477,7 +469,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Components gemstoneBase packages',
 			#condition : [
-				'common',
 				'gemstoneBase'
 			]
 		},
@@ -488,7 +479,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Components gemstone packages',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -499,7 +489,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gemstone  packages ',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -512,7 +501,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core gs3.[2-]  packages ',
 			#condition : [
-				'common',
 				'gs3.[2-]'
 			]
 		},
@@ -523,7 +511,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 			#condition : [
-				'common',
 				'gemstone',
 				'gemstoneBase'
 			]
@@ -535,7 +522,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Core vw gemstone packages',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -548,7 +534,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Definitions gemstone  packages ',
 			#condition : [
-				'common',
 				'gemstone'
 			]
 		},
@@ -559,7 +544,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Definitions gemstone packages 3.7.x',
 			#condition : [
-				'common',
 				'gs3.[7-]'
 			]
 		},
@@ -570,7 +554,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Specifications gemstone or gemstoneBase packages',
 			#condition : [
-				'common',
 				'gemstone',
 				'gemstoneBase'
 			]
