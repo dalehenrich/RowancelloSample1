@@ -34,7 +34,7 @@ self halt: 'am I used?'.
 RwProjectComponentClusterVisitor >> _conditionComponentName: aComponentName [
 	"replace `/` characters in aComponentName with `_` ... the componentName will be used as the name of a file and we don not want the directory structure currently used by components"
 	
-	true ifTrue: [ ^aComponentName].
+	"true ifTrue: [ ^aComponentName]."
 	^ aComponentName replaceAll: $/ with: $_
 ]
 
@@ -240,7 +240,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 			conditionsArray isEmpty ifFalse: [ 
 				"have to create an empty cluster and add a subcluster to hold the conditional packages and projects" "self halt"].
 			theCluster := (resolvedProject
-				addClusterNamed: aComponent name
+				addClusterNamed: (self _conditionComponentName: aComponent name)
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
 				addProjectsNamed: aComponent projectNames;
@@ -265,7 +265,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 							aComponent conditionalPackageMapSpecs
 								keysAndValuesDo: [ :condition :thePackageNames | 
 									theSubcluster := resolvedProject
-										addSubclusterNamed: aComponent name , '_condition'
+										addSubclusterNamed: (self _conditionComponentName: aComponent name ), '_condition'
 										toClusterNamed: theCluster clusterName
 										condition: condition
 										comment: 'subcluster generated from ' , aComponent name.

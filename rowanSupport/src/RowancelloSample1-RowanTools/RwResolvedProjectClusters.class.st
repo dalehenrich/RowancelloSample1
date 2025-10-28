@@ -61,6 +61,7 @@ RwResolvedProjectClusters >> addProjectsNamed: projectNames toSubclusterNamed: s
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName comment: aString [
 	| cluster subcluster |
+	(aSubclusterName includes: $/) ifTrue: [self halt:'not renamed'].
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
 		ifNil: [ 
 			self
@@ -83,6 +84,8 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName condition: aCondition comment: aString [
 	| cluster subcluster |
+	(aClusterName includes: $/) ifTrue: [self halt:'cluster not renamed'].
+	(aSubclusterName includes: $/) ifTrue: [self halt:'subcluster not renamed'].
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
 		ifNil: [ 
 			self
