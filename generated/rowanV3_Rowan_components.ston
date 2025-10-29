@@ -39,6 +39,20 @@ RwResolvedProjectClusters {
 				'common_platforms_gemstone35-_Tools'
 			],
 			#comment : 'top-level component for loading entire Rowan project.'
+		},
+		'SharedTests' : RwCluster {
+			#clusterName : 'SharedTests',
+			#packageNames : [ ],
+			#projectNames : [ ],
+			#subclusters : [ ],
+			#comment : 'Top-level component for loading shared/Tests packages independent of tests. This component is intended to be used by RowanClientServices to load the shared package WITHOUT loading other Rowan test code.'
+		},
+		'Upgrade' : RwCluster {
+			#clusterName : 'Upgrade',
+			#packageNames : [ ],
+			#projectNames : [ ],
+			#subclusters : [ ],
+			#comment : 'top-level component for generating Rowan upgrade .gs files ... required GemStone kernel class extensions'
 		}
 	},
 	#subclusters : {
