@@ -2,7 +2,9 @@ Class {
 	#name : 'RwProjectComponentClusterVisitor',
 	#superclass : 'RwResolvedProjectComponentVisitorV2',
 	#instVars : [
-		'currentCluster'
+		'currentCluster',
+		'currentClusterStack',
+		'topLevelComponentNames'
 	],
 	#category : 'RowancelloSample1-RowanClasses'
 }
@@ -58,14 +60,30 @@ RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject 
 	^ self _visitComponents: componentNamesToRead
 ]
 
+{ #category : 'private' }
+RwProjectComponentClusterVisitor >> _visitComponents: componentNamesToRead [
+	self topLevelComponentNames: componentNamesToRead.
+	^ super _visitComponents: componentNamesToRead
+]
+
 { #category : 'accessing' }
 RwProjectComponentClusterVisitor >> currentCluster [
 	^currentCluster
 ]
 
 { #category : 'accessing' }
-RwProjectComponentClusterVisitor >> currentCluster: object [
-	currentCluster := object
+RwProjectComponentClusterVisitor >> currentClusterStack [
+	^ currentClusterStack ifNil: [ currentClusterStack := Array new ]
+]
+
+{ #category : 'accessing' }
+RwProjectComponentClusterVisitor >> topLevelComponentNames [
+	^topLevelComponentNames
+]
+
+{ #category : 'accessing' }
+RwProjectComponentClusterVisitor >> topLevelComponentNames: object [
+	topLevelComponentNames := object
 ]
 
 { #category : 'visiting' }
@@ -111,107 +129,6 @@ self halt: 'Is this guy being used? ... '.
 ]
 
 { #category : 'visiting' }
-RwProjectComponentClusterVisitor >> visitLoadComponent_alt: aComponent withConditions: conditionsArray [
-	"RwLoad component .
-	For each load component create a cluster andfollow the depth first chain of components reference by this
-	top level component, creating subcomponents, accumulating a conditional expression for each component 
-	visited. When a component contains a package or project reference create a subcluster to record the 
-	expression and references. Ideally I should be able identify shared subclusters.
-	"
-
-	| componentsToBeVisited accumulateConditions accumulatedConditions |
-	(aComponent class == RwLoadComponent
-		or: [ 
-			aComponent class == RwSimpleProjectLoadComponentV2
-				or: [ aComponent isKindOf: RwSimpleNestedProjectLoadComponentV2 ] ])
-		ifFalse: [ self error: 'expected a RwLoadComponent or RwSimpleProjectLoadComponentV2' ].
-
-	(visitedComponentNames includes: aComponent name)
-		ifTrue: [ ^ self ].
-	((aComponent isKindOf: RwSimpleNestedProjectLoadComponentV2)
-		and: [ self currentCluster notNil ])
-		ifTrue: [ 
-			"this guy is being used as a  subcluster"
-			^ self visitSubcomponent: aComponent withConditions: conditionsArray ].
-	self componentNames add: aComponent name.	"make this guy happy"
-	(aComponent packageNames isEmpty
-		and: [ 
-			aComponent projectNames isEmpty	"and: [ 
-					aComponent conditionalPackageMapSpecs isEmpty
-						and: [ self currentCluster notNil ] ]" ])
-		ifTrue: [ 
-			accumulateConditions := true.
-			accumulatedConditions := self _conditionConditionsArray:  conditionsArray copy ]
-		ifFalse: [ 
-			| theCluster |
-			accumulateConditions := false.
-			(conditionsArray isEmpty or: [ conditionsArray = {'common'} ])
-				ifFalse: [ 
-					"have to create an empty cluster and add a subcluster to hold the conditional packages and projects"
-					self halt ].
-			theCluster := (resolvedProject
-				addClusterNamed: (self _conditionComponentName: aComponent name)
-				comment: aComponent comment)
-				addPackagesNamed: aComponent packageNames;
-				addProjectsNamed: aComponent projectNames;
-				yourself.
-			currentCluster
-				ifNil: [ currentCluster := theCluster ]
-				ifNotNil: [ 
-					(aComponent class == RwLoadComponent
-						or: [ aComponent class == RwSimpleProjectLoadComponentV2 ])
-						ifTrue: [ 
-							self
-								error:
-									'Unexpected use of a top-level cluster {' aComponent name
-										, '( inside of another top-level cluster { '
-										, currentCluster clusterName , ')' ] ].
-			aComponent conditionalPackageMapSpecs isEmpty
-				ifFalse: [ 
-					false
-						ifTrue: [ 
-							| theSubcluster |
-							aComponent conditionalPackageMapSpecs
-								keysAndValuesDo: [ :condition :thePackageNames | 
-									theSubcluster := resolvedProject
-										addSubclusterNamed: (self _conditionComponentName: aComponent name , '-condition')
-										toClusterNamed: theCluster clusterName
-										condition: condition
-										comment: 'subcluster generated from ' , aComponent name.
-									theSubcluster addPackagesNamed: thePackageNames ] ] ] ].
-	self _visited: aComponent.
-
-	componentsToBeVisited := aComponent componentNames
-		collect: [ :theComponentName | 
-			| theComponent |
-			theComponent := self readComponents
-				at: theComponentName
-				ifAbsentPut: [ 
-					(RwAbstractRowanProjectLoadComponentV2
-						fromComponentsDirectory: resolvedProject componentsRoot
-						named: theComponentName)
-						projectName: resolvedProject projectName;
-						yourself ] ].
-	componentsToBeVisited
-		do: [ :component | 
-			(visitedComponentNames includes: component name)
-				ifFalse: [ 
-					accumulateConditions
-						ifTrue: [ 
-							"No cluster was created for aComponent so pass the accumulated conditions along to the subsequent components"
-							component
-								acceptClusterVisitor: self
-								withConditions: accumulatedConditions ]
-						ifFalse: [ component acceptClusterVisitor: self ] ] ].
-
-	(self _projects: self projectsPath forProject: aComponent projectName)
-		do: [ :projectSpec | 
-			self halt: 'so what have we here? Not sure what project spec has to do with it'.
-			projectSpec acceptClusterVisitor: self ].
-	currentCluster := nil
-]
-
-{ #category : 'visiting' }
 RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
 	self visitLoadComponent: aComponent withConditions: {}
 ]
@@ -225,7 +142,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	expression and references. Ideally I should be able identify shared subclusters.
 	"
 
-	| componentsToBeVisited accumulateConditions accumulatedConditions |
+	| componentsToBeVisited accumulateConditions accumulatedConditions createdCluster |
+	createdCluster := false.
 	(aComponent class == RwLoadComponent
 		or: [ 
 			aComponent class == RwSimpleProjectLoadComponentV2
@@ -237,29 +155,24 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	(visitedComponentNames includes: aComponent name)
 		ifTrue: [ ^ self ].
 	self componentNames add: aComponent name.	"make this guy happy"
-	(aComponent packageNames isEmpty
-		and: [ 
-			aComponent projectNames isEmpty
-				"and: [ 
-					aComponent conditionalPackageMapSpecs isEmpty
-						and: [ self currentCluster notNil ] ]" ])
+	(self topLevelComponentNames includes: aComponent name)
 		ifTrue: [ 
-			accumulateConditions := true.
-			accumulatedConditions :=self _conditionConditionsArray:  ( conditionsArray copy) ]
-		ifFalse: [ 
 			| theCluster |
 			accumulateConditions := false.
-			conditionsArray isEmpty ifFalse: [ 
-				"have to create an empty cluster and add a subcluster to hold the conditional packages and projects" "self halt"].
+			conditionsArray isEmpty
+				ifFalse: [ 
+					"have to create an empty cluster and add a subcluster to hold the conditional packages and projects"
+					"self halt"
+					 ].
 			theCluster := (resolvedProject
 				addClusterNamed: (self _conditionComponentName: aComponent name)
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
 				addProjectsNamed: aComponent projectNames;
 				yourself.
-			currentCluster
-				ifNil: [ currentCluster := theCluster ]
-				ifNotNil: [ 
+			createdCluster := true.
+			self currentClusterStack isEmpty
+				ifFalse: [ 
 					(aComponent class == RwLoadComponent
 						or: [ aComponent class == RwSimpleProjectLoadComponentV2 ])
 						ifTrue: [ 
@@ -268,7 +181,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 								error:
 									'Unexpected use of a top-level cluster {' aComponent name
 										, '( inside of another top-level cluster { '
-										, currentCluster clusterName , ')' ] ].
+										, self currentClusterStack last clusterName , ')' ] ].
+			self currentClusterStack addLast: theCluster.
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
 					false
@@ -277,11 +191,20 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 							aComponent conditionalPackageMapSpecs
 								keysAndValuesDo: [ :condition :thePackageNames | 
 									theSubcluster := resolvedProject
-										addSubclusterNamed: (self _conditionComponentName: aComponent name ), '_condition'
+										addSubclusterNamed:
+											(self _conditionComponentName: aComponent name) , '_condition'
 										toClusterNamed: theCluster clusterName
 										condition: condition
 										comment: 'subcluster generated from ' , aComponent name.
-									theSubcluster addPackagesNamed: thePackageNames ] ] ] ].
+									theSubcluster addPackagesNamed: thePackageNames ] ] ] ]
+		ifFalse: [ 
+			accumulateConditions := false.
+			(aComponent packageNames isEmpty
+				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
+				ifTrue: [ 
+					accumulateConditions := true.
+					accumulatedConditions := self
+						_conditionConditionsArray: conditionsArray copy ] ].
 	self _visited: aComponent.
 
 	componentsToBeVisited := aComponent componentNames
@@ -311,7 +234,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 		do: [ :projectSpec | 
 			self halt: 'so what have we here? Not sure what project spec has to do with it'.
 			projectSpec acceptClusterVisitor: self ].
-	currentCluster := nil
+	createdCluster
+		ifTrue: [ self currentClusterStack removeLast ]
 ]
 
 { #category : 'visiting' }
@@ -341,7 +265,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 			"Create a subcluster to record the packageNames and projectNames"
 			theSubCluster := (resolvedProject
 				addSubclusterNamed:  (self _conditionComponentName: aComponent name)
-				toClusterNamed: currentCluster clusterName
+				toClusterNamed: self  currentClusterStack last clusterName
 				condition: (self _conditionConditionsArray:  conditionsArray)
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
@@ -356,7 +280,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 						keysAndValuesDo: [ :condition :thePackageNames | 
 							theSubcluster := resolvedProject
 								addSubclusterNamed: (self _conditionComponentName: aComponent name ), '-condition'
-								toClusterNamed: currentCluster clusterName
+								toClusterNamed:  self  currentClusterStack last clusterName
 								condition: condition
 								comment: 'subcluster generated from ' , aComponent name.
 							theSubcluster addPackagesNamed: thePackageNames] ] ].
