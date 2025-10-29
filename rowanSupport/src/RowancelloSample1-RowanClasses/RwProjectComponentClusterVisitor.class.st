@@ -204,7 +204,18 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 				ifTrue: [ 
 					accumulateConditions := true.
 					accumulatedConditions := self
-						_conditionConditionsArray: conditionsArray copy ] ].
+						_conditionConditionsArray: conditionsArray copy ]
+				ifFalse: [ 
+					| theSubcluster conditions |
+					conditions := conditionsArray copy
+						add: aComponent condition;
+						yourself.
+					theSubcluster := resolvedProject
+						addSubclusterNamed: (self _conditionComponentName: aComponent name)
+						toClusterNamed: self currentClusterStack last clusterName
+						condition: conditions
+						comment: 'subcluster generated from ' , aComponent name.
+					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 	self _visited: aComponent.
 
 	componentsToBeVisited := aComponent componentNames
