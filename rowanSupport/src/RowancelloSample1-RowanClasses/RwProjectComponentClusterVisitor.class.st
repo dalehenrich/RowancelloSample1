@@ -142,8 +142,9 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	expression and references. Ideally I should be able identify shared subclusters.
 	"
 
-	| componentsToBeVisited accumulateConditions accumulatedConditions createdCluster |
+	| componentsToBeVisited accumulatedConditions createdCluster |
 	createdCluster := false.
+	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.
 	(aComponent class == RwLoadComponent
 		or: [ 
 			aComponent class == RwSimpleProjectLoadComponentV2
@@ -158,7 +159,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	(self topLevelComponentNames includes: aComponent name)
 		ifTrue: [ 
 			| theCluster |
-			accumulateConditions := false.
 			conditionsArray isEmpty
 				ifFalse: [ 
 					"have to create an empty cluster and add a subcluster to hold the conditional packages and projects"
@@ -198,14 +198,10 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 										comment: 'subcluster generated from ' , aComponent name.
 									theSubcluster addPackagesNamed: thePackageNames ] ] ] ]
 		ifFalse: [ 
-			accumulateConditions := false.
 			(aComponent packageNames isEmpty
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
-				ifTrue: [ 
-					accumulateConditions := true.
-					accumulatedConditions := self
-						_conditionConditionsArray: conditionsArray copy ]
 				ifFalse: [ 
+					"create a subcluster for aComponent"
 					| theSubcluster conditions |
 					conditions := conditionsArray copy
 						add: aComponent condition;
@@ -232,14 +228,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
-				ifFalse: [ 
-					accumulateConditions
-						ifTrue: [ 
-							"No cluster was created for aComponent so pass the accumulated conditions along to the subsequent components"
-							component
-								acceptClusterVisitor: self
-								withConditions: accumulatedConditions ]
-						ifFalse: [ component acceptClusterVisitor: self ] ] ].
+				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
