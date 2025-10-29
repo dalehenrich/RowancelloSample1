@@ -201,11 +201,14 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 			(aComponent packageNames isEmpty
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
 				ifFalse: [ 
-					"create a subcluster for aComponent"
-					| theSubcluster conditions |
+					| theSubcluster "create a subcluster for aComponent" conditions |
 					conditions := conditionsArray copy
 						add: aComponent condition;
 						yourself.
+					(resolvedProject
+						subclusterNamed: (self _conditionComponentName: aComponent name)
+						ifAbsent: [  ])
+						ifNotNil: [ self error: 'Unexpectedly overriding an existing subcluster ' , aComponent name ].
 					theSubcluster := resolvedProject
 						addSubclusterNamed: (self _conditionComponentName: aComponent name)
 						toClusterNamed: self currentClusterStack last clusterName
