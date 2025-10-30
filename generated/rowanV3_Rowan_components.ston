@@ -557,7 +557,7 @@
 					'Rowan-TestsV4'
 				],
 				#comment : 'subcluster generated from common_tests_v3_Tests',
-				#condition : 'tests & v3 & v3'
+				#condition : 'tests & v3'
 			},
 			'common_obsolete_gemstone_Obsolete' : RwSubclusterV2 {
 				#subclusterName : 'common_obsolete_gemstone_Obsolete',
@@ -581,7 +581,7 @@
 					'Rowan-Specifications'
 				],
 				#comment : 'subcluster generated from common_Specifications',
-				#condition : 'common & common'
+				#condition : 'common'
 			},
 			'common_tonel_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_tonel_Core',
@@ -589,7 +589,7 @@
 					'Rowan-Tonel-Core'
 				],
 				#comment : 'subcluster generated from common_tonel_Core',
-				#condition : 'tonel & tonel'
+				#condition : 'tonel'
 			},
 			'common_v2_Specifications' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_Specifications',
@@ -597,7 +597,7 @@
 					'Rowan-SpecificationsV2'
 				],
 				#comment : 'subcluster generated from common_v2_Specifications',
-				#condition : 'v2 & v2'
+				#condition : 'v2'
 			},
 			'common_platforms_gemstone_AST' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone_AST',
@@ -627,7 +627,7 @@
 					'Rowan-Url-Core'
 				],
 				#comment : 'subcluster generated from common_Core',
-				#condition : 'common & common'
+				#condition : 'common'
 			},
 			'common_platforms_gemstone36-_CoreUpgrade' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone36-_CoreUpgrade',
@@ -643,7 +643,7 @@
 					'Rowan-ComponentsV2'
 				],
 				#comment : 'subcluster generated from common_v2_Components',
-				#condition : 'v2 & v2'
+				#condition : 'v2'
 			},
 			'common_v2_v2Only_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_v2Only_platforms_gemstone_Definitions',
@@ -675,7 +675,7 @@
 					'Rowan-Components'
 				],
 				#comment : 'subcluster generated from common_Components',
-				#condition : 'common & common'
+				#condition : 'common'
 			},
 			'common_platforms_gemstone36-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone36-_Core',
@@ -715,7 +715,7 @@
 					'Rowan-Tests-Core'
 				],
 				#comment : 'subcluster generated from common_tests_Core',
-				#condition : 'tests & tests'
+				#condition : 'tests'
 			},
 			'common_stubs_gemstone37-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_stubs_gemstone37-_Core',
@@ -731,7 +731,7 @@
 					'Rowan-CoreV2'
 				],
 				#comment : 'subcluster generated from common_v2_Core',
-				#condition : 'v2 & v2'
+				#condition : 'v2'
 			},
 			'common_tests_v2_v2Only_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_v2Only_Components',
@@ -739,7 +739,7 @@
 					'Rowan-Tests-ComponentsV2-OnlyV2'
 				],
 				#comment : 'subcluster generated from common_tests_v2_v2Only_Components',
-				#condition : 'tests & v2 & v2Only & v2Only'
+				#condition : 'tests & v2 & v2Only'
 			},
 			'common_v2_platforms_gemstone_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Core',
@@ -763,7 +763,7 @@
 					'Rowan-CoreV4'
 				],
 				#comment : 'subcluster generated from common_v3_Core',
-				#condition : 'v3 & v3'
+				#condition : 'v3'
 			},
 			'common_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone_Definitions',
@@ -781,7 +781,7 @@
 					'Rowan-Definitions'
 				],
 				#comment : 'subcluster generated from common_Definitions',
-				#condition : 'common & common'
+				#condition : 'common'
 			},
 			'common_v2_platforms_gemstone_Loader' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Loader',
@@ -799,7 +799,7 @@
 					'Rowan-DefinitionsV2'
 				],
 				#comment : 'subcluster generated from common_v2_Definitions',
-				#condition : 'v2 & v2'
+				#condition : 'v2'
 			},
 			'common_tests_v2_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Components',
@@ -807,7 +807,7 @@
 					'Rowan-Tests-ComponentsV2'
 				],
 				#comment : 'subcluster generated from common_tests_v2_Components',
-				#condition : 'tests & v2 & v2'
+				#condition : 'tests & v2'
 			},
 			'common_v2_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Definitions',
@@ -848,7 +848,7 @@
 					'Rowan-Obsolete-Core'
 				],
 				#comment : 'subcluster generated from common_obsolete_ObsoleteReaderWriter',
-				#condition : 'obsoleteReaderWriter & obsoleteReaderWriter'
+				#condition : 'obsoleteReaderWriter'
 			},
 			'common_platforms_gemstone32-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone32-_Core',
@@ -874,7 +874,7 @@
 					'Rowan-Tests-SpecificationsV2'
 				],
 				#comment : 'subcluster generated from common_tests_v2_Specifications',
-				#condition : 'tests & v2 & v2'
+				#condition : 'tests & v2'
 			},
 			'common_tests_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_Tests',
@@ -882,7 +882,7 @@
 					'Rowan-Tests'
 				],
 				#comment : 'subcluster generated from common_tests_Tests',
-				#condition : 'tests & tests'
+				#condition : 'tests'
 			},
 			'common_v2_platforms_gemstoneBase_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstoneBase_Components',
@@ -917,7 +917,7 @@
 					'Rowan-Obsolete'
 				],
 				#comment : 'subcluster generated from common_obsolete_Obsolete',
-				#condition : 'obsolete & obsolete'
+				#condition : 'obsolete'
 			},
 			'common_tests_platforms_shared_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_platforms_shared_Tests',
@@ -925,7 +925,7 @@
 					'Rowan-Tests-Shared-GemStone'
 				],
 				#comment : 'subcluster generated from common_tests_platforms_shared_Tests',
-				#condition : 'tests & shared & shared'
+				#condition : 'tests & shared'
 			},
 			'common_tests_obsolete_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_obsolete_Tests',
@@ -933,7 +933,7 @@
 					'Rowan-Obsolete-Tests'
 				],
 				#comment : 'subcluster generated from common_tests_obsolete_Tests',
-				#condition : 'tests & obsoleteReaderWriter & obsoleteReaderWriter'
+				#condition : 'tests & obsoleteReaderWriter'
 			},
 			'common_tests_v2_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Tests',
@@ -941,7 +941,7 @@
 					'Rowan-TestsV2'
 				],
 				#comment : 'subcluster generated from common_tests_v2_Tests',
-				#condition : 'tests & v2 & v2'
+				#condition : 'tests & v2'
 			},
 			'common_examples_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_examples_Tools',
@@ -949,7 +949,7 @@
 					'Rowan-Tools-Examples'
 				],
 				#comment : 'subcluster generated from common_examples_Tools',
-				#condition : 'examples & examples'
+				#condition : 'examples'
 			},
 			'common_platforms_gemstone35-_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone35-_Tools',
@@ -965,7 +965,7 @@
 					'Rowan-Tools-CoreV2'
 				],
 				#comment : 'subcluster generated from common_v2_Tools',
-				#condition : 'v2 & v2'
+				#condition : 'v2'
 			},
 			'common_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_Tools',
@@ -974,7 +974,7 @@
 					'Rowan-Tools-Core'
 				],
 				#comment : 'subcluster generated from common_Tools',
-				#condition : 'common & common'
+				#condition : 'common'
 			},
 			'common_v2_v2Only_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_v2Only_Tools',
@@ -982,7 +982,7 @@
 					'Rowan-Tools-OnlyV2'
 				],
 				#comment : 'subcluster generated from common_v2_v2Only_Tools',
-				#condition : 'v2 & v2Only & v2Only'
+				#condition : 'v2 & v2Only'
 			}
 		}
 	}

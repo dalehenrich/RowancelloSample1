@@ -202,9 +202,9 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
 				ifFalse: [ 
 					| theSubcluster "create a subcluster for aComponent" conditions |
-					conditions := conditionsArray copy
-						add: aComponent condition;
-						yourself.
+					conditions := conditionsArray copy.
+					(conditions includes: aComponent condition)
+						ifFalse: [ conditions add: aComponent condition ].
 					(resolvedProject
 						subclusterNamed: (self _conditionComponentName: aComponent name)
 						ifAbsent: [  ])
