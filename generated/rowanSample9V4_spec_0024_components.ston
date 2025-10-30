@@ -1,29 +1,59 @@
-RwResolvedProjectClusters {
-	#projectName : 'RowanSample9V4',
-	#clusters : {
-		'Core' : RwCluster {
-			#clusterName : 'Core',
-			#packageNames : [
-				'RowanSample9V4-Core',
-				'RowanSample9V4-Extensions'
-			],
-			#projectNames : [ ],
-			#subclusters : [
-				'tests/Tests'
-			],
-			#comment : 'Top-level component for loading the application'
+[
+	{
+		'RowanSample9V4-Core' : {
+			'subclusters' : { },
+			'clusters' : {
+				'RowanSample9V4-Core' : Set [
+					'Core'
+				]
+			}
+		},
+		'RowanSample9V4-Extensions' : {
+			'subclusters' : { },
+			'clusters' : {
+				'RowanSample9V4-Extensions' : Set [
+					'Core'
+				]
+			}
+		},
+		'RowanSample9V4-Tests' : {
+			'subclusters' : { },
+			'clusters' : {
+				'RowanSample9V4-Tests' : Set [
+					'tests_Tests'
+				]
+			}
+		},
+		'RowanSample9V4-Export-GemStone' : {
+			'subclusters' : { },
+			'clusters' : { }
 		}
 	},
-	#subclusters : {
-		'tests/Tests' : RwSubclusterV2 {
-			#subclusterName : 'tests/Tests',
-			#packageNames : [
-				'RowanSample9V4-Tests'
-			],
-			#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
-			#condition : [
-				'tests'
-			]
+	RwResolvedProjectClusters {
+		#projectName : 'RowanSample9V4',
+		#clusters : {
+			'Core' : RwCluster {
+				#clusterName : 'Core',
+				#packageNames : [
+					'RowanSample9V4-Core',
+					'RowanSample9V4-Extensions'
+				],
+				#projectNames : [ ],
+				#subclusters : [
+					'tests_Tests'
+				],
+				#comment : 'Top-level component for loading the application'
+			}
+		},
+		#subclusters : {
+			'tests_Tests' : RwSubclusterV2 {
+				#subclusterName : 'tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Tests'
+				],
+				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
+				#condition : 'tests'
+			}
 		}
 	}
-}
+]

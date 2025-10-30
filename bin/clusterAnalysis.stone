@@ -3,6 +3,7 @@ options
 {
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
+	SuperDoitOptionalOptionWithNoArg long: 'validate'.
 }
 %
 #
@@ -72,7 +73,23 @@ EXAMPLES
             --projectName=RowanV3
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             Rowan SharedTests Upgrade -D
+
+   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            Rowan SharedTests Upgrade --validate -D
   -----
+%
+method
+validateProjectClusters: projectClusters against: resolvedProject
+	| packageNames references |
+	packageNames:= resolvedProject packageNames.
+	references := Dictionary new.
+	packageNames do: [:packageName |
+		| refs |
+		refs := projectClusters referencesToPackageNamed: packageName.
+		references at: packageName put: refs ].
+	^ {references . projectClusters }
 %
 method
 analyzeClustersInProject: resolvedProject
@@ -86,7 +103,11 @@ analyzeClustersInProject: resolvedProject
 
   Will need to run against multiple projects work out the kinks and validate the approach.
 "
-	^ resolvedProject clusterAnalysis
+	| projectClusters |
+	projectClusters := resolvedProject clusterAnalysis.
+	self validate
+		ifTrue: [ ^ self validateProjectClusters: projectClusters against: resolvedProject ].
+	^ projectClusters
 %
 doit
 
@@ -125,7 +146,7 @@ ifFalse: [
 						projectAlias: baseProjectName;
 						diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
 						componentNames: loadComponentNames ]
-				ifFalse: [ self error: 'Unknown label: ', self projectName printString] ] ].
+				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
 	"all project components are read when the loadSpec is read"
 	resolvedProject := loadSpec read.
 	^ self analyzeClustersInProject: resolvedProject projectDefinition.

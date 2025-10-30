@@ -155,6 +155,29 @@ RwResolvedProjectClusters >> projectName: object [
 	projectName := object
 ]
 
+{ #category : 'queries' }
+RwResolvedProjectClusters >> referencesToPackageNamed: packageName [
+	| refs clusterReferences subclusterReferences |
+	refs := Dictionary new.
+	clusterReferences := Dictionary new.
+	subclusterReferences := Dictionary new.
+	refs
+		at: 'clusters' put: clusterReferences;
+		at: 'subclusters' put: subclusterReferences;
+		yourself.
+	self clusters
+		do: [ :cluster | 
+			(cluster packageNames includes: packageName)
+				ifTrue: [ (clusterReferences at: packageName ifAbsentPut: [ Set new ]) add: cluster clusterName ] ].
+	self subclusters
+		do: [ :subcluster | 
+			(subcluster packageNames includes: packageName)
+				ifTrue: [ 
+					(clusterReferences at: packageName ifAbsentPut: [ Set new ])
+						add: subcluster subclusterName ] ].
+	^ refs
+]
+
 { #category : 'accessing' }
 RwResolvedProjectClusters >> subclusterNamed: aClusterName [
 	^ self
