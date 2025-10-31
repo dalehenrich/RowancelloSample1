@@ -1000,5 +1000,38 @@
 				#condition : 'v2 & v2Only'
 			}
 		}
+	},
+	48,
+	{
+		'Rowan' : {
+			'common_v2_platforms_gemstone_Definitions' : 3,
+			'common_v2_v2Only_platforms_gemstone_Loader' : 1,
+			'common_platforms_gemstone_CoreUpgrade' : 4,
+			'common_platforms_gemstone_AST' : 3,
+			'common_platforms_gemstone37-_Core' : 1,
+			'common_platforms_gemstone35-_Core' : 1,
+			'common_tests_v2_Components' : 2,
+			'common_platforms_gemstone_Core' : 2,
+			'common_tests_v2_Specifications' : 1,
+			'common_v2_Definitions' : 2,
+			'common_v2_Tools' : 3,
+			'common_Tools' : 1,
+			'common_Specifications' : 2,
+			'common_Definitions' : 3,
+			'common_Components' : 4,
+			'common_v2_platforms_gemstone_Core' : 1,
+			'common_v2_Specifications' : 1,
+			'common_v2_platforms_gemstone_Components' : 2,
+			'common_tests_Tests' : 1,
+			'common_v2_Core' : 4,
+			'common_platforms_gemstone36-_CoreUpgrade' : 1,
+			'common_platforms_gemstone_Tools' : 1,
+			'common_platforms_gemstone_gemstoneBase_Specifications' : 1,
+			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : 2
+		},
+		'SharedTests' : { },
+		'Upgrade' : {
+			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : 1
+		}
 	}
 ]

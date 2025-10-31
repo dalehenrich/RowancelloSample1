@@ -5,6 +5,7 @@ options
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
 	SuperDoitOptionalOptionWithNoArg long: 'validate'.
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
+	SuperDoitOptionalOptionWithNoArg long: 'custom'.
 }
 %
 #
@@ -82,6 +83,38 @@ EXAMPLES
   -----
 %
 method
+commonConditions: projectClusters against: resolvedProject
+	"looking for subclusters with the same conditions"
+	| dict clusters analysis total |
+	total := 0.
+	analysis := Dictionary new.
+	dict := Dictionary new.
+	clusters := projectClusters clusters.
+	projectClusters subclusters do: [:subcluster |
+		(dict at: subcluster condition ifAbsentPut: [ Set new ]) add: subcluster ].
+	dict keys do: [:condition | (dict at: condition) size = 1 ifTrue: [ dict removeKey: condition]].
+	clusters do: [:cluster |
+		| clusterDict |
+		clusterDict := Dictionary new.
+		analysis at: cluster clusterName put: clusterDict.
+		dict keys do: [:condition | 
+			| count |
+			count := 0.
+			((dict at: condition) collect: [:each | each subclusterName ]) do: [:subclusterName |
+				(cluster subclusters includes: subclusterName) ifTrue: [ count := count + 1 ].
+				count > 1 ifTrue: [ clusterDict at: subclusterName put: count -1 . total := total + count - 1 ].
+			 ] ] ].
+"	^ { total . analysis . self calculateStats: projectClusters against: resolvedProject }."
+	^ (self validateProjectClusters: projectClusters against: resolvedProject)
+			add: total;
+			add: analysis;
+			yourself
+%
+method
+customAnalysis:  projectClusters against: resolvedProject
+	^ self commonConditions: projectClusters against: resolvedProject
+%
+method
 calculateStats: projectClusters against: resolvedProject
 	| packageNames stats |
 	packageNames:= resolvedProject packageNames.
@@ -119,6 +152,8 @@ analyzeClustersInProject: resolvedProject
 "
 	| projectClusters |
 	projectClusters := resolvedProject clusterAnalysis.
+	self custom
+		ifTrue: [ ^ self customAnalysis: projectClusters against: resolvedProject  ].
 	self validate
 		ifTrue: [ ^ self validateProjectClusters: projectClusters against: resolvedProject ].
 	self stats
