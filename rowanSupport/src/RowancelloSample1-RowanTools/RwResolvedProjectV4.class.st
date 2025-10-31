@@ -141,6 +141,16 @@ RwResolvedProjectV4 >> addProjectsNamed: projectNames toSubclusterNamed: subclus
 			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
 ]
 
+{ #category : 'clusters' }
+RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clusterName [
+	"add a existing instance of RwSubcluster to clusterName"
+
+	self _projectSpecification useV4ClusterClasses
+		ifTrue: [ ^ self _projectClusters addSubclusterNamed: aSubclusterName toClusterNamed: clusterName  ]
+		ifFalse: [ 
+			^ self  error:  self _projectSpecification projectName, ' does not support subclusters.']
+]
+
 { #category : 'obsolete' }
 RwResolvedProjectV4 >> addSubclusterNamed: aSubclusterName toClusterNamed: clusterName comment: aString [
 	"add a new instance of RwSubcluster to the project clusters"

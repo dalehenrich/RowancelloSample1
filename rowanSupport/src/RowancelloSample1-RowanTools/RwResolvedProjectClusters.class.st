@@ -59,6 +59,29 @@ RwResolvedProjectClusters >> addProjectsNamed: projectNames toSubclusterNamed: s
 ]
 
 { #category : 'accessing' }
+RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName [
+	"add existing subcluster to aClusterName"
+
+	| cluster subcluster |
+	(aSubclusterName includes: $/)
+		ifTrue: [ self halt: 'not renamed' ].
+	(cluster := self clusters at: aClusterName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no cluster named ' , aClusterName printString
+						, ' defined in the project named ' , self projectName printString ].
+	subcluster := (self subclusters at: aSubclusterName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no subcluster named ' , aSubclusterName printString
+						, ' defined in the project named ' , self projectName printString ].
+	cluster addSubclusterNamed: aSubclusterName.
+	^ subcluster
+]
+
+{ #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName comment: aString [
 	| cluster subcluster |
 	(aSubclusterName includes: $/) ifTrue: [self halt:'not renamed'].
@@ -173,7 +196,7 @@ RwResolvedProjectClusters >> referencesToPackageNamed: packageName [
 		do: [ :subcluster | 
 			(subcluster packageNames includes: packageName)
 				ifTrue: [ 
-					(clusterReferences at: packageName ifAbsentPut: [ Set new ])
+					(subclusterReferences at: packageName ifAbsentPut: [ Set new ])
 						add: subcluster subclusterName ] ].
 	^ refs
 ]

@@ -2,7 +2,6 @@ Class {
 	#name : 'RwProjectComponentClusterVisitor',
 	#superclass : 'RwResolvedProjectComponentVisitorV2',
 	#instVars : [
-		'currentCluster',
 		'currentClusterStack',
 		'topLevelComponentNames'
 	],
@@ -64,11 +63,6 @@ RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject 
 RwProjectComponentClusterVisitor >> _visitComponents: componentNamesToRead [
 	self topLevelComponentNames: componentNamesToRead.
 	^ super _visitComponents: componentNamesToRead
-]
-
-{ #category : 'accessing' }
-RwProjectComponentClusterVisitor >> currentCluster [
-	^currentCluster
 ]
 
 { #category : 'accessing' }
@@ -218,7 +212,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 						comment: 'subcluster generated from ' , aComponent name.
 					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 	self _visited: aComponent.
-
 	componentsToBeVisited := aComponent componentNames
 		collect: [ :theComponentName | 
 			| theComponent |
@@ -233,6 +226,11 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
+				ifTrue: [ 
+					"this is a shared component ... add the subcluster to the current cluster"
+					resolvedProject
+						addSubclusterNamed: component name
+						toClusterNamed: self currentClusterStack last clusterName ]
 				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
@@ -280,6 +278,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
 					false ifTrue: [
+					"skipping  this ... until basic structure is valid"
 					| theSubcluster |
 					aComponent conditionalPackageMapSpecs
 						keysAndValuesDo: [ :condition :thePackageNames | 
