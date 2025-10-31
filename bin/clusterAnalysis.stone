@@ -6,6 +6,7 @@ options
 	SuperDoitOptionalOptionWithNoArg long: 'validate'.
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 	SuperDoitOptionalOptionWithNoArg long: 'custom'.
+	SuperDoitOptionalOptionWithNoArg long: 'packageNames'.
 }
 %
 #
@@ -81,6 +82,34 @@ EXAMPLES
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             Rowan SharedTests Upgrade --validate -D
   -----
+%
+method
+calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: projectClusters
+	| packageNames context |
+	packageNames := Set new.
+	context := RwCAQContext new.
+	attributes do: [:attribute |
+		context set: attribute ].
+	context
+		set: 'gemstone';
+		set: 'gemstone.version'
+			to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
+		yourself.
+
+	clusterNames do: [:clusterName |
+		| cluster ast evaluator result |
+		cluster := projectClusters clusterNamed: clusterName.
+		cluster subclusters do: [:subclusterName |
+			| subcluster |
+			subcluster := projectClusters subclusterNamed: subclusterName.
+			ast := RwCAQParser new parse: subcluster condition.
+			evaluator := RwCAQEvaluator
+				context: context
+				ast: ast.
+			result := evaluator evaluate.
+			result ifTrue: [ 
+				packageNames addAll: subcluster packageNames ] ] ].
+	^ packageNames sort
 %
 method
 commonConditions: projectClusters against: resolvedProject
@@ -162,7 +191,7 @@ analyzeClustersInProject: resolvedProject
 %
 doit
 
-	| resolvedProject loadSpec loadComponentNames x |
+	| resolvedProject loadSpec loadComponentNames x calculated actual projectClusters |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -200,5 +229,11 @@ ifFalse: [
 				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
 	"all project components are read when the loadSpec is read"
 	resolvedProject := loadSpec read.
-	^ self analyzeClustersInProject: resolvedProject projectDefinition.
+	projectClusters := resolvedProject projectDefinition clusterAnalysis.
+	calculated := (self 
+				calculatePackageNamesFor: {	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' } 
+				clusters: loadComponentNames 
+				projectClusters: projectClusters) asSet.
+	actual := resolvedProject packageNames asSet.
+	^ { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }
 %

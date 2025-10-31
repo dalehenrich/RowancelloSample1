@@ -1,469 +1,124 @@
 [
-	{
-		'subclusters' : 53,
-		'components' : 125,
-		'clusters' : 3,
-		'packages' : 57
-	},
-	{
-		'Rowan-Components' : {
-			'subclusters' : {
-				'Rowan-Components' : Set [
-					'common_Components'
-				]
-			},
-			'clusters' : { }
-		},
-		'AST-Kernel-Core' : {
-			'subclusters' : {
-				'AST-Kernel-Core' : Set [
-					'common_platforms_gemstone_AST'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Loader-Extensions-OnlyV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-Loader-Extensions-OnlyV2' : Set [
-					'common_v2_v2Only_platforms_gemstone_Loader'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-ComponentsV2' : {
-			'subclusters' : {
-				'Rowan-ComponentsV2' : Set [
-					'common_v2_Components'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Kernel' : {
-			'subclusters' : {
-				'Rowan-Kernel' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Kernel-Extensions-36x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Kernel-Extensions-36x' : Set [
-					'common_v2_v2Only_platforms_gemstone36-_Loader'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Components-Kernel' : {
-			'subclusters' : {
-				'Rowan-GemStone-Components-Kernel' : Set [
-					'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-GemStone' : {
-			'subclusters' : {
-				'Rowan-Tools-GemStone' : Set [
-					'common_platforms_gemstone_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Definitions' : {
-			'subclusters' : {
-				'Rowan-GemStone-Definitions' : Set [
-					'common_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Loader' : {
-			'subclusters' : {
-				'Rowan-Loader' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Definitions' : {
-			'subclusters' : {
-				'Rowan-Definitions' : Set [
-					'common_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-Examples' : {
-			'subclusters' : {
-				'Rowan-Tools-Examples' : Set [
-					'common_examples_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Definitions-Common' : {
-			'subclusters' : {
-				'Rowan-Definitions-Common' : Set [
-					'common_v2_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Url-Core' : {
-			'subclusters' : {
-				'Rowan-Url-Core' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Obsolete-GemStone' : {
-			'subclusters' : {
-				'Rowan-Obsolete-GemStone' : Set [
-					'common_obsolete_gemstone_Obsolete'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Url' : {
-			'subclusters' : {
-				'Rowan-GemStone-Url' : Set [
-					'common_platforms_gemstone_gemstoneBase_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Definitions-OnlyV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-Definitions-OnlyV2' : Set [
-					'common_v2_v2Only_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-SpecificationsV2' : {
-			'subclusters' : {
-				'Rowan-SpecificationsV2' : Set [
-					'common_v2_Specifications'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Core-DefinitionsV2' : {
-			'subclusters' : {
-				'Rowan-Core-DefinitionsV2' : Set [
-					'common_v2_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Core' : {
-			'subclusters' : {
-				'Rowan-GemStone-Core' : Set [
-					'common_platforms_gemstone_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-OnlyV2' : {
-			'subclusters' : {
-				'Rowan-Tools-OnlyV2' : Set [
-					'common_v2_v2Only_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'GemStone-Interactions-Kernel' : {
-			'subclusters' : {
-				'GemStone-Interactions-Kernel' : Set [
-					'common_platforms_gemstone32-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'AST-Core' : {
-			'subclusters' : {
-				'AST-Core' : Set [
-					'common_platforms_gemstone_AST'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Kernel-36x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Kernel-36x' : Set [
-					'common_platforms_gemstone36-_CoreUpgrade'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-Core' : {
-			'subclusters' : {
-				'Rowan-Tools-Core' : Set [
-					'common_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Obsolete' : {
-			'subclusters' : {
-				'Rowan-Obsolete' : Set [
-					'common_obsolete_Obsolete'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-CoreV2' : {
-			'subclusters' : {
-				'Rowan-Tools-CoreV2' : Set [
-					'common_v2_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tonel-Core' : {
-			'subclusters' : {
-				'Rowan-Tonel-Core' : Set [
-					'common_tonel_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Kernel' : {
-			'subclusters' : {
-				'Rowan-GemStone-Kernel' : Set [
-					'common_platforms_gemstone_CoreUpgrade'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-ComponentsV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-ComponentsV2' : Set [
-					'common_v2_platforms_gemstone_Components'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-CoreV4' : {
-			'subclusters' : {
-				'Rowan-CoreV4' : Set [
-					'common_v3_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Cypress-Kernel' : {
-			'subclusters' : {
-				'Rowan-Cypress-Kernel' : Set [
-					'common_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-35x' : {
-			'subclusters' : {
-				'Rowan-GemStone-35x' : Set [
-					'common_platforms_gemstone35-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Core-Definitions-Extensions' : {
-			'subclusters' : {
-				'Rowan-Core-Definitions-Extensions' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Specifications' : {
-			'subclusters' : {
-				'Rowan-GemStone-Specifications' : Set [
-					'common_platforms_gemstone_gemstoneBase_Specifications'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-3215' : {
-			'subclusters' : {
-				'Rowan-GemStone-3215' : Set [
-					'common_platforms_gemstone32-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tests-Shared-GemStone' : {
-			'subclusters' : {
-				'Rowan-Tests-Shared-GemStone' : Set [
-					'common_tests_platforms_shared_Tests'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Core' : {
-			'subclusters' : {
-				'Rowan-Core' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Definitions-Extensions-37x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Definitions-Extensions-37x' : Set [
-					'common_platforms_gemstone37-_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Core-37x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Core-37x' : Set [
-					'common_platforms_gemstone37-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-Kernel' : {
-			'subclusters' : {
-				'Rowan-Tools-Kernel' : Set [
-					'common_platforms_gemstone_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-Extensions-GemStone' : {
-			'subclusters' : {
-				'Rowan-Tools-Extensions-GemStone' : Set [
-					'common_platforms_gemstone_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-LoaderV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-LoaderV2' : Set [
-					'common_v2_platforms_gemstone_Loader'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-DefinitionsV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-DefinitionsV2' : Set [
-					'common_v2_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-DefinitionsV2' : {
-			'subclusters' : {
-				'Rowan-DefinitionsV2' : Set [
-					'common_v2_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-CoreV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-CoreV2' : Set [
-					'common_v2_platforms_gemstone_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-CoreV2' : {
-			'subclusters' : {
-				'Rowan-CoreV2' : Set [
-					'common_v2_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Definitions-ExtensionsV2' : {
-			'subclusters' : {
-				'Rowan-GemStone-Definitions-ExtensionsV2' : Set [
-					'common_v2_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'GemStone-Interactions-Core' : {
-			'subclusters' : {
-				'GemStone-Interactions-Core' : Set [
-					'common_platforms_gemstone32-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Cypress-Core' : {
-			'subclusters' : {
-				'Rowan-Cypress-Core' : Set [
-					'common_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Kernel-Stubs-37x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Kernel-Stubs-37x' : Set [
-					'common_stubs_gemstone37-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Core-Conditional-Support' : {
-			'subclusters' : {
-				'Rowan-Core-Conditional-Support' : Set [
-					'common_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-Core-36x' : {
-			'subclusters' : {
-				'Rowan-GemStone-Core-36x' : Set [
-					'common_platforms_gemstone36-_Core'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Tools-GemStone-35x' : {
-			'subclusters' : {
-				'Rowan-Tools-GemStone-35x' : Set [
-					'common_platforms_gemstone35-_Tools'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Cypress-Definitions' : {
-			'subclusters' : {
-				'Rowan-Cypress-Definitions' : Set [
-					'common_platforms_gemstone_Definitions'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-Specifications' : {
-			'subclusters' : {
-				'Rowan-Specifications' : Set [
-					'common_Specifications'
-				]
-			},
-			'clusters' : { }
-		},
-		'Rowan-GemStone-LoaderV2-36x' : {
-			'subclusters' : {
-				'Rowan-GemStone-LoaderV2-36x' : Set [
-					'common_v2_platforms_gemstone36-_Loader'
-				]
-			},
-			'clusters' : { }
-		}
-	},
-	RwResolvedProjectClusters {
+	'dif A-C' : [
+		'Rowan-Components',
+		'Rowan-Core',
+		'Rowan-Core-Conditional-Support',
+		'Rowan-Core-Definitions-Extensions',
+		'Rowan-Cypress-Core',
+		'Rowan-Definitions',
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-Specifications',
+		'Rowan-GemStone-Url',
+		'Rowan-Kernel',
+		'Rowan-Loader',
+		'Rowan-Specifications',
+		'Rowan-Tools-Core',
+		'Rowan-Url-Core'
+	],
+	'dif C-A' : [ ],
+	'actual' : [
+		'AST-Core',
+		'AST-Kernel-Core',
+		'GemStone-Interactions-Core',
+		'GemStone-Interactions-Kernel',
+		'Rowan-Components',
+		'Rowan-ComponentsV2',
+		'Rowan-Core',
+		'Rowan-Core-Conditional-Support',
+		'Rowan-Core-Definitions-Extensions',
+		'Rowan-Core-DefinitionsV2',
+		'Rowan-CoreV2',
+		'Rowan-CoreV4',
+		'Rowan-Cypress-Core',
+		'Rowan-Cypress-Definitions',
+		'Rowan-Cypress-Kernel',
+		'Rowan-Definitions',
+		'Rowan-Definitions-Common',
+		'Rowan-DefinitionsV2',
+		'Rowan-GemStone-3215',
+		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-ComponentsV2',
+		'Rowan-GemStone-Core',
+		'Rowan-GemStone-Core-36x',
+		'Rowan-GemStone-Core-37x',
+		'Rowan-GemStone-CoreV2',
+		'Rowan-GemStone-Definitions',
+		'Rowan-GemStone-Definitions-Extensions-37x',
+		'Rowan-GemStone-Definitions-ExtensionsV2',
+		'Rowan-GemStone-Definitions-OnlyV2',
+		'Rowan-GemStone-DefinitionsV2',
+		'Rowan-GemStone-Kernel',
+		'Rowan-GemStone-Kernel-36x',
+		'Rowan-GemStone-Kernel-Extensions-36x',
+		'Rowan-GemStone-Kernel-Stubs-37x',
+		'Rowan-GemStone-Loader-Extensions-OnlyV2',
+		'Rowan-GemStone-LoaderV2',
+		'Rowan-GemStone-LoaderV2-36x',
+		'Rowan-GemStone-Specifications',
+		'Rowan-GemStone-Url',
+		'Rowan-Kernel',
+		'Rowan-Loader',
+		'Rowan-Obsolete',
+		'Rowan-Obsolete-GemStone',
+		'Rowan-Specifications',
+		'Rowan-SpecificationsV2',
+		'Rowan-Tonel-Core',
+		'Rowan-Tools-Core',
+		'Rowan-Tools-CoreV2',
+		'Rowan-Tools-Examples',
+		'Rowan-Tools-Extensions-GemStone',
+		'Rowan-Tools-GemStone',
+		'Rowan-Tools-GemStone-35x',
+		'Rowan-Tools-Kernel',
+		'Rowan-Tools-OnlyV2',
+		'Rowan-Url-Core'
+	],
+	'calculated' : [
+		'AST-Core',
+		'AST-Kernel-Core',
+		'GemStone-Interactions-Core',
+		'GemStone-Interactions-Kernel',
+		'Rowan-ComponentsV2',
+		'Rowan-Core-DefinitionsV2',
+		'Rowan-CoreV2',
+		'Rowan-CoreV4',
+		'Rowan-Cypress-Definitions',
+		'Rowan-Cypress-Kernel',
+		'Rowan-Definitions-Common',
+		'Rowan-DefinitionsV2',
+		'Rowan-GemStone-3215',
+		'Rowan-GemStone-35x',
+		'Rowan-GemStone-ComponentsV2',
+		'Rowan-GemStone-Core',
+		'Rowan-GemStone-Core-36x',
+		'Rowan-GemStone-Core-37x',
+		'Rowan-GemStone-CoreV2',
+		'Rowan-GemStone-Definitions',
+		'Rowan-GemStone-Definitions-Extensions-37x',
+		'Rowan-GemStone-Definitions-ExtensionsV2',
+		'Rowan-GemStone-Definitions-OnlyV2',
+		'Rowan-GemStone-DefinitionsV2',
+		'Rowan-GemStone-Kernel',
+		'Rowan-GemStone-Kernel-36x',
+		'Rowan-GemStone-Kernel-Extensions-36x',
+		'Rowan-GemStone-Kernel-Stubs-37x',
+		'Rowan-GemStone-Loader-Extensions-OnlyV2',
+		'Rowan-GemStone-LoaderV2',
+		'Rowan-GemStone-LoaderV2-36x',
+		'Rowan-Obsolete',
+		'Rowan-Obsolete-GemStone',
+		'Rowan-SpecificationsV2',
+		'Rowan-Tonel-Core',
+		'Rowan-Tools-CoreV2',
+		'Rowan-Tools-Examples',
+		'Rowan-Tools-Extensions-GemStone',
+		'Rowan-Tools-GemStone',
+		'Rowan-Tools-GemStone-35x',
+		'Rowan-Tools-Kernel',
+		'Rowan-Tools-OnlyV2'
+	],
+	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'Rowan',
 		#clusters : {
 			'Rowan' : RwCluster {
@@ -529,29 +184,6 @@
 					'common_v2_v2Only_Tools'
 				],
 				#comment : 'top-level component for loading entire Rowan project.'
-			},
-			'SharedTests' : RwCluster {
-				#clusterName : 'SharedTests',
-				#packageNames : [ ],
-				#projectNames : [ ],
-				#subclusters : [
-					'common_tests_platforms_shared_Tests'
-				],
-				#comment : 'Top-level component for loading shared/Tests packages independent of tests. This component is intended to be used by RowanClientServices to load the shared package WITHOUT loading other Rowan test code.'
-			},
-			'Upgrade' : RwCluster {
-				#clusterName : 'Upgrade',
-				#packageNames : [ ],
-				#projectNames : [ ],
-				#subclusters : [
-					'common_platforms_gemstone_CoreUpgrade',
-					'common_platforms_gemstone35-_Core',
-					'common_platforms_gemstone36-_CoreUpgrade',
-					'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
-					'common_platforms_gemstone_gemstoneBase_Core',
-					'common_v2_v2Only_platforms_gemstone36-_Loader'
-				],
-				#comment : 'top-level component for generating Rowan upgrade .gs files ... required GemStone kernel class extensions'
 			}
 		},
 		#subclusters : {
@@ -999,39 +631,6 @@
 				#comment : 'subcluster generated from common_v2_v2Only_Tools',
 				#condition : 'v2 & v2Only'
 			}
-		}
-	},
-	48,
-	{
-		'Rowan' : {
-			'common_v2_platforms_gemstone_Definitions' : 3,
-			'common_v2_v2Only_platforms_gemstone_Loader' : 1,
-			'common_platforms_gemstone_CoreUpgrade' : 4,
-			'common_platforms_gemstone_AST' : 3,
-			'common_platforms_gemstone37-_Core' : 1,
-			'common_platforms_gemstone35-_Core' : 1,
-			'common_tests_v2_Components' : 2,
-			'common_platforms_gemstone_Core' : 2,
-			'common_tests_v2_Specifications' : 1,
-			'common_v2_Definitions' : 2,
-			'common_v2_Tools' : 3,
-			'common_Tools' : 1,
-			'common_Specifications' : 2,
-			'common_Definitions' : 3,
-			'common_Components' : 4,
-			'common_v2_platforms_gemstone_Core' : 1,
-			'common_v2_Specifications' : 1,
-			'common_v2_platforms_gemstone_Components' : 2,
-			'common_tests_Tests' : 1,
-			'common_v2_Core' : 4,
-			'common_platforms_gemstone36-_CoreUpgrade' : 1,
-			'common_platforms_gemstone_Tools' : 1,
-			'common_platforms_gemstone_gemstoneBase_Specifications' : 1,
-			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : 2
-		},
-		'SharedTests' : { },
-		'Upgrade' : {
-			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : 1
 		}
 	}
 ]
