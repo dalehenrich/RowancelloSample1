@@ -1,5 +1,11 @@
 [
 	{
+		'subclusters' : 53,
+		'components' : 125,
+		'clusters' : 3,
+		'packages' : 57
+	},
+	{
 		'Rowan-Components' : {
 			'subclusters' : {
 				'Rowan-Components' : Set [

@@ -4,6 +4,7 @@ options
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
 	SuperDoitOptionalOptionWithNoArg long: 'validate'.
+	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 }
 %
 #
@@ -81,6 +82,17 @@ EXAMPLES
   -----
 %
 method
+calculateStats: projectClusters against: resolvedProject
+	| packageNames stats |
+	packageNames:= resolvedProject packageNames.
+	stats := Dictionary new.
+	stats at: 'packages' put: packageNames size.
+	stats at: 'clusters' put: projectClusters clusters size. 
+	stats at: 'subclusters' put: projectClusters subclusters size. 
+	stats at: 'components' put: resolvedProject _projectComponents components size.
+	^ stats
+%
+method
 validateProjectClusters: projectClusters against: resolvedProject
 	| packageNames references |
 	packageNames:= resolvedProject packageNames.
@@ -89,6 +101,8 @@ validateProjectClusters: projectClusters against: resolvedProject
 		| refs |
 		refs := projectClusters referencesToPackageNamed: packageName.
 		references at: packageName put: refs ].
+	self stats
+		ifTrue: [ ^ { self calculateStats: projectClusters against: resolvedProject . references . projectClusters } ].
 	^ {references . projectClusters }
 %
 method
@@ -107,6 +121,8 @@ analyzeClustersInProject: resolvedProject
 	projectClusters := resolvedProject clusterAnalysis.
 	self validate
 		ifTrue: [ ^ self validateProjectClusters: projectClusters against: resolvedProject ].
+	self stats
+		ifTrue: [ ^ { self calculateStats: projectClusters against: resolvedProject . projectClusters } ].
 	^ projectClusters
 %
 doit
