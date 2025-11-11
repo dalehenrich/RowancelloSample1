@@ -1,11 +1,10 @@
 [
 	'dif A-C' : [
-		'Rowan-GemStone-Components-Kernel',
-		'Rowan-GemStone-Specifications',
-		'Rowan-GemStone-Url',
 		'Rowan-Tests-Shared-GemStone'
 	],
-	'dif C-A' : [ ],
+	'dif C-A' : [
+		'Rowan-GsBase-ComponentsV2'
+	],
 	'actual' : [
 		'AST-Core',
 		'AST-Kernel-Core',
@@ -86,6 +85,7 @@
 		'Rowan-DefinitionsV2',
 		'Rowan-GemStone-3215',
 		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-ComponentsV2',
 		'Rowan-GemStone-Core',
 		'Rowan-GemStone-Core-36x',
@@ -103,6 +103,9 @@
 		'Rowan-GemStone-Loader-Extensions-OnlyV2',
 		'Rowan-GemStone-LoaderV2',
 		'Rowan-GemStone-LoaderV2-36x',
+		'Rowan-GemStone-Specifications',
+		'Rowan-GemStone-Url',
+		'Rowan-GsBase-ComponentsV2',
 		'Rowan-Kernel',
 		'Rowan-Loader',
 		'Rowan-Obsolete',
