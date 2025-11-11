@@ -231,7 +231,7 @@ ifFalse: [
 	resolvedProject := loadSpec read.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self 
-				calculatePackageNamesFor: {	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' . 'common' . 'gemstoneBase' } 
+				calculatePackageNamesFor: {	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' . 'common' } 
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.

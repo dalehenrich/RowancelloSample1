@@ -48,6 +48,19 @@ RwSubclusterV2 >> addProjectsNamed: projectsNamed [
 ]
 
 { #category : 'accessing' }
+RwSubclusterV2 >> addProjectsNamed: projectsNamed condition: conditionExpression [
+	| ar |
+	ar := self conditionalProjectMap
+		at: conditionExpression
+		ifAbsentPut: [ Array new ].
+	projectsNamed
+		do:
+			[ :each | 
+			(ar includes: each)
+				ifFalse: [ ar add: each ] ]
+]
+
+{ #category : 'accessing' }
 RwSubclusterV2 >> comment [
 	^comment
 ]

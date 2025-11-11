@@ -36,7 +36,7 @@ RwProjectComponentClusterVisitor >> _conditionComponentName: aComponentName [
 	"replace `/` characters in aComponentName with `_` ... the componentName will be used as the name of a file and we don not want the directory structure currently used by components"
 	
 	"true ifTrue: [ ^aComponentName]."
-	^ aComponentName replaceAll: $/ with: $_
+	^ aComponentName copyReplaceAll: '/' with: '_'
 ]
 
 { #category : 'private' }
@@ -227,10 +227,12 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
 				ifTrue: [ 
-					"this is a shared component ... add the subcluster to the current cluster"
+					"this is a shared component ... add the subcluster to the current cluster, unless he is already a cluster" 
+					 (self topLevelComponentNames includes: component name)
+					ifFalse: [ 
 					resolvedProject
-						addSubclusterNamed: component name
-						toClusterNamed: self currentClusterStack last clusterName ]
+						addSubclusterNamed: (self _conditionComponentName: component name)
+						toClusterNamed: self currentClusterStack last clusterName ] ]
 				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
