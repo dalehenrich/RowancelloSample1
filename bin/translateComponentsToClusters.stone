@@ -87,7 +87,7 @@ method
 translateComponentsInProjectToClusters: resolvedProject
 	"translate the components in the resolvedProject into clusters and subclusters"
 self exportClusterStructuresFor: resolvedProject.
-self halt: 'when this guy is used, we need to traverse all of the "top-level" components ... so perhaps require at least one top-level component name?'
+self halt: 'when this guy is used, we need to traverse all of the "top-level" components ... so perhaps require at least one top-level component name?'.
 	resolvedProject _projectComponents do: [:component |
 		component populateClustersForProject: resolvedProject ].
 %

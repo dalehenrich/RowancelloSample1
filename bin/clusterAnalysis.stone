@@ -63,22 +63,22 @@ EXAMPLES
   $basename <script-arguments>               <topaz-arguments>
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            --projectName=RowancelloSample1
-            --loadSpecUrl=file:///bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan/specs/RowancelloSample1.ston \
-            /bosch1/users/dhenrich/_stones/git/RowancelloSample1/rowanSupport/rowan RowanExtensions -D
+            --projectName=RowanSample9V4_0024 \
+            file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0024.ston \
+            Core -D
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            --projectName=RowanSample9V4
+            --projectName=RowanSample9V4_0070 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
             Core -D
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            --projectName=RowanV3
+            --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             Rowan SharedTests Upgrade -D
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
-            --projectName=RowanV3
+            --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             Rowan SharedTests Upgrade --validate -D
   -----

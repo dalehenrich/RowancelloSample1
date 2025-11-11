@@ -1,23 +1,15 @@
 [
-	{
-		'RowanSample9V4-Tests' : {
-			'subclusters' : { },
-			'clusters' : {
-				'RowanSample9V4-Tests' : Set [
-					'tests_Tests'
-				]
-			}
-		},
-		'RowanSample9V4-Core' : {
-			'subclusters' : { },
-			'clusters' : {
-				'RowanSample9V4-Core' : Set [
-					'Core'
-				]
-			}
-		}
-	},
-	RwResolvedProjectClusters {
+	'dif A-C' : [
+		'RowanSample9V4-Core',
+		'RowanSample9V4-Tests'
+	],
+	'dif C-A' : [ ],
+	'actual' : [
+		'RowanSample9V4-Core',
+		'RowanSample9V4-Tests'
+	],
+	'calculated' : [ ],
+	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
 		#clusters : {
 			'Core' : RwCluster {
