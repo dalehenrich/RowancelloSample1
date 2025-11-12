@@ -1,11 +1,6 @@
 [
 	'dif A-C' : [ ],
-	'dif C-A' : [
-		'RowanSample9V4-Export-Pharo',
-		'RowanSample9V4-Export-VAST',
-		'RowanSample9V4-VAST-Application',
-		'RowanSample9V4-VAST-Test-Application'
-	],
+	'dif C-A' : [ ],
 	'actual' : [
 		'RowanSample9V4-Core',
 		'RowanSample9V4-Export-GemStone',
@@ -15,12 +10,8 @@
 	'calculated' : [
 		'RowanSample9V4-Core',
 		'RowanSample9V4-Export-GemStone',
-		'RowanSample9V4-Export-Pharo',
-		'RowanSample9V4-Export-VAST',
 		'RowanSample9V4-Extensions',
-		'RowanSample9V4-Tests',
-		'RowanSample9V4-VAST-Application',
-		'RowanSample9V4-VAST-Test-Application'
+		'RowanSample9V4-Tests'
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
