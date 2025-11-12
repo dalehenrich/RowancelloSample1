@@ -209,8 +209,6 @@ doit
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 
-	"note when reading from disk we have to make sure that ALL components are read from disk 
-		so we have to arrange to set all of the conditions to true - eventually need to set on command line?"
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
@@ -234,13 +232,16 @@ ifFalse: [
 						diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
 						componentNames: loadComponentNames ]
 				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
-	"all project components are read when the loadSpec is read"
 	resolvedProject := loadSpec read.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self 
-				calculatePackageNamesFor: { 'tests' . 'gemstone' . 'common' } "{	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' . 'common' }"
+				calculatePackageNamesFor: { 'tests' . 'gemstone' . 'common' }
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
 	^ { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }
 %
+
+
+RwAbstractUnloadedProject>>subcomponentsOf:attributes:ifNone:
+

@@ -66,7 +66,7 @@ RwCluster >> addProjectsNamed: projectsNamed [
 				ifFalse: [ projectNames add: each ] ]
 ]
 
-{ #category : 'exporting' }
+{ #category : 'accessing' }
 RwCluster >> addSubclusterNamed: aSubclusterName [
 	(subclusters includes: aSubclusterName)
 		ifFalse: [ subclusters add: aSubclusterName ]
@@ -118,6 +118,13 @@ RwCluster >> packageNames [
 { #category : 'accessing' }
 RwCluster >> projectNames [
 	^projectNames
+]
+
+{ #category : 'accessing' }
+RwCluster >> subclusterNamed: aSubclusterName [
+	^ subclusters
+		detect: [ :subcluster | subcluster name = aSubclusterName ]
+		ifNone: [ self error: 'No subcluster named: ' , aSubclusterName printString , ' found.' ]
 ]
 
 { #category : 'accessing' }
