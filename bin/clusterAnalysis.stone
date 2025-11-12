@@ -90,11 +90,6 @@ calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: pro
 	context := RwCAQContext new.
 	attributes do: [:attribute |
 		context set: attribute ].
-	context
-		set: 'gemstone';
-		set: 'gemstone.version'
-			to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
-		yourself.
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
@@ -213,7 +208,7 @@ analyzeClustersInProject: resolvedProject
 %
 doit
 
-	| resolvedProject loadSpec loadComponentNames x calculated actual projectClusters |
+	| resolvedProject loadSpec loadComponentNames x calculated actual projectClusters attributes |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -223,7 +218,7 @@ doit
 	loadComponentNames := self positionalArgs copyFrom: 2 to: self positionalArgs size.
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
-
+	attributes := { 'tests' . 'gemstone' . 'common' }.	"common attributes"
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
@@ -234,6 +229,7 @@ ifFalse: [
 	baseProjectName := 'RowanSample9V4'.
 	self projectName = 'RowanSample9V4_0070'
 		ifTrue: [
+			attributes := attributes, { 'attr1' }.
 			loadSpec 
 				projectAlias: baseProjectName;
 				diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
@@ -249,8 +245,8 @@ ifFalse: [
 				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
 	resolvedProject := loadSpec read.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
-	calculated := (self 
-				calculatePackageNamesFor: { 'tests' . 'gemstone' . 'common' }
+	calculated := (self
+				calculatePackageNamesFor: attributes
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
