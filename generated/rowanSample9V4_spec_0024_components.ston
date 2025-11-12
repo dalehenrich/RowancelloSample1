@@ -1,18 +1,27 @@
 [
-	'dif A-C' : [
-		'RowanSample9V4-Core',
-		'RowanSample9V4-Export-GemStone',
-		'RowanSample9V4-Extensions',
-		'RowanSample9V4-Tests'
+	'dif A-C' : [ ],
+	'dif C-A' : [
+		'RowanSample9V4-Export-Pharo',
+		'RowanSample9V4-Export-VAST',
+		'RowanSample9V4-VAST-Application',
+		'RowanSample9V4-VAST-Test-Application'
 	],
-	'dif C-A' : [ ],
 	'actual' : [
 		'RowanSample9V4-Core',
 		'RowanSample9V4-Export-GemStone',
 		'RowanSample9V4-Extensions',
 		'RowanSample9V4-Tests'
 	],
-	'calculated' : [ ],
+	'calculated' : [
+		'RowanSample9V4-Core',
+		'RowanSample9V4-Export-GemStone',
+		'RowanSample9V4-Export-Pharo',
+		'RowanSample9V4-Export-VAST',
+		'RowanSample9V4-Extensions',
+		'RowanSample9V4-Tests',
+		'RowanSample9V4-VAST-Application',
+		'RowanSample9V4-VAST-Test-Application'
+	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
 		#clusters : {
@@ -24,7 +33,11 @@
 				],
 				#projectNames : [ ],
 				#subclusters : [
-					'tests_Tests'
+					'platform_gemstone_Core',
+					'platform_pharo_Core',
+					'platform_vast_Core',
+					'tests_Tests',
+					'tests_platform_vast_Tests'
 				],
 				#comment : 'Top-level component for loading the application'
 			}
@@ -37,6 +50,39 @@
 				],
 				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
 				#condition : 'tests'
+			},
+			'platform_pharo_Core' : RwSubclusterV2 {
+				#subclusterName : 'platform_pharo_Core',
+				#packageNames : [
+					'RowanSample9V4-Export-Pharo'
+				],
+				#comment : 'Component for loading pharo-specific packages',
+				#condition : 'pharo'
+			},
+			'platform_vast_Core' : RwSubclusterV2 {
+				#subclusterName : 'platform_vast_Core',
+				#packageNames : [
+					'RowanSample9V4-Export-VAST',
+					'RowanSample9V4-VAST-Application'
+				],
+				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/STON is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image.\n\n\t\tThe package named RowanSample9-VAST-Application, which contains the Envy \n\t\tApplication class is also included in this component.',
+				#condition : 'vast'
+			},
+			'platform_gemstone_Core' : RwSubclusterV2 {
+				#subclusterName : 'platform_gemstone_Core',
+				#packageNames : [
+					'RowanSample9V4-Export-GemStone'
+				],
+				#comment : 'Component for loading gemstone-specific packages',
+				#condition : 'gemstone'
+			},
+			'tests_platform_vast_Tests' : RwSubclusterV2 {
+				#subclusterName : 'tests_platform_vast_Tests',
+				#packageNames : [
+					'RowanSample9V4-VAST-Test-Application'
+				],
+				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
+				#condition : 'tests & vast'
 			}
 		}
 	}

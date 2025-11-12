@@ -98,7 +98,21 @@ calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: pro
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
-		packageNames addAll: cluster packageNames. "top-level cluster unconditionally adds package and project names"
+false ifTrue: [
+		"original .... wrong way ... packages added conditionally -- missing RowanSample9V4-Export-GemStone in spec_0024 run"
+		cluster subclusters do: [:subclusterName |
+			| subcluster |
+			subcluster := projectClusters subclusterNamed: subclusterName.
+			ast := RwCAQParser new parse: subcluster condition.
+			evaluator := RwCAQEvaluator
+				context: context
+				ast: ast.
+			result := evaluator evaluate.
+ 		result ifTrue: [ 
+				packageNames addAll: subcluster packageNames ] ].
+] ifFalse: [ 
+	" ... traversal to subclusters is conditional .... probably need to traverse cluster/subcluster structure and build list of subclusters hit by evaluating conditions ... then collect package and project names"
+		packageNames addAll: cluster packageNames.
 		stack := Array new.
 		stack add: cluster subclusters.
 		index := 1.
@@ -113,9 +127,10 @@ calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: pro
           		context: context
             	ast: ast.
           	result := evaluator evaluate.
-          	result ifTrue: [
-          		packageNames addAll: subcluster packageNames ] ] ].
-				index := index + 1 ] ].
+          	result 
+							ifTrue: [
+								packageNames addAll: subcluster packageNames ] ] ].
+				index := index + 1 ] ] ].
 	^ packageNames sort
 %
 method
@@ -241,7 +256,3 @@ ifFalse: [
 	actual := resolvedProject packageNames asSet.
 	^ { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }
 %
-
-
-RwAbstractUnloadedProject>>subcomponentsOf:attributes:ifNone:
-
