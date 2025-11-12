@@ -95,20 +95,27 @@ calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: pro
 		set: 'gemstone.version'
 			to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
 		yourself.
-
 	clusterNames do: [:clusterName |
-		| cluster ast evaluator result |
+		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
-		cluster subclusters do: [:subclusterName |
-			| subcluster |
-			subcluster := projectClusters subclusterNamed: subclusterName.
-			ast := RwCAQParser new parse: subcluster condition.
-			evaluator := RwCAQEvaluator
-				context: context
-				ast: ast.
-			result := evaluator evaluate.
-			result ifTrue: [ 
-				packageNames addAll: subcluster packageNames ] ] ].
+		packageNames addAll: cluster packageNames. "top-level cluster unconditionally adds package and project names"
+		stack := Array new.
+		stack add: cluster subclusters.
+		index := 1.
+		[index > stack size] 
+			whileFalse: [
+				index to: stack size do: [:i | 
+					(stack at: i) do: [:subclusterName |
+						| subcluster |
+						subcluster := projectClusters subclusterNamed: subclusterName.
+          	ast := RwCAQParser new parse: subcluster condition.                           
+          	evaluator := RwCAQEvaluator
+          		context: context
+            	ast: ast.
+          	result := evaluator evaluate.
+          	result ifTrue: [
+          		packageNames addAll: subcluster packageNames ] ] ].
+				index := index + 1 ] ].
 	^ packageNames sort
 %
 method
@@ -231,7 +238,7 @@ ifFalse: [
 	resolvedProject := loadSpec read.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self 
-				calculatePackageNamesFor: {	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' . 'common' . 'gemstoneBase' } 
+				calculatePackageNamesFor: { 'tests' . 'gemstone' . 'common' } "{	'stubs' .  'tonel' .  'obsolete' . 'v2' . 'v2Only' . 'examples' . 'shared' . 'v3' . 'common' }"
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
