@@ -85,28 +85,21 @@ EXAMPLES
 %
 method
 calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: projectClusters
-	| packageNames context |
+	| packageNames context updatedAttributes |
 	packageNames := Set new.
 	context := RwCAQContext new.
-	attributes do: [:attribute |
+	(attributes includes: 'gemstone')
+		ifTrue: [
+			"add the current gemstone version attribute"
+			updatedAttributes := attributes asSet.
+			updatedAttributes add: Rowan platformConditionalAttributes.
+			updatedAttributes := updatedAttributes asArray ]
+		ifFalse: [ updatedAttributes := attributes ].
+	updatedAttributes do: [:attribute |
 		context set: attribute ].
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
-false ifTrue: [
-		"original .... wrong way ... packages added conditionally -- missing RowanSample9V4-Export-GemStone in spec_0024 run"
-		cluster subclusters do: [:subclusterName |
-			| subcluster |
-			subcluster := projectClusters subclusterNamed: subclusterName.
-			ast := RwCAQParser new parse: subcluster condition.
-			evaluator := RwCAQEvaluator
-				context: context
-				ast: ast.
-			result := evaluator evaluate.
- 		result ifTrue: [ 
-				packageNames addAll: subcluster packageNames ] ].
-] ifFalse: [ 
-	" ... traversal to subclusters is conditional .... probably need to traverse cluster/subcluster structure and build list of subclusters hit by evaluating conditions ... then collect package and project names"
 		packageNames addAll: cluster packageNames.
 		stack := Array new.
 		stack add: cluster subclusters.
@@ -125,7 +118,7 @@ false ifTrue: [
           	result 
 							ifTrue: [
 								packageNames addAll: subcluster packageNames ] ] ].
-				index := index + 1 ] ] ].
+				index := index + 1 ] ].
 	^ packageNames sort
 %
 method

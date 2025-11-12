@@ -288,7 +288,6 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
-					self halt: 'conditionalPakcageMapSpecs'.
 					false
 						ifTrue: [ 
 							| theSubcluster "skipping  this ... until basic structure is valid" |
