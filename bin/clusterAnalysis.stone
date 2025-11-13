@@ -215,7 +215,7 @@ doit
 	attributes := { 'v2' . 'tests' . 'gemstone' . 'common' }.	"common attributes"
 	loadSpec addCustomConditionalAttributes: attributes.
 	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
-true ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
+false ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
