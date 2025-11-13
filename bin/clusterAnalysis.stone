@@ -85,18 +85,19 @@ EXAMPLES
 %
 method
 calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: projectClusters
-	| packageNames context updatedAttributes |
+	| packageNames context |
 	packageNames := Set new.
 	context := RwCAQContext new.
-	(attributes includes: 'gemstone')
-		ifTrue: [
-			"add the current gemstone version attribute"
-			updatedAttributes := attributes asSet.
-			updatedAttributes add: Rowan platformConditionalAttributes.
-			updatedAttributes := updatedAttributes asArray ]
-		ifFalse: [ updatedAttributes := attributes ].
-	updatedAttributes do: [:attribute |
-		context set: attribute ].
+	attributes do: [:attribute |
+		attribute = 'gemstone'
+			ifTrue: [
+				"define additional gemstone system attributes ala Rowan>>platformConditionalAttributes"
+				context 
+					set: attribute;
+					set: 'gemstone-kernel';
+					set: 'gemstone.version' to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
+					yourself]
+			ifFalse: [ context set: attribute ]].
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
@@ -211,7 +212,10 @@ doit
 	loadComponentNames := self positionalArgs copyFrom: 2 to: self positionalArgs size.
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
-	attributes := { 'tests' . 'gemstone' . 'common' }.	"common attributes"
+	attributes := { 'v2' . 'tests' . 'gemstone' . 'common' }.	"common attributes"
+	loadSpec addCustomConditionalAttributes: attributes.
+	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
+true ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
@@ -223,6 +227,7 @@ ifFalse: [
 	self projectName = 'RowanSample9V4_0070'
 		ifTrue: [
 			attributes := attributes, { 'attr1' }.
+			loadSpec addCustomConditionalAttributes: { 'attr1' }.
 			loadSpec 
 				projectAlias: baseProjectName;
 				diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
