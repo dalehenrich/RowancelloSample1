@@ -138,7 +138,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 
 	| componentsToBeVisited accumulatedConditions createdCluster |
 	createdCluster := false.
-	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.  "conditionsArray includes the conditions for aComponent"
+	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.	"conditionsArray includes the conditions for aComponent"
 	(aComponent class == RwLoadComponent
 		or: [ 
 			aComponent class == RwSimpleProjectLoadComponentV2
@@ -153,11 +153,13 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	(self topLevelComponentNames includes: aComponent name)
 		ifTrue: [ 
 			| theCluster |
-			conditionsArray isEmpty
+			(conditionsArray isEmpty or: [ conditionsArray = {'common'} ])
 				ifFalse: [ 
 					"have to create an empty cluster and add a subcluster to hold the conditional packages and projects"
-					"self halt"
-					 ].
+					self
+						error:
+							'conditionsArray is not empty for ' , aComponent name
+								, '... top level component with a condition? NOT EXPECTED' ].
 			theCluster := (resolvedProject
 				addClusterNamed: (self _conditionComponentName: aComponent name)
 				comment: aComponent comment)
@@ -196,7 +198,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 			(aComponent packageNames isEmpty
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
 				ifFalse: [ 
-					| theSubcluster "create a subcluster for aComponent" conditions |
+					| theSubcluster conditions |
+					"create a subcluster for aComponent"
 					conditions := conditionsArray copy.
 					(conditions includes: aComponent condition)
 						ifFalse: [ 
@@ -211,6 +214,16 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 						toClusterNamed: self currentClusterStack last clusterName
 						condition: conditions
 						comment: 'subcluster generated from ' , aComponent name.
+"
+					self
+						halt:
+							'to activate or not activate (load component)... that is the question - '
+								, theSubcluster subclusterName , ' - '
+								, theSubcluster condition printString.
+"
+GsFile gciLogServer: ('to activate or not activate (load component)... that is the question - '
+								, theSubcluster subclusterName , ' - '
+								, theSubcluster condition printString).
 					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 	self _visited: aComponent.
 	componentsToBeVisited := aComponent componentNames
@@ -228,13 +241,28 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
 				ifTrue: [ 
-					"this is a shared component ... add the subcluster to the current cluster, unless he is already a cluster"
+					| subclusterName |
+					subclusterName := self _conditionComponentName: component name.
 					(self topLevelComponentNames includes: component name)
+						ifTrue: [ 
+							self
+								halt:
+									'to activate or not ... that is the question - TOP LEVEL ' , component name
+										, '(' , accumulatedConditions printString , ')' ]
 						ifFalse: [ 
+							"this is a shared component ... add the subcluster to the current cluster, unless he is already a cluster"
+"
+							self
+								halt:
+									'to activate or not ... that is the question - SHARED ' , component name , '('
+										, accumulatedConditions printString , ')'.
+"
+GsFile gciLogServer:  ('to activate or not ... that is the question - SHARED ' , component name , '('
+										, accumulatedConditions printString , ')').
 							resolvedProject
-								addSubclusterNamed: (self _conditionComponentName: component name)
+								addSubclusterNamed: subclusterName
 								toClusterNamed: self currentClusterStack last clusterName ] ]
-				ifFalse: [  component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
+				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
@@ -256,8 +284,8 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 	It seems that we'll need a way to easily determine whether or not we have reached a component with a comon conditional expression or not ... seems we want to hold a list of OR attributes and a list of AND attributes? 
 	It seems that this could get complicated"
 
-	| componentsToBeVisited accumulatedConditions |
-	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy. "conditionsArray includes the conditions for aComponent"
+	| componentsToBeVisited accumulatedConditions theSubcluster ast evaluator |
+	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.	"conditionsArray includes the conditions for aComponent"
 	(aComponent class == RwSimpleNestedProjectLoadComponentV2
 		or: [ 
 			aComponent class == RwPlatformNestedProjectLoadComponentV2
@@ -276,30 +304,49 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 
 	(aComponent packageNames isEmpty and: [ aComponent projectNames isEmpty ])
 		ifFalse: [ 
+			| conditions |
 			"Create a subcluster to record the packageNames and projectNames"
-			(resolvedProject
+			conditions := self _conditionConditionsArray: conditionsArray.
+			theSubcluster := (resolvedProject
 				addSubclusterNamed: (self _conditionComponentName: aComponent name)
 				toClusterNamed: self currentClusterStack last clusterName
-				condition: (self _conditionConditionsArray: conditionsArray)
+				condition: conditions
 				comment: aComponent comment)
 				addPackagesNamed: aComponent packageNames;
 				addProjectsNamed: aComponent projectNames;
 				yourself.
 
+			ast := RwCAQParser new parse: theSubcluster condition.
+			evaluator := RwCAQEvaluator
+				context: resolvedProject expressionContext
+				ast: ast.
+			evaluator evaluate
+				ifTrue: [ 
+					resolvedProject activateSubclusterNamed: theSubcluster subclusterName. ]
+				ifFalse: [ 
+GsFile gciLogServer:  ('no activation  - ' , theSubcluster subclusterName , ' - '
+								, theSubcluster condition printString).
+"
+					self
+						halt:
+							'no activation  - ' , theSubcluster subclusterName , ' - '
+								, theSubcluster condition printString 
+"].
+
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
 					false
 						ifTrue: [ 
-							| theSubcluster "skipping  this ... until basic structure is valid" |
+							| thatSubcluster "skipping  this ... until basic structure is valid" |
 							aComponent conditionalPackageMapSpecs
 								keysAndValuesDo: [ :condition :thePackageNames | 
-									theSubcluster := resolvedProject
+									thatSubcluster := resolvedProject
 										addSubclusterNamed:
 											(self _conditionComponentName: aComponent name) , '-condition'
 										toClusterNamed: self currentClusterStack last clusterName
 										condition: condition
 										comment: 'subcluster generated from ' , aComponent name.
-									theSubcluster addPackagesNamed: thePackageNames ] ] ] ].
+									thatSubcluster addPackagesNamed: thePackageNames ] ] ] ].
 	self _visited: aComponent.
 
 	componentsToBeVisited := aComponent componentNames

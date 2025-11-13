@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'projectName',
 		'clusters',
-		'subclusters'
+		'subclusters',
+		'expressionContext',
+		'activatedSubclusters'
 	],
 	#category : 'RowancelloSample1-RowanTools'
 }
@@ -12,6 +14,26 @@ Class {
 { #category : 'instance creation' }
 RwResolvedProjectClusters class >> new [
 	^ self basicNew initialize
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> activatedSubclusters [
+	"A  subcluster is activated if it has been referenced from a component whose conditions are true. There may be multiple component paths  
+		to a subcluster and only one path needs to evaluate true to activate the subcluster"
+
+	^ activatedSubclusters
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> activatedSubclusters: object [
+	activatedSubclusters := object
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> activateSubclusterNamed: aSubclusterName [
+	"add a existing instance of RwSubcluster to clusterName"
+
+	self activatedSubclusters add: (self subclusterNamed: aSubclusterName)
 ]
 
 { #category : 'accessing' }
@@ -162,10 +184,17 @@ RwResolvedProjectClusters >> export: clustersRoot [
 			clustersRoot / 'README' , 'md' writeStreamDo: [ :fileStream | fileStream truncate. ] ]
 ]
 
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> expressionContext [
+	^expressionContext
+]
+
 { #category : 'initialization' }
 RwResolvedProjectClusters >> initialize [
 	clusters := Dictionary new.
-	subclusters := Dictionary new
+	subclusters := Dictionary new.
+	activatedSubclusters := Set new.
+	expressionContext := RwCAQContext new
 ]
 
 { #category : 'accessing' }

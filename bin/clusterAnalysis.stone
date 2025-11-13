@@ -84,20 +84,10 @@ EXAMPLES
   -----
 %
 method
-calculatePackageNamesFor: attributes clusters: clusterNames projectClusters: projectClusters
+calculatePackageNamesFor: unused clusters: clusterNames projectClusters: projectClusters
 	| packageNames context |
+	context := projectClusters expressionContext.
 	packageNames := Set new.
-	context := RwCAQContext new.
-	attributes do: [:attribute |
-		attribute = 'gemstone'
-			ifTrue: [
-				"define additional gemstone system attributes ala Rowan>>platformConditionalAttributes"
-				context 
-					set: attribute;
-					set: 'gemstone-kernel';
-					set: 'gemstone.version' to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
-					yourself]
-			ifFalse: [ context set: attribute ]].
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator result stack index|
 		cluster := projectClusters clusterNamed: clusterName.
@@ -201,8 +191,7 @@ analyzeClustersInProject: resolvedProject
 	^ projectClusters
 %
 doit
-
-	| resolvedProject loadSpec loadComponentNames x calculated actual projectClusters attributes |
+	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -242,11 +231,29 @@ ifFalse: [
 						componentNames: loadComponentNames ]
 				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
 	resolvedProject := loadSpec read.
+	context :=  resolvedProject expressionContext.
+	attributes do: [:attribute |
+		attribute = 'gemstone'
+			ifTrue: [
+				"define additional gemstone system attributes ala Rowan>>platformConditionalAttributes"
+				context 
+					set: attribute;
+					set: 'gemstone-kernel';
+					set: 'gemstone.version' to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
+					yourself]
+			ifFalse: [ context set: attribute ]].
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self
-				calculatePackageNamesFor: attributes
+				calculatePackageNamesFor: 'unused'
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
-	^ { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }
+	res := { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
+	'/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' asFileReference writeStreamDo: [:writeStream |
+		writeStream truncate.
+		(STONWriter new on: writeStream)
+			prettyPrint: true;
+			referencePolicy: #ignore;
+			nextPut: res].
+		^ true
 %

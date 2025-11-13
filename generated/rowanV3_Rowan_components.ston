@@ -682,6 +682,266 @@
 				#comment : 'subcluster generated from common/v2/v2Only/Tools',
 				#condition : 'v2 & v2Only'
 			}
-		}
+		},
+		#expressionContext : RwCAQContext {
+			#variables : {
+				'v2' : true,
+				'common' : true,
+				'v3' : true,
+				'tonel' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ],
+				'gemstone' : true,
+				'stubs' : true,
+				'v2Only' : true,
+				'tests' : true,
+				'examples' : true,
+				'obsolete' : true,
+				'shared' : true
+			}
+		},
+		#activatedSubclusters : Set [
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone32-_Core',
+				#packageNames : [
+					'GemStone-Interactions-Core',
+					'GemStone-Interactions-Kernel',
+					'Rowan-GemStone-3215'
+				],
+				#comment : 'Core gs3.[2-]  packages ',
+				#condition : 'gs3.[2-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_obsolete_gemstone_Obsolete',
+				#packageNames : [
+					'Rowan-Obsolete-GemStone'
+				],
+				#comment : 'ObsoleteTools gemstone  packages ',
+				#condition : 'obsolete & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone36-_CoreUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Kernel-36x'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+				#condition : 'gs3.[6-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_AST',
+				#packageNames : [
+					'AST-Core',
+					'AST-Kernel-Core'
+				],
+				#comment : 'AST gemstone  packages ',
+				#condition : 'gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_platforms_gemstone_Loader',
+				#packageNames : [
+					'Rowan-GemStone-LoaderV2'
+				],
+				#comment : '',
+				#condition : 'v2 & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone37-_Definitions',
+				#packageNames : [
+					'Rowan-GemStone-Definitions-Extensions-37x'
+				],
+				#comment : 'Definitions gemstone packages 3.7.x',
+				#condition : 'gs3.[7-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone36-_Core',
+				#packageNames : [
+					'Rowan-GemStone-Core-36x'
+				],
+				#comment : 'Core gs3.[6-]  packages ',
+				#condition : 'gs3.[6-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_stubs_gemstone37-_Core',
+				#packageNames : [
+					'Rowan-GemStone-Kernel-Stubs-37x'
+				],
+				#comment : 'Stub packages for 3.7.x and beyond',
+				#condition : 'stubs & gs3.[7-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_platforms_gemstone_Core',
+				#packageNames : [
+					'Rowan-GemStone-CoreV2'
+				],
+				#comment : 'Core vw gemstone packages',
+				#condition : 'v2 & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_platforms_gemstone36-_Loader',
+				#packageNames : [
+					'Rowan-GemStone-LoaderV2-36x'
+				],
+				#comment : '',
+				#condition : 'v2 & gs3.[6-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_tests_platforms_gemstone36-_Tests',
+				#packageNames : [
+					'Rowan-Tests-GemStone-36x'
+				],
+				#comment : 'Tests gemstone 3.6 and beyond test packages',
+				#condition : 'tests & gs3.[6-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_v2Only_platforms_gemstone_Loader',
+				#packageNames : [
+					'Rowan-GemStone-Loader-Extensions-OnlyV2'
+				],
+				#comment : '',
+				#condition : 'v2 & v2Only & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_tests_platforms_gemstone_Tests',
+				#packageNames : [
+					'AST-Kernel-Tests-Core',
+					'AST-Tests-Core',
+					'Rowan-DataCurator-Tests',
+					'Rowan-Tests-GemStone'
+				],
+				#comment : 'Tests gemstone test packages',
+				#condition : 'tests & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone37-_Core',
+				#packageNames : [
+					'Rowan-GemStone-Core-37x'
+				],
+				#comment : 'Core gs3.[7-]  packages ',
+				#condition : 'gs3.[7-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_Tools',
+				#packageNames : [
+					'Rowan-Tools-Extensions-GemStone',
+					'Rowan-Tools-GemStone',
+					'Rowan-Tools-Kernel'
+				],
+				#comment : 'Tools gemstone  packages ',
+				#condition : 'gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_v2Only_platforms_gemstone_Definitions',
+				#packageNames : [
+					'Rowan-GemStone-Definitions-OnlyV2'
+				],
+				#comment : '',
+				#condition : 'v2 & v2Only & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_platforms_gemstone_Definitions',
+				#packageNames : [
+					'Rowan-GemStone-Definitions-ExtensionsV2',
+					'Rowan-GemStone-DefinitionsV2'
+				],
+				#comment : 'Definitions vw gemstone packages',
+				#condition : 'v2 & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_platforms_gemstone_Components',
+				#packageNames : [
+					'Rowan-GemStone-ComponentsV2'
+				],
+				#comment : 'Components gemstone packages',
+				#condition : 'v2 & gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone35-_Tools',
+				#packageNames : [
+					'Rowan-Tools-GemStone-35x'
+				],
+				#comment : 'Core gs3.[5-]  packages ',
+				#condition : 'gs3.[5-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone35-_Core',
+				#packageNames : [
+					'Rowan-GemStone-35x'
+				],
+				#comment : 'Core gs3.[5-]  packages ',
+				#condition : 'gs3.[5-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_CoreUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Kernel'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+				#condition : 'gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_Core',
+				#packageNames : [
+					'Rowan-GemStone-Core'
+				],
+				#comment : 'Core gemstone  packages ',
+				#condition : 'gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_v2_v2Only_platforms_gemstone36-_Loader',
+				#packageNames : [
+					'Rowan-GemStone-Kernel-Extensions-36x'
+				],
+				#comment : '',
+				#condition : 'v2 & v2Only & gs3.[6-]'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_Definitions',
+				#packageNames : [
+					'Rowan-Cypress-Definitions',
+					'Rowan-Cypress-Kernel',
+					'Rowan-GemStone-Definitions'
+				],
+				#comment : 'Definitions gemstone  packages ',
+				#condition : 'gemstone'
+			}
+		]
 	}
 ]
+LOG:
+to activate or not activate (load component)... that is the question - common_Components - 'common'
+**no activation  - common_platforms_gemstone_gemstoneBase_ComponentsUpgrade - 'gemstone & gemstoneBase'
+to activate or not activate (load component)... that is the question - common_tests_v2_Components - 'tests & v2'
+to activate or not activate (load component)... that is the question - common_tests_v2_v2Only_Components - 'tests & v2 & v2Only'
+to activate or not activate (load component)... that is the question - common_v2_Components - 'v2'
+**no activation  - common_v2_platforms_gemstoneBase_Components - 'v2 & gemstoneBase'
+to activate or not activate (load component)... that is the question - common_Core - 'common'
+**no activation  - common_platforms_gemstone_gemstoneBase_Core - 'gemstone & gemstoneBase'
+to activate or not activate (load component)... that is the question - common_tests_Core - 'tests'
+to activate or not activate (load component)... that is the question - common_tonel_Core - 'tonel'
+to activate or not activate (load component)... that is the question - common_v2_Core - 'v2'
+to activate or not activate (load component)... that is the question - common_v3_Core - 'v3'
+to activate or not activate (load component)... that is the question - common_Definitions - 'common'
+to activate or not activate (load component)... that is the question - common_v2_Definitions - 'v2'
+to activate or not activate (load component)... that is the question - common_obsolete_Obsolete - 'obsolete'
+to activate or not activate (load component)... that is the question - common_obsolete_ObsoleteReaderWriter - 'obsoleteReaderWriter'
+to activate or not activate (load component)... that is the question - common_Specifications - 'common'
+**no activation  - common_platforms_gemstone_gemstoneBase_Specifications - 'gemstone & gemstoneBase'
+to activate or not activate (load component)... that is the question - common_tests_v2_Specifications - 'tests & v2'
+to activate or not activate (load component)... that is the question - common_v2_Specifications - 'v2'
+to activate or not activate (load component)... that is the question - common_tests_Tests - 'tests'
+to activate or not activate (load component)... that is the question - common_tests_obsolete_Tests - 'tests & obsoleteReaderWriter'
+to activate or not activate (load component)... that is the question - common_tests_platforms_shared_Tests - 'tests & shared'
+to activate or not activate (load component)... that is the question - common_tests_v2_Tests - 'tests & v2'
+to activate or not activate (load component)... that is the question - common_tests_v3_Tests - 'tests & v3'
+to activate or not activate (load component)... that is the question - common_Tools - 'common'
+to activate or not activate (load component)... that is the question - common_examples_Tools - 'examples'
+to activate or not activate (load component)... that is the question - common_v2_Tools - 'v2'
+to activate or not activate (load component)... that is the question - common_v2_v2Only_Tools - 'v2 & v2Only'
+to activate or not ... that is the question - SHARED common/tests/platforms/shared/Tests(anArray( ))
+to activate or not ... that is the question - SHARED common/platforms/gemstone/CoreUpgrade(anArray( 'upgrade'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone35-/Core(anArray( 'upgrade'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone36-/CoreUpgrade(anArray( 'upgrade'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone_gemstoneBase/ComponentsUpgrade(anArray( 'upgrade'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone_gemstoneBase/Core(anArray( 'upgrade'))
+to activate or not ... that is the question - SHARED common/v2/v2Only/platforms/gemstone36-/Loader(anArray( 'upgrade'))
+
