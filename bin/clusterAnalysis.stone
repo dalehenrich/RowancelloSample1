@@ -106,7 +106,7 @@ calculatePackageNamesFor: unused clusters: clusterNames projectClusters: project
           		context: context
             	ast: ast.
           	result := evaluator evaluate.
-          	result 
+          	(result or: [(projectClusters subclusterNamed: subclusterName ifActivated: []) isEmpty not])
 							ifTrue: [
 								packageNames addAll: subcluster packageNames ] ] ].
 				index := index + 1 ] ].
@@ -248,6 +248,7 @@ ifFalse: [
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
+	projectClusters activatedSubclusters: (projectClusters activatedSubclusters sortWithBlock: [:a :b | a subclusterName < b subclusterName]).
 	res := { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
 	'/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.

@@ -247,6 +247,13 @@ RwResolvedProjectClusters >> subclusterNamed: aClusterName ifAbsent: absentBlock
 ]
 
 { #category : 'accessing' }
+RwResolvedProjectClusters >> subclusterNamed: aSubclusterName ifActivated: activatedBlock [
+	self activatedSubclusters
+		detect: [ :each | each subclusterName = aSubclusterName ]
+		ifNone: [ ^ Set new ]
+]
+
+{ #category : 'accessing' }
 RwResolvedProjectClusters >> subclusters [
 	^subclusters
 ]
