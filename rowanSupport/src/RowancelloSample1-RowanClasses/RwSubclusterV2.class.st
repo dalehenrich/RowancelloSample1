@@ -82,7 +82,8 @@ RwSubclusterV2 >> condition: anArray [
 	condition := String new.
 	1 to: anArray size do: [:index |
 		condition add: (anArray at: index).
-		index < anArray size ifTrue: [ condition add: ' & ' ] ].
+		index < anArray size ifTrue: [ condition add: ' | ' ] ].
+	GsFile gciLogServer: 'condition ', self subclusterName, ' - ', anArray printString. ' - ', condition .
 ]
 
 { #category : 'exporting' }
