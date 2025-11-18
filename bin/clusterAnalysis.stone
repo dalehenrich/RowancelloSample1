@@ -247,6 +247,7 @@ ifFalse: [
 					add: (System gemVersionReport at: 'gsVersion') ]
 			ifFalse: [ context set: attribute ] ].
 	theAttributes := theAttributes asSet asArray. 
+theAttributes remove: 'obsolete'.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
