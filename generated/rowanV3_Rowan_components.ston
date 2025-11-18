@@ -910,22 +910,22 @@ LOG:
 bosch:battery_g>bin/clusterAnalysis.stone --projectsHome=/bosch1/users/dhenrich/_stones/git/             --projectName=RowanV3             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston             Rowan SharedTests Upgrade --validate -D
 condition common_platforms_gemstone_AST - anArray( 'gemstone')
 activation  - common_platforms_gemstone_AST - 'gemstone' -  accumulatedCondition 'gemstone'
-condition common_Components - anArray( 'common', 'common')
-to activate or not activate (load component)... that is the question - common_Components - 'common | common'(anArray( 'common'))
+condition common_Components - anArray( )
+to activate or not activate (load component)... that is the question - common_Components - 'common'(anArray( 'common'))
 condition common_platforms_gemstone_gemstoneBase_ComponentsUpgrade - anArray( 'gemstone', 'gemstoneBase')
 no activation  - common_platforms_gemstone_gemstoneBase_ComponentsUpgrade - 'gemstone | gemstoneBase' -  accumulatedCondition 'gemstone & gemstoneBase'
-condition common_tests_v2_Components - anArray( 'common', 'v2')
-to activate or not activate (load component)... that is the question - common_tests_v2_Components - 'common | v2'(anArray( 'common'))
-condition common_tests_v2_v2Only_Components - anArray( 'common', 'v2Only')
-to activate or not activate (load component)... that is the question - common_tests_v2_v2Only_Components - 'common | v2Only'(anArray( 'common'))
-condition common_v2_Components - anArray( 'common', 'v2')
-to activate or not activate (load component)... that is the question - common_v2_Components - 'common | v2'(anArray( 'common'))
+condition common_tests_v2_Components - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_tests_v2_Components - 'v2'(anArray( 'common'))
+condition common_tests_v2_v2Only_Components - anArray( 'v2Only')
+to activate or not activate (load component)... that is the question - common_tests_v2_v2Only_Components - 'v2Only'(anArray( 'common'))
+condition common_v2_Components - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Components - 'v2'(anArray( 'common'))
 condition common_v2_platforms_gemstone_Components - anArray( 'gemstone')
 activation  - common_v2_platforms_gemstone_Components - 'gemstone' -  accumulatedCondition 'gemstone'
 condition common_v2_platforms_gemstoneBase_Components - anArray( 'gemstoneBase')
 no activation  - common_v2_platforms_gemstoneBase_Components - 'gemstoneBase' -  accumulatedCondition 'gemstoneBase'
-condition common_Core - anArray( 'common', 'common')
-to activate or not activate (load component)... that is the question - common_Core - 'common | common'(anArray( 'common'))
+condition common_Core - anArray( )
+to activate or not activate (load component)... that is the question - common_Core - 'common'(anArray( 'common'))
 condition common_platforms_gemstone_Core - anArray( 'gemstone')
 activation  - common_platforms_gemstone_Core - 'gemstone' -  accumulatedCondition 'gemstone'
 condition common_platforms_gemstone_CoreUpgrade - anArray( 'gemstone')
@@ -944,13 +944,82 @@ condition common_platforms_gemstone_gemstoneBase_Core - anArray( 'gemstone', 'ge
 no activation  - common_platforms_gemstone_gemstoneBase_Core - 'gemstone | gemstoneBase' -  accumulatedCondition 'gemstone & gemstoneBase'
 condition common_stubs_gemstone37-_Core - anArray( 'gs3.[7-]')
 activation  - common_stubs_gemstone37-_Core - 'gs3.[7-]' -  accumulatedCondition 'gs3.[7-]'
-condition common_tests_Core - anArray( 'common', 'tests')
-to activate or not activate (load component)... that is the question - common_tests_Core - 'common | tests'(anArray( 'common'))
-condition common_tonel_Core - anArray( 'common', 'tonel')
-to activate or not activate (load component)... that is the question - common_tonel_Core - 'common | tonel'(anArray( 'common'))
-condition common_v2_Core - anArray( 'common', 'v2')
-to activate or not activate (load component)... that is the question - common_v2_Core - 'common | v2'(anArray( 'common'))
+condition common_tests_Core - anArray( 'tests')
+to activate or not activate (load component)... that is the question - common_tests_Core - 'tests'(anArray( 'common'))
+condition common_tonel_Core - anArray( 'tonel')
+to activate or not activate (load component)... that is the question - common_tonel_Core - 'tonel'(anArray( 'common'))
+condition common_v2_Core - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Core - 'v2'(anArray( 'common'))
 condition common_v2_platforms_gemstone_Core - anArray( 'gemstone')
 activation  - common_v2_platforms_gemstone_Core - 'gemstone' -  accumulatedCondition 'gemstone'
-condition common_v3_Core - anArray( 'common', 'v3')
+condition common_v3_Core - anArray( 'v3')
+to activate or not activate (load component)... that is the question - common_v3_Core - 'v3'(anArray( 'common'))
+condition common_Definitions - anArray( )
+to activate or not activate (load component)... that is the question - common_Definitions - 'common'(anArray( 'common'))
+condition common_platforms_gemstone_Definitions - anArray( 'gemstone')
+activation  - common_platforms_gemstone_Definitions - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_platforms_gemstone37-_Definitions - anArray( 'gs3.[7-]')
+activation  - common_platforms_gemstone37-_Definitions - 'gs3.[7-]' -  accumulatedCondition 'gs3.[7-]'
+condition common_v2_Definitions - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Definitions - 'v2'(anArray( 'common'))
+condition common_v2_platforms_gemstone_Definitions - anArray( 'gemstone')
+activation  - common_v2_platforms_gemstone_Definitions - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v2_v2Only_platforms_gemstone_Definitions - anArray( 'gemstone')
+activation  - common_v2_v2Only_platforms_gemstone_Definitions - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v2_platforms_gemstone_Loader - anArray( 'gemstone')
+activation  - common_v2_platforms_gemstone_Loader - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v2_platforms_gemstone36-_Loader - anArray( 'gs3.[6-]')
+activation  - common_v2_platforms_gemstone36-_Loader - 'gs3.[6-]' -  accumulatedCondition 'gs3.[6-]'
+condition common_v2_v2Only_platforms_gemstone_Loader - anArray( 'gemstone')
+activation  - common_v2_v2Only_platforms_gemstone_Loader - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v2_v2Only_platforms_gemstone36-_Loader - anArray( 'gs3.[6-]')
+activation  - common_v2_v2Only_platforms_gemstone36-_Loader - 'gs3.[6-]' -  accumulatedCondition 'gs3.[6-]'
+condition common_obsolete_Obsolete - anArray( 'obsolete')
+to activate or not activate (load component)... that is the question - common_obsolete_Obsolete - 'obsolete'(anArray( 'common'))
+condition common_obsolete_gemstone_Obsolete - anArray( 'gemstone')
+activation  - common_obsolete_gemstone_Obsolete - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_obsolete_ObsoleteReaderWriter - anArray( 'obsoleteReaderWriter')
+to activate or not activate (load component)... that is the question - common_obsolete_ObsoleteReaderWriter - 'obsoleteReaderWriter'(anArray( 'common'))
+condition common_Specifications - anArray( )
+to activate or not activate (load component)... that is the question - common_Specifications - 'common'(anArray( 'common'))
+condition common_platforms_gemstone_gemstoneBase_Specifications - anArray( 'gemstone', 'gemstoneBase')
+no activation  - common_platforms_gemstone_gemstoneBase_Specifications - 'gemstone | gemstoneBase' -  accumulatedCondition 'gemstone & gemstoneBase'
+condition common_tests_v2_Specifications - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_tests_v2_Specifications - 'v2'(anArray( 'common'))
+condition common_v2_Specifications - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Specifications - 'v2'(anArray( 'common'))
+condition common_tests_Tests - anArray( 'tests')
+to activate or not activate (load component)... that is the question - common_tests_Tests - 'tests'(anArray( 'common'))
+condition common_tests_obsolete_Tests - anArray( 'obsoleteReaderWriter')
+to activate or not activate (load component)... that is the question - common_tests_obsolete_Tests - 'obsoleteReaderWriter'(anArray( 'common'))
+condition common_tests_platforms_gemstone36-_Tests - anArray( 'gs3.[6-]')
+activation  - common_tests_platforms_gemstone36-_Tests - 'gs3.[6-]' -  accumulatedCondition 'gs3.[6-]'
+condition common_tests_platforms_gemstone_Tests - anArray( 'gemstone')
+activation  - common_tests_platforms_gemstone_Tests - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_tests_platforms_shared_Tests - anArray( 'shared')
+to activate or not activate (load component)... that is the question - common_tests_platforms_shared_Tests - 'shared'(anArray( 'common'))
+condition common_tests_v2_Tests - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_tests_v2_Tests - 'v2'(anArray( 'common'))
+condition common_tests_v3_Tests - anArray( 'v3')
+to activate or not activate (load component)... that is the question - common_tests_v3_Tests - 'v3'(anArray( 'common'))
+condition common_Tools - anArray( )
+to activate or not activate (load component)... that is the question - common_Tools - 'common'(anArray( 'common'))
+condition common_examples_Tools - anArray( 'examples')
+to activate or not activate (load component)... that is the question - common_examples_Tools - 'examples'(anArray( 'common'))
+condition common_platforms_gemstone_Tools - anArray( 'gemstone')
+activation  - common_platforms_gemstone_Tools - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_platforms_gemstone35-_Tools - anArray( 'gs3.[5-]')
+activation  - common_platforms_gemstone35-_Tools - 'gs3.[5-]' -  accumulatedCondition 'gs3.[5-]'
+condition common_v2_Tools - anArray( 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Tools - 'v2'(anArray( 'common'))
+condition common_v2_v2Only_Tools - anArray( 'v2Only')
+to activate or not activate (load component)... that is the question - common_v2_v2Only_Tools - 'v2Only'(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/tests/platforms/shared/Tests(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone/CoreUpgrade(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone35-/Core(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone36-/CoreUpgrade(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone_gemstoneBase/ComponentsUpgrade(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/platforms/gemstone_gemstoneBase/Core(anArray( 'common'))
+to activate or not ... that is the question - SHARED common/v2/v2Only/platforms/gemstone36-/Loader(anArray( 'common'))
+true
 
