@@ -7,6 +7,7 @@ options
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 	SuperDoitOptionalOptionWithNoArg long: 'custom'.
 	SuperDoitOptionalOptionWithNoArg long: 'packageNames'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'resultsFile' .
 }
 %
 #
@@ -65,21 +66,25 @@ EXAMPLES
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0024 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0024.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0024_components.ston' \
             Core -D
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0070 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0070_components.ston' \
             Core -D
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' \
             Rowan SharedTests Upgrade -D
 
    $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' \
             Rowan SharedTests Upgrade --validate -D
   -----
 %
@@ -255,7 +260,7 @@ ifFalse: [
 	actual := resolvedProject packageNames asSet.
 	projectClusters activatedSubclusters: (projectClusters activatedSubclusters sortWithBlock: [:a :b | a subclusterName < b subclusterName]).
 	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
-	'/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' asFileReference writeStreamDo: [:writeStream |
+	self resultsFile asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.
 		(STONWriter new on: writeStream)
 			prettyPrint: true;

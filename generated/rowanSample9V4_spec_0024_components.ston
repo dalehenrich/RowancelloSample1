@@ -1,4 +1,13 @@
 [
+	'attributes' : [
+		'3.7.5',
+		'common',
+		'gemstone',
+		'gemstone-kernel',
+		'tests',
+		'testsV2',
+		'v2'
+	],
 	'dif A-C' : [ ],
 	'dif C-A' : [ ],
 	'actual' : [
@@ -75,6 +84,35 @@
 				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
 				#condition : 'tests & vast'
 			}
-		}
+		},
+		#expressionContext : RwCAQContext {
+			#variables : {
+				'v2' : true,
+				'testsV2' : true,
+				'common' : true,
+				'tests' : true,
+				'gemstone' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
+			}
+		},
+		#activatedSubclusters : [
+			RwSubclusterV2 {
+				#subclusterName : 'platform_gemstone_Core',
+				#packageNames : [
+					'RowanSample9V4-Export-GemStone'
+				],
+				#comment : 'Component for loading gemstone-specific packages',
+				#condition : 'gemstone'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Tests'
+				],
+				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
+				#condition : 'tests'
+			}
+		]
 	}
 ]

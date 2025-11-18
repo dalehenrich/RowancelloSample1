@@ -91,7 +91,7 @@ RwSubclusterV2 >> condition: anArray [
 			1 to: conds size do: [ :index | 
 				condition add: (conds at: index).
 				index < conds size
-					ifTrue: [ condition add: ' | ' ] ] ].
+					ifTrue: [ condition add: ' & ' ] ] ].
 	GsFile
 		gciLogServer: 'condition ' , self subclusterName , ' - ' , conds printString.
 	' - ' , condition

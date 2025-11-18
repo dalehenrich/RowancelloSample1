@@ -15,7 +15,11 @@
 		'v2Only',
 		'v3'
 	],
-	'dif A-C' : [ ],
+	'dif A-C' : [
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-Specifications',
+		'Rowan-GemStone-Url'
+	],
 	'dif C-A' : [ ],
 	'actual' : [
 		'AST-Core',
@@ -113,7 +117,6 @@
 		'Rowan-DefinitionsV2',
 		'Rowan-GemStone-3215',
 		'Rowan-GemStone-35x',
-		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-ComponentsV2',
 		'Rowan-GemStone-Core',
 		'Rowan-GemStone-Core-36x',
@@ -131,8 +134,6 @@
 		'Rowan-GemStone-Loader-Extensions-OnlyV2',
 		'Rowan-GemStone-LoaderV2',
 		'Rowan-GemStone-LoaderV2-36x',
-		'Rowan-GemStone-Specifications',
-		'Rowan-GemStone-Url',
 		'Rowan-Kernel',
 		'Rowan-Loader',
 		'Rowan-Obsolete',
@@ -380,7 +381,7 @@
 					'Rowan-GemStone-Components-Kernel'
 				],
 				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
-				#condition : 'gemstone | gemstoneBase'
+				#condition : 'gemstone & gemstoneBase'
 			},
 			'common_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_Components',
@@ -412,7 +413,7 @@
 					'Rowan-GemStone-Url'
 				],
 				#comment : 'Core gemstone or gemstoneBase packages',
-				#condition : 'gemstone | gemstoneBase'
+				#condition : 'gemstone & gemstoneBase'
 			},
 			'common_platforms_gemstone35-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone35-_Core',
@@ -579,7 +580,7 @@
 					'Rowan-GemStone-Specifications'
 				],
 				#comment : 'Specifications gemstone or gemstoneBase packages',
-				#condition : 'gemstone | gemstoneBase'
+				#condition : 'gemstone & gemstoneBase'
 			},
 			'common_tests_v2_Specifications' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Specifications',

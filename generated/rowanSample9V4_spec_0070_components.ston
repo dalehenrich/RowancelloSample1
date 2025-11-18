@@ -1,11 +1,20 @@
 [
-	'dif A-C' : [ ],
-	'dif C-A' : [
-		'RowanSample9V4-Core1',
-		'RowanSample9V4-Core1-Tests'
+	'attributes' : [
+		'3.7.5',
+		'attr1',
+		'common',
+		'gemstone',
+		'gemstone-kernel',
+		'tests',
+		'testsV2',
+		'v2'
 	],
+	'dif A-C' : [ ],
+	'dif C-A' : [ ],
 	'actual' : [
 		'RowanSample9V4-Core',
+		'RowanSample9V4-Core1',
+		'RowanSample9V4-Core1-Tests',
 		'RowanSample9V4-Tests'
 	],
 	'calculated' : [
@@ -74,6 +83,44 @@
 				#comment : '',
 				#condition : 'attr2 & tests'
 			}
-		}
+		},
+		#expressionContext : RwCAQContext {
+			#variables : {
+				'v2' : true,
+				'testsV2' : true,
+				'common' : true,
+				'tests' : true,
+				'gemstone' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ],
+				'attr1' : true
+			}
+		},
+		#activatedSubclusters : [
+			RwSubclusterV2 {
+				#subclusterName : 'attr1_Core',
+				#packageNames : [
+					'RowanSample9V4-Core1'
+				],
+				#comment : '',
+				#condition : 'attr1'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'attr1_tests_Core',
+				#packageNames : [
+					'RowanSample9V4-Core1-Tests'
+				],
+				#comment : '',
+				#condition : 'attr1 & tests'
+			},
+			RwSubclusterV2 {
+				#subclusterName : 'tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Tests'
+				],
+				#comment : 'Primary component used for loading the test classes.',
+				#condition : 'tests'
+			}
+		]
 	}
 ]
