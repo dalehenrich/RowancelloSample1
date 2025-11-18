@@ -77,13 +77,24 @@ RwSubclusterV2 >> condition [
 
 { #category : 'accessing' }
 RwSubclusterV2 >> condition: anArray [
+	| conds |
 	anArray _isArray
 		ifFalse: [ self error: 'The condition is constrained to be an array' ].
-	condition := String new.
-	1 to: anArray size do: [:index |
-		condition add: (anArray at: index).
-		index < anArray size ifTrue: [ condition add: ' | ' ] ].
-	GsFile gciLogServer: 'condition ', self subclusterName, ' - ', anArray printString. ' - ', condition .
+	conds := anArray copyWithout: 'common'.	"eliminate 'common' condition ... we're building an 'or' expression and 'common' is always true"
+	conds isEmpty
+		ifTrue: [ 
+			"always true"
+			condition := 'common' ]
+		ifFalse: [ 
+			"or together the various condtions ... "
+			condition := String new.
+			1 to: conds size do: [ :index | 
+				condition add: (conds at: index).
+				index < conds size
+					ifTrue: [ condition add: ' | ' ] ] ].
+	GsFile
+		gciLogServer: 'condition ' , self subclusterName , ' - ' , conds printString.
+	' - ' , condition
 ]
 
 { #category : 'exporting' }

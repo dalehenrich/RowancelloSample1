@@ -1,9 +1,6 @@
 [
 	'dif A-C' : [ ],
-	'dif C-A' : [
-		'Rowan-Obsolete-Core',
-		'Rowan-Obsolete-Tests'
-	],
+	'dif C-A' : [ ],
 	'actual' : [
 		'AST-Core',
 		'AST-Kernel-Core',
@@ -123,9 +120,7 @@
 		'Rowan-Kernel',
 		'Rowan-Loader',
 		'Rowan-Obsolete',
-		'Rowan-Obsolete-Core',
 		'Rowan-Obsolete-GemStone',
-		'Rowan-Obsolete-Tests',
 		'Rowan-Specifications',
 		'Rowan-SpecificationsV2',
 		'Rowan-Tests',
@@ -259,7 +254,7 @@
 					'Rowan-TestsV4'
 				],
 				#comment : 'subcluster generated from common/tests/v3/Tests',
-				#condition : 'common | v3'
+				#condition : 'v3'
 			},
 			'common_obsolete_gemstone_Obsolete' : RwSubclusterV2 {
 				#subclusterName : 'common_obsolete_gemstone_Obsolete',
@@ -283,7 +278,7 @@
 					'Rowan-Specifications'
 				],
 				#comment : 'subcluster generated from common/Specifications',
-				#condition : 'common | common'
+				#condition : 'common'
 			},
 			'common_tonel_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_tonel_Core',
@@ -291,7 +286,7 @@
 					'Rowan-Tonel-Core'
 				],
 				#comment : 'subcluster generated from common/tonel/Core',
-				#condition : 'common | tonel'
+				#condition : 'tonel'
 			},
 			'common_v2_Specifications' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_Specifications',
@@ -299,7 +294,7 @@
 					'Rowan-SpecificationsV2'
 				],
 				#comment : 'subcluster generated from common/v2/Specifications',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_platforms_gemstone_AST' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone_AST',
@@ -329,7 +324,7 @@
 					'Rowan-Url-Core'
 				],
 				#comment : 'subcluster generated from common/Core',
-				#condition : 'common | common'
+				#condition : 'common'
 			},
 			'common_platforms_gemstone36-_CoreUpgrade' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone36-_CoreUpgrade',
@@ -345,7 +340,7 @@
 					'Rowan-ComponentsV2'
 				],
 				#comment : 'subcluster generated from common/v2/Components',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_v2_v2Only_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_v2Only_platforms_gemstone_Definitions',
@@ -377,7 +372,7 @@
 					'Rowan-Components'
 				],
 				#comment : 'subcluster generated from common/Components',
-				#condition : 'common | common'
+				#condition : 'common'
 			},
 			'common_platforms_gemstone36-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone36-_Core',
@@ -417,7 +412,7 @@
 					'Rowan-Tests-Core'
 				],
 				#comment : 'subcluster generated from common/tests/Core',
-				#condition : 'common | tests'
+				#condition : 'tests'
 			},
 			'common_stubs_gemstone37-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_stubs_gemstone37-_Core',
@@ -433,7 +428,7 @@
 					'Rowan-CoreV2'
 				],
 				#comment : 'subcluster generated from common/v2/Core',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_tests_v2_v2Only_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_v2Only_Components',
@@ -441,7 +436,7 @@
 					'Rowan-Tests-ComponentsV2-OnlyV2'
 				],
 				#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
-				#condition : 'common | v2Only'
+				#condition : 'v2Only'
 			},
 			'common_v2_platforms_gemstone_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Core',
@@ -465,7 +460,7 @@
 					'Rowan-CoreV4'
 				],
 				#comment : 'subcluster generated from common/v3/Core',
-				#condition : 'common | v3'
+				#condition : 'v3'
 			},
 			'common_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone_Definitions',
@@ -483,7 +478,7 @@
 					'Rowan-Definitions'
 				],
 				#comment : 'subcluster generated from common/Definitions',
-				#condition : 'common | common'
+				#condition : 'common'
 			},
 			'common_v2_platforms_gemstone_Loader' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Loader',
@@ -501,7 +496,7 @@
 					'Rowan-DefinitionsV2'
 				],
 				#comment : 'subcluster generated from common/v2/Definitions',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_tests_v2_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Components',
@@ -509,7 +504,7 @@
 					'Rowan-Tests-ComponentsV2'
 				],
 				#comment : 'subcluster generated from common/tests/v2/Components',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_v2_platforms_gemstone_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstone_Definitions',
@@ -550,7 +545,7 @@
 					'Rowan-Obsolete-Core'
 				],
 				#comment : 'subcluster generated from common/obsolete/ObsoleteReaderWriter',
-				#condition : 'common | obsoleteReaderWriter'
+				#condition : 'obsoleteReaderWriter'
 			},
 			'common_platforms_gemstone32-_Core' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone32-_Core',
@@ -576,7 +571,7 @@
 					'Rowan-Tests-SpecificationsV2'
 				],
 				#comment : 'subcluster generated from common/tests/v2/Specifications',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_tests_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_Tests',
@@ -584,7 +579,7 @@
 					'Rowan-Tests'
 				],
 				#comment : 'subcluster generated from common/tests/Tests',
-				#condition : 'common | tests'
+				#condition : 'tests'
 			},
 			'common_v2_platforms_gemstoneBase_Components' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_platforms_gemstoneBase_Components',
@@ -619,7 +614,7 @@
 					'Rowan-Obsolete'
 				],
 				#comment : 'subcluster generated from common/obsolete/Obsolete',
-				#condition : 'common | obsolete'
+				#condition : 'obsolete'
 			},
 			'common_tests_platforms_shared_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_platforms_shared_Tests',
@@ -627,7 +622,7 @@
 					'Rowan-Tests-Shared-GemStone'
 				],
 				#comment : 'subcluster generated from common/tests/platforms/shared/Tests',
-				#condition : 'common | shared'
+				#condition : 'shared'
 			},
 			'common_tests_obsolete_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_obsolete_Tests',
@@ -635,7 +630,7 @@
 					'Rowan-Obsolete-Tests'
 				],
 				#comment : 'subcluster generated from common/tests/obsolete/Tests',
-				#condition : 'common | obsoleteReaderWriter'
+				#condition : 'obsoleteReaderWriter'
 			},
 			'common_tests_v2_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Tests',
@@ -643,7 +638,7 @@
 					'Rowan-TestsV2'
 				],
 				#comment : 'subcluster generated from common/tests/v2/Tests',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_examples_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_examples_Tools',
@@ -651,7 +646,7 @@
 					'Rowan-Tools-Examples'
 				],
 				#comment : 'subcluster generated from common/examples/Tools',
-				#condition : 'common | examples'
+				#condition : 'examples'
 			},
 			'common_platforms_gemstone35-_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone35-_Tools',
@@ -667,7 +662,7 @@
 					'Rowan-Tools-CoreV2'
 				],
 				#comment : 'subcluster generated from common/v2/Tools',
-				#condition : 'common | v2'
+				#condition : 'v2'
 			},
 			'common_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_Tools',
@@ -676,7 +671,7 @@
 					'Rowan-Tools-Core'
 				],
 				#comment : 'subcluster generated from common/Tools',
-				#condition : 'common | common'
+				#condition : 'common'
 			},
 			'common_v2_v2Only_Tools' : RwSubclusterV2 {
 				#subclusterName : 'common_v2_v2Only_Tools',
@@ -684,7 +679,7 @@
 					'Rowan-Tools-OnlyV2'
 				],
 				#comment : 'subcluster generated from common/v2/v2Only/Tools',
-				#condition : 'common | v2Only'
+				#condition : 'v2Only'
 			}
 		},
 		#expressionContext : RwCAQContext {
@@ -911,3 +906,51 @@
 		]
 	}
 ]
+LOG:
+bosch:battery_g>bin/clusterAnalysis.stone --projectsHome=/bosch1/users/dhenrich/_stones/git/             --projectName=RowanV3             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston             Rowan SharedTests Upgrade --validate -D
+condition common_platforms_gemstone_AST - anArray( 'gemstone')
+activation  - common_platforms_gemstone_AST - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_Components - anArray( 'common', 'common')
+to activate or not activate (load component)... that is the question - common_Components - 'common | common'(anArray( 'common'))
+condition common_platforms_gemstone_gemstoneBase_ComponentsUpgrade - anArray( 'gemstone', 'gemstoneBase')
+no activation  - common_platforms_gemstone_gemstoneBase_ComponentsUpgrade - 'gemstone | gemstoneBase' -  accumulatedCondition 'gemstone & gemstoneBase'
+condition common_tests_v2_Components - anArray( 'common', 'v2')
+to activate or not activate (load component)... that is the question - common_tests_v2_Components - 'common | v2'(anArray( 'common'))
+condition common_tests_v2_v2Only_Components - anArray( 'common', 'v2Only')
+to activate or not activate (load component)... that is the question - common_tests_v2_v2Only_Components - 'common | v2Only'(anArray( 'common'))
+condition common_v2_Components - anArray( 'common', 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Components - 'common | v2'(anArray( 'common'))
+condition common_v2_platforms_gemstone_Components - anArray( 'gemstone')
+activation  - common_v2_platforms_gemstone_Components - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v2_platforms_gemstoneBase_Components - anArray( 'gemstoneBase')
+no activation  - common_v2_platforms_gemstoneBase_Components - 'gemstoneBase' -  accumulatedCondition 'gemstoneBase'
+condition common_Core - anArray( 'common', 'common')
+to activate or not activate (load component)... that is the question - common_Core - 'common | common'(anArray( 'common'))
+condition common_platforms_gemstone_Core - anArray( 'gemstone')
+activation  - common_platforms_gemstone_Core - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_platforms_gemstone_CoreUpgrade - anArray( 'gemstone')
+activation  - common_platforms_gemstone_CoreUpgrade - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_platforms_gemstone32-_Core - anArray( 'gs3.[2-]')
+activation  - common_platforms_gemstone32-_Core - 'gs3.[2-]' -  accumulatedCondition 'gs3.[2-]'
+condition common_platforms_gemstone35-_Core - anArray( 'gs3.[5-]')
+activation  - common_platforms_gemstone35-_Core - 'gs3.[5-]' -  accumulatedCondition 'gs3.[5-]'
+condition common_platforms_gemstone36-_Core - anArray( 'gs3.[6-]')
+activation  - common_platforms_gemstone36-_Core - 'gs3.[6-]' -  accumulatedCondition 'gs3.[6-]'
+condition common_platforms_gemstone36-_CoreUpgrade - anArray( 'gs3.[6-]')
+activation  - common_platforms_gemstone36-_CoreUpgrade - 'gs3.[6-]' -  accumulatedCondition 'gs3.[6-]'
+condition common_platforms_gemstone37-_Core - anArray( 'gs3.[7-]')
+activation  - common_platforms_gemstone37-_Core - 'gs3.[7-]' -  accumulatedCondition 'gs3.[7-]'
+condition common_platforms_gemstone_gemstoneBase_Core - anArray( 'gemstone', 'gemstoneBase')
+no activation  - common_platforms_gemstone_gemstoneBase_Core - 'gemstone | gemstoneBase' -  accumulatedCondition 'gemstone & gemstoneBase'
+condition common_stubs_gemstone37-_Core - anArray( 'gs3.[7-]')
+activation  - common_stubs_gemstone37-_Core - 'gs3.[7-]' -  accumulatedCondition 'gs3.[7-]'
+condition common_tests_Core - anArray( 'common', 'tests')
+to activate or not activate (load component)... that is the question - common_tests_Core - 'common | tests'(anArray( 'common'))
+condition common_tonel_Core - anArray( 'common', 'tonel')
+to activate or not activate (load component)... that is the question - common_tonel_Core - 'common | tonel'(anArray( 'common'))
+condition common_v2_Core - anArray( 'common', 'v2')
+to activate or not activate (load component)... that is the question - common_v2_Core - 'common | v2'(anArray( 'common'))
+condition common_v2_platforms_gemstone_Core - anArray( 'gemstone')
+activation  - common_v2_platforms_gemstone_Core - 'gemstone' -  accumulatedCondition 'gemstone'
+condition common_v3_Core - anArray( 'common', 'v3')
+
