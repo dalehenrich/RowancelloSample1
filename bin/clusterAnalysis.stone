@@ -201,7 +201,7 @@ doit
 	loadComponentNames := self positionalArgs copyFrom: 2 to: self positionalArgs size.
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
-	attributes := { 'v2' . 'tests' . 'gemstone' . 'common' }.	"common attributes"
+	attributes := { 'v2' . 'tests' . 'testsV2' . 'gemstone' . 'common' }.	"common attributes"
 	loadSpec addCustomConditionalAttributes: attributes.
 	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
 false ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
@@ -247,7 +247,6 @@ ifFalse: [
 					add: (System gemVersionReport at: 'gsVersion') ]
 			ifFalse: [ context set: attribute ] ].
 	theAttributes := theAttributes asSet asArray. 
-theAttributes remove: 'obsolete'.
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'

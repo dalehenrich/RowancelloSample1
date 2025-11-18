@@ -5,9 +5,11 @@
 		'examples',
 		'gemstone',
 		'gemstone-kernel',
+		'obsolete',
 		'shared',
 		'stubs',
 		'tests',
+		'testsV2',
 		'tonel',
 		'v2',
 		'v2Only',
@@ -709,6 +711,7 @@
 				'v2Only' : true,
 				'tests' : true,
 				'examples' : true,
+				'testsV2' : true,
 				'obsolete' : true,
 				'shared' : true
 			}
