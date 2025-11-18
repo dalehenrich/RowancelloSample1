@@ -191,7 +191,7 @@ analyzeClustersInProject: resolvedProject
 	^ projectClusters
 %
 doit
-	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res |
+	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -232,6 +232,7 @@ ifFalse: [
 				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
 	resolvedProject := loadSpec read.
 	context :=  resolvedProject expressionContext.
+	theAttributes := attributes copy.
 	attributes do: [:attribute |
 		attribute = 'gemstone'
 			ifTrue: [
@@ -240,8 +241,12 @@ ifFalse: [
 					set: attribute;
 					set: 'gemstone-kernel';
 					set: 'gemstone.version' to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
-					yourself]
-			ifFalse: [ context set: attribute ]].
+					yourself.
+				theAttributes 
+					add: 'gemstone-kernel'; 
+					add: (System gemVersionReport at: 'gsVersion') ]
+			ifFalse: [ context set: attribute ] ].
+	theAttributes := theAttributes asSet asArray. 
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
@@ -249,7 +254,7 @@ ifFalse: [
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
 	projectClusters activatedSubclusters: (projectClusters activatedSubclusters sortWithBlock: [:a :b | a subclusterName < b subclusterName]).
-	res := { 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
+	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
 	'/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.
 		(STONWriter new on: writeStream)

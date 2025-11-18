@@ -1,4 +1,19 @@
 [
+	'attributes' : [
+		'3.7.5',
+		'common',
+		'examples',
+		'gemstone',
+		'gemstone-kernel',
+		'obsolete',
+		'shared',
+		'stubs',
+		'tests',
+		'tonel',
+		'v2',
+		'v2Only',
+		'v3'
+	],
 	'dif A-C' : [ ],
 	'dif C-A' : [ ],
 	'actual' : [
