@@ -9,7 +9,9 @@
 		'v2'
 	],
 	'dif A-C' : [ ],
-	'dif C-A' : [ ],
+	'dif C-A' : [
+		'RowanSample9V4-VAST-Test-Application'
+	],
 	'actual' : [
 		'RowanSample9V4-Core',
 		'RowanSample9V4-Export-GemStone',
@@ -20,7 +22,8 @@
 		'RowanSample9V4-Core',
 		'RowanSample9V4-Export-GemStone',
 		'RowanSample9V4-Extensions',
-		'RowanSample9V4-Tests'
+		'RowanSample9V4-Tests',
+		'RowanSample9V4-VAST-Test-Application'
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
@@ -82,7 +85,7 @@
 					'RowanSample9V4-VAST-Test-Application'
 				],
 				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
-				#condition : 'tests & vast'
+				#condition : 'tests | vast'
 			}
 		},
 		#expressionContext : RwCAQContext {
@@ -96,23 +99,22 @@
 				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
 			}
 		},
-		#activatedSubclusters : [
-			RwSubclusterV2 {
-				#subclusterName : 'platform_gemstone_Core',
-				#packageNames : [
-					'RowanSample9V4-Export-GemStone'
-				],
-				#comment : 'Component for loading gemstone-specific packages',
-				#condition : 'gemstone'
-			},
-			RwSubclusterV2 {
-				#subclusterName : 'tests_Tests',
-				#packageNames : [
-					'RowanSample9V4-Tests'
-				],
-				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
-				#condition : 'tests'
-			}
-		]
+		#activatedSubclusters : [ ]
 	}
 ]
+LOG:
+bosch:battery_g>bin/clusterAnalysis.stone --projectsHome=/bosch1/users/dhenrich/_stones/git/             --projectName=RowanSample9V4_0024             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0024.ston             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0024_components.ston'             Core -D
+3. (_conditionFromArray:) ''
+3. (_conditionFromArray:) 'gemstone'
+5. (condition:)  'gemstone' OR needed by RowanV3
+3. (_conditionFromArray:) 'pharo'
+5. (condition:)  'pharo' OR needed by RowanV3
+3. (_conditionFromArray:) 'vast'
+5. (condition:)  'vast' OR needed by RowanV3
+3. (_conditionFromArray:) 'tests'
+5. (condition:)  'tests' OR needed by RowanV3
+3. (_conditionFromArray:) 'tests'
+3. (_conditionFromArray:) 'tests & vast'
+5. (condition:)  'tests | vast' OR needed by RowanV3
+true
+

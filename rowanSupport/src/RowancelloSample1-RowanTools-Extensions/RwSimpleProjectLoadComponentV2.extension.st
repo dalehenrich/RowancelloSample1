@@ -13,6 +13,7 @@ RwSimpleProjectLoadComponentV2 >> clusterConditionExpression: conditions [
 		expression add: (conditions at: index).
 		expression add: ' & ' ].
 	expression add: self condition.
+GsFile gciLogServer: '4. ', name, ' (clusterConditionExpression:) ', expression printString.
 	^ expression
 ]
 

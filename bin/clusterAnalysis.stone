@@ -252,7 +252,7 @@ ifFalse: [
 					add: (System gemVersionReport at: 'gsVersion') ]
 			ifFalse: [ context set: attribute ] ].
 	theAttributes := theAttributes asSet asArray. 
-	projectClusters := resolvedProject projectDefinition clusterAnalysis.
+	projectClusters := resolvedProject projectDefinition halt clusterAnalysis.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
 				clusters: loadComponentNames 

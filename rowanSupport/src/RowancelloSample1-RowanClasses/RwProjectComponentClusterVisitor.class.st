@@ -61,6 +61,7 @@ RwProjectComponentClusterVisitor >> _conditionFromArray: anArray [
 		condition add: (anArray at: index).
 		index < anArray size
 			ifTrue: [ condition add: ' & ' ] ].
+GsFile gciLogServer: '3. (_conditionFromArray:) ', condition printString.
 	^ condition
 ]
 
@@ -234,10 +235,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 								, theSubcluster subclusterName , ' - '
 								, theSubcluster condition printString.
 "
-GsFile gciLogServer: ('to activate or not activate (load component)... that is the question - '
-								, theSubcluster subclusterName , ' - '
-								, theSubcluster condition printString), '('
-										, accumulatedConditions printString , ')'.
 					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 	self _visited: aComponent.
 	componentsToBeVisited := aComponent componentNames
@@ -271,12 +268,10 @@ GsFile gciLogServer: ('to activate or not activate (load component)... that is t
 									'to activate or not ... that is the question - SHARED ' , component name , '('
 										, accumulatedConditions printString , ')'.
 "
-GsFile gciLogServer:  ('to activate or not ... that is the question - SHARED ' , component name , '('
-										, accumulatedConditions printString , ')').
 							resolvedProject
 								addSubclusterNamed: subclusterName
 								toClusterNamed: self currentClusterStack last clusterName ] ]
-				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
+				ifFalse: [ component acceptClusterVisitor: self withAccumulatedConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
@@ -361,7 +356,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 					| theSubcluster conditions |
 					"create a subcluster for aComponent"
 					conditions := conditionsArray copy.
-					 conditions add: aComponent condition.
+					conditions add: aComponent condition.
 					(resolvedProject
 						subclusterNamed: (self _conditionComponentName: aComponent name)
 						ifAbsent: [  ])
@@ -370,18 +365,13 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 						addSubclusterNamed: (self _conditionComponentName: aComponent name)
 						toClusterNamed: self currentClusterStack last clusterName
 						condition: conditions
-						comment: 'subcluster generated from ' , aComponent name.
-"
+						comment: 'subcluster generated from ' , aComponent name.	"
 					self
 						halt:
 							'to activate or not activate (load component)... that is the question - '
 								, theSubcluster subclusterName , ' - '
 								, theSubcluster condition printString.
 "
-GsFile gciLogServer: ('to activate or not activate (load component)... that is the question - '
-								, theSubcluster subclusterName , ' - '
-								, theSubcluster condition printString), '('
-										, accumulatedConditions printString , ')'.
 					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 	self _visited: aComponent.
 	componentsToBeVisited := aComponent componentNames
@@ -409,18 +399,14 @@ GsFile gciLogServer: ('to activate or not activate (load component)... that is t
 										, '(' , accumulatedConditions printString , ')' ]
 						ifFalse: [ 
 							"this is a shared component ... add the subcluster to the current cluster, unless he is already a cluster"
-"
+							"
 							self
 								halt:
 									'to activate or not ... that is the question - SHARED ' , component name , '('
 										, accumulatedConditions printString , ')'.
 "
-GsFile gciLogServer:  ('to activate or not ... that is the question - SHARED ' , component name , '('
-										, accumulatedConditions printString , ')').
-							resolvedProject
-								addSubclusterNamed: subclusterName
-								toClusterNamed: self currentClusterStack last clusterName ] ]
-				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
+							 ] ]
+				ifFalse: [ component acceptClusterVisitor: self withAccumulatedConditions: accumulatedConditions ] ].
 
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
@@ -480,19 +466,15 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 				context: resolvedProject expressionContext
 				ast: ast.
 			evaluator evaluate
-				ifTrue: [ 
-GsFile gciLogServer:  ('activation  - ' , theSubcluster subclusterName , ' - '
-								, theSubcluster condition printString), ' -  accumulatedCondition ' , accumulatedCondition printString.
-					resolvedProject activateSubclusterNamed: theSubcluster subclusterName. ]
+				ifTrue: [  ]
 				ifFalse: [ 
-GsFile gciLogServer:  ('no activation  - ' , theSubcluster subclusterName , ' - '
-								, theSubcluster condition printString), ' -  accumulatedCondition ' , accumulatedCondition printString.
-"
+					"
 					self
 						halt:
 							'no activation  - ' , theSubcluster subclusterName , ' - '
 								, theSubcluster condition printString 
-"].
+"
+					 ].
 
 			aComponent conditionalPackageMapSpecs isEmpty
 				ifFalse: [ 
@@ -524,11 +506,8 @@ GsFile gciLogServer:  ('no activation  - ' , theSubcluster subclusterName , ' - 
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
-				ifFalse: [ component acceptClusterVisitor: self withConditions: accumulatedConditions ] ].
+				ifFalse: [ component acceptClusterVisitor: self withAccumulatedConditions: accumulatedConditions ] ].
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
-			self halt: 'handling required projects'.
-			projectSpec
-				acceptClusterVisitor: self
-				withConditions: {(self _conditionConditionsArray: aComponent condition)} ]
+			self halt: 'handling required projects'  ]
 ]
