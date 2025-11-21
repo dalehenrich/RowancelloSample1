@@ -22,14 +22,10 @@ RwSimpleNestedProjectLoadComponentV2 >> populateSubclustersForProject: aResolved
 
 	"create a subcluster to hold the condition, packageNames, and projectNames for the components in this project; ignore  conditionalPackageMapSpecs for now; pre and post load doits ..."
 
-	(self packageNames isEmpty not or: [ self projectNames isEmpty not ])
-		ifTrue: [  
-			GsFile gciLogServer: self class name, ' [3]  : ', self label, ' candidate'].
-			super
-				populateSubclustersForProject: aResolvedProject
-				conditions: conditions
-				clusterName: clusterName.
-"			
+	super
+		populateSubclustersForProject: aResolvedProject
+		conditions: conditions
+		clusterName: clusterName	"			
 	self populateClustersForProject: aResolvedProject
 "
 ]

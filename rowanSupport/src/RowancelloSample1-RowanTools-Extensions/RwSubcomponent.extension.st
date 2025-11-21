@@ -4,12 +4,30 @@ Extension { #name : 'RwSubcomponent' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor [
 	"single condition ... string"
 
-	| conditions |
-	conditions := {}.
+	| accumulatedConditionExpression conditions |
+	accumulatedConditionExpression := String new.
 	self condition ifNotNil: [ :c | 
-		(c isKindOf: CharacterCollection) ifFalse: [self halt].
-		conditions add: c ].
-	^ self acceptClusterVisitor: aVisitor withConditions: conditions
+		accumulatedConditionExpression add: c.
+		conditions := { c } ].
+	^ self
+		acceptClusterVisitor: aVisitor
+		withAccumulatedConditions: accumulatedConditionExpression
+		 conditions: conditions
+]
+
+{ #category : 'visiting' }
+RwSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
+	"if conditions is nil, no coditions"
+	"single condition ... string"
+	self halt.
+"
+	| conditions |
+	conditions := accumulatedConditions copy.
+	(conditions includes: self condition) ifFalse: [ conditions add: self condition ].
+	^ aVisitor
+		visitSubcomponent: self
+		withConditions: conditions
+"
 ]
 
 { #category : 'visiting' }
@@ -32,6 +50,7 @@ RwSubcomponent >> clusterConditionExpression: conditions [
 		expression add: (conditions at: index).
 		expression add: ' & ' ].
 	expression add: self condition.
+GsFile gciLogServer: '6.  (clusterConditionExpression:) ', condition printString.
 	^ expression
 ]
 

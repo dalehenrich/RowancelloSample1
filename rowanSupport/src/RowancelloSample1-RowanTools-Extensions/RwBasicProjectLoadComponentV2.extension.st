@@ -4,7 +4,21 @@ Extension { #name : 'RwBasicProjectLoadComponentV2' }
 RwBasicProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 	"no condition"
 
-	^ self acceptClusterVisitor: aVisitor withConditions: {}
+	^ self
+		acceptClusterVisitor: aVisitor
+		withAccumulatedConditions: 'common'
+		conditions: {'common'}
+]
+
+{ #category : 'visiting' }
+RwBasicProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
+	"if conditions is nil, no coditions"
+self halt.
+"
+	""no condition""
+
+	^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions
+"
 ]
 
 { #category : 'visiting' }

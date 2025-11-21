@@ -3,8 +3,20 @@ Extension { #name : 'RwLoadComponent' }
 { #category : 'visiting' }
 RwLoadComponent >> acceptClusterVisitor: aVisitor [
 	"no conditions"
+	^ self
+		acceptClusterVisitor: aVisitor
+		withAccumulatedConditions: 'common'
+		conditions: {'common'}
+]
 
-	^ self acceptClusterVisitor: aVisitor withConditions: {}
+{ #category : 'visiting' }
+RwLoadComponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
+	"if conditions is nil, no comditions"
+	"no conditions"
+	self halt: '???'.
+"
+	^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions
+"
 ]
 
 { #category : 'visiting' }

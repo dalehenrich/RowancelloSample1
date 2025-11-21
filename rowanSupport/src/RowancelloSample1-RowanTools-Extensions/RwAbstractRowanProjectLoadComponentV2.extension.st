@@ -4,29 +4,47 @@ Extension { #name : 'RwAbstractRowanProjectLoadComponentV2' }
 RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 	"single condition ... string"
 
-	| conditions |
+	| accumulatedConditionExpression conditions |
 	conditions := {}.
-	self condition ifNotNil: [ :c | conditions add: c ].
-	^ self acceptClusterVisitor: aVisitor withConditions: conditions
+	accumulatedConditionExpression := String new.
+	self condition ifNotNil: [ :c | 
+		accumulatedConditionExpression add: c.
+		conditions add: c].
+	^ self
+		acceptClusterVisitor: aVisitor
+		withAccumulatedConditions: accumulatedConditionExpression
+		 conditions: conditions
 ]
 
 { #category : 'visiting' }
-RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
+RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression [ 
 	"single condition ... string"
+	|  conditions newAccumulatedConditionExpression |
+	conditions := {}.
+	newAccumulatedConditionExpression := accumulatedConditionExpression copy.
+	self condition ifNotNil: [ :c | 
+		conditions add: c].
+	^ self
+		acceptClusterVisitor: aVisitor
+		withAccumulatedConditions: newAccumulatedConditionExpression
+		 conditions: conditions
+]
 
-	| conditions expression |
-	conditions := accumulatedConditions copy.
-	expression := conditions size > 1
-		ifTrue: [ '(' copy ]
+{ #category : 'visiting' }
+RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression conditions: conditions [
+	"single condition ... string"
+	| expression |
+	expression := accumulatedConditionExpression size > 1
+		ifTrue: [ '(' , accumulatedConditionExpression , ') & (' ]
 		ifFalse: [ String new ].
+
 	1 to: conditions size do: [ :index | 
 		expression add: (conditions at: index).
 		index < conditions size
-			ifTrue: [ expression add: ' & ' ] ].
+			ifTrue: [ expression add: ' | ' ] ].
 	conditions size > 1
 		ifTrue: [ expression add: ')' ].
-	^ aVisitor
-		visitLoadComponent: self
-		withConditions: conditions
-		andExpression: expression
+	accumulatedConditionExpression size > 1
+		ifTrue: [ expression add: ')' ].
+	^ aVisitor visitLoadComponent: self withAccumulatedConditions: expression
 ]
