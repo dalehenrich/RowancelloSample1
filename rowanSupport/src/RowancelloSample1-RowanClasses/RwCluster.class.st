@@ -34,7 +34,10 @@ RwCluster class >> updateConditionExpression: baseExpression conditions: conditi
 		ifTrue: [ ^ baseExpression ].
 	expression := baseExpression isEmpty
 		ifTrue: [ baseExpression copy ]
-		ifFalse: [ baseExpression , ' & ' ].
+		ifFalse: [ 
+			baseExpression = 'common'
+				ifTrue: [ String new ]
+				ifFalse: [ baseExpression , ' & ' ] ].
 	expressionConditions size > 1
 		ifTrue: [ expression := expression , ' (' ].
 	1 to: expressionConditions size - 1 do: [ :index | 

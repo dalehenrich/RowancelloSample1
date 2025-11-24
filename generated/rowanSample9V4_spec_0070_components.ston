@@ -49,7 +49,7 @@
 					'RowanSample9V4-Core2'
 				],
 				#comment : '',
-				#condition : '(common) & (attr2)'
+				#condition : 'attr2'
 			},
 			'attr1_tests_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr1_tests_Core',
@@ -57,7 +57,7 @@
 					'RowanSample9V4-Core1-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (attr1)) & (tests)'
+				#condition : 'attr1 & tests'
 			},
 			'tests_Tests' : RwSubclusterV2 {
 				#subclusterName : 'tests_Tests',
@@ -65,7 +65,7 @@
 					'RowanSample9V4-Tests'
 				],
 				#comment : 'Primary component used for loading the test classes.',
-				#condition : '(common) & (tests)'
+				#condition : 'tests'
 			},
 			'attr1_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr1_Core',
@@ -73,7 +73,7 @@
 					'RowanSample9V4-Core1'
 				],
 				#comment : '',
-				#condition : '(common) & (attr1)'
+				#condition : 'attr1'
 			},
 			'attr2_tests_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr2_tests_Core',
@@ -81,7 +81,7 @@
 					'RowanSample9V4-Core2-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (attr2)) & (tests)'
+				#condition : 'attr2 & tests'
 			}
 		},
 		#expressionContext : RwCAQContext {

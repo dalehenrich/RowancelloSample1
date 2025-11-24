@@ -73,7 +73,7 @@
 					'RowanSample9V4-Specs-V1-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (tests)) & (v1)'
+				#condition : 'tests & v1'
 			},
 			'common_tests__gemstone_glass_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_tests__gemstone_glass_Definitions',
@@ -81,7 +81,7 @@
 					'RowanSample9V4-Definitions-GemStone-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (tests)) & (gemstone | glass)'
+				#condition : 'tests &  (gemstone | glass)'
 			},
 			'common__pharo_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common__pharo_Definitions',
@@ -89,7 +89,7 @@
 					'RowanSample9V4-Definitions-Pharo'
 				],
 				#comment : '',
-				#condition : '(common) & (pharo)'
+				#condition : 'pharo'
 			},
 			'common_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common_Definitions',
@@ -113,7 +113,7 @@
 					'RowanSample9V4-Definitions-Pharo-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (tests)) & (pharo)'
+				#condition : 'tests & pharo'
 			},
 			'common__gemstone_glass_Definitions' : RwSubclusterV2 {
 				#subclusterName : 'common__gemstone_glass_Definitions',
@@ -121,7 +121,7 @@
 					'RowanSample9V4-Definitions-GemStone'
 				],
 				#comment : '',
-				#condition : '(common) & (gemstone | glass)'
+				#condition : ' (gemstone | glass)'
 			},
 			'common_tests_v2_Specs' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_v2_Specs',
@@ -129,7 +129,7 @@
 					'RowanSample9V4-Specs-V2-Tests'
 				],
 				#comment : '',
-				#condition : '((common) & (tests)) & (v2)'
+				#condition : 'tests & v2'
 			},
 			'common_v1_Specs' : RwSubclusterV2 {
 				#subclusterName : 'common_v1_Specs',
@@ -137,7 +137,7 @@
 					'RowanSample9V4-Specs-V1'
 				],
 				#comment : '',
-				#condition : '(common) & (v1)'
+				#condition : 'v1'
 			},
 			'common_tests_Tests' : RwSubclusterV2 {
 				#subclusterName : 'common_tests_Tests',
@@ -147,7 +147,7 @@
 					'RowanSample9V4-Tests'
 				],
 				#comment : '',
-				#condition : '(common) & (tests)'
+				#condition : 'tests'
 			},
 			'shared_Specs' : RwSubclusterV2 {
 				#subclusterName : 'shared_Specs',
@@ -155,7 +155,7 @@
 					'RowanSample9V4-Specs-Shared'
 				],
 				#comment : 'This component is intended for sharing common code and should not be loaded independently',
-				#condition : '(common) & (v1)'
+				#condition : 'v1'
 			},
 			'common_Specs' : RwSubclusterV2 {
 				#subclusterName : 'common_Specs',
@@ -171,7 +171,7 @@
 					'RowanSample9V4-Specs-V2'
 				],
 				#comment : '',
-				#condition : '(common) & (v2)'
+				#condition : 'v2'
 			}
 		},
 		#expressionContext : RwCAQContext {
