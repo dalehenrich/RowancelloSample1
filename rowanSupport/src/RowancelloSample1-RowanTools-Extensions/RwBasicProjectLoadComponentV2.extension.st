@@ -3,7 +3,7 @@ Extension { #name : 'RwBasicProjectLoadComponentV2' }
 { #category : 'visiting' }
 RwBasicProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 	"no condition"
-
+self halt: 'does not look correct'.
 	^ self
 		acceptClusterVisitor: aVisitor
 		withAccumulatedConditions: 'common'

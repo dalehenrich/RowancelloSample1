@@ -22,6 +22,19 @@ RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 ]
 
 { #category : 'visiting' }
+RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression [ 
+	"condition is an array"
+
+	| newAccumulatedConditionExpression |
+	newAccumulatedConditionExpression := RwCluster
+		updateConditionExpression: accumulatedConditionExpression copy
+		conditions: self condition.
+	^ aVisitor
+		visitSubcomponent: self
+		withAccumulatedConditions: newAccumulatedConditionExpression
+]
+
+{ #category : 'visiting' }
 RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression conditions: conditions [
 	"condition is an array"
 

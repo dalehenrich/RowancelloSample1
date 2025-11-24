@@ -152,7 +152,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 	expression and references. 
 	"
 
-	| componentsToBeVisited createdCluster conditionsArray  accumulatedConditions |
+	| componentsToBeVisited createdCluster  |
 	createdCluster := false.
 	(aComponent class == RwLoadComponent
 		or: [ 
@@ -206,13 +206,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 			(aComponent packageNames isEmpty
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])
 				ifFalse: [ 
-					| theSubcluster xConditions |
+					| theSubcluster |
 					"create a subcluster for aComponent"
-					self
-						halt:
-							'create subcluster for aComponent  to hold the package and project names ... manage accumulatedConditionExpression'.
-					xConditions := conditionsArray copy.
-					xConditions add: aComponent condition.
 					(resolvedProject
 						subclusterNamed: (self _conditionComponentName: aComponent name)
 						ifAbsent: [  ])
@@ -220,7 +215,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 					theSubcluster := resolvedProject
 						addSubclusterNamed: (self _conditionComponentName: aComponent name)
 						toClusterNamed: self currentClusterStack last clusterName
-						condition: xConditions
+						condition: accumulatedConditionExpression
 						comment: 'subcluster generated from ' , aComponent name.
 					theSubcluster addPackagesNamed: aComponent packageNames ] ].
 
@@ -239,22 +234,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
-				ifTrue: [ 
-					| subclusterName |
-					subclusterName := self _conditionComponentName: component name.
-					(self topLevelComponentNames includes: component name)
-						ifTrue: [ 
-							self
-								halt:
-									'to activate or not ... that is the question - TOP LEVEL ' , component name
-										, '(' ,  accumulatedConditions printString , ')' ]
-						ifFalse: [ 
-							"this is a shared component ... add the subcluster to the current cluster, unless he is already a cluster"
-							self
-								halt:
-									'to activate or not ... that is the question - SHARED ' , component name , '('
-										, accumulatedConditions printString , ')' ].
-					self halt: 'invalid clause methinks' ]
+				ifTrue: ["already processed ... nothing to see here ???"]
 				ifFalse: [ 
 					component
 						acceptClusterVisitor: self
