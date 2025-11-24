@@ -73,7 +73,7 @@ EXAMPLES
             --projectName=RowanSample9V4_0032 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0032.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0032_components.ston' \
-            Core -D
+            RowanSample9V4 -D
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0070 \
@@ -239,7 +239,14 @@ ifFalse: [
 						projectAlias: baseProjectName;
 						diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
 						componentNames: loadComponentNames ]
-				ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, or RowanSample9V4_0024' ] ] ].
+				ifFalse: [ 
+						self projectName = 'RowanSample9V4_0032'
+						ifTrue: [
+							loadSpec 
+								projectAlias: baseProjectName;
+								diskUrl: ('$ROWAN_PROJECTS_HOME' asFileReference / baseProjectName) pathString;
+								componentNames: loadComponentNames ]
+						ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, RowanSample9V4_0024, or  RowanSample9V4_0032' ] ] ] ].
 	resolvedProject := loadSpec read.
 	context :=  resolvedProject expressionContext.
 	theAttributes := attributes copy.

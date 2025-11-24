@@ -1,0 +1,190 @@
+[
+	'attributes' : [
+		'3.7.5',
+		'common',
+		'gemstone',
+		'gemstone-kernel',
+		'tests',
+		'testsV2',
+		'v1',
+		'v2'
+	],
+	'dif A-C' : [ ],
+	'dif C-A' : [ ],
+	'actual' : [
+		'RowanSample9V4-Core',
+		'RowanSample9V4-Definitions',
+		'RowanSample9V4-Definitions-GemStone',
+		'RowanSample9V4-Definitions-GemStone-Tests',
+		'RowanSample9V4-Definitions-Tests',
+		'RowanSample9V4-Specs',
+		'RowanSample9V4-Specs-Shared',
+		'RowanSample9V4-Specs-Tests',
+		'RowanSample9V4-Specs-V1',
+		'RowanSample9V4-Specs-V1-Tests',
+		'RowanSample9V4-Specs-V2',
+		'RowanSample9V4-Specs-V2-Tests',
+		'RowanSample9V4-Tests'
+	],
+	'calculated' : [
+		'RowanSample9V4-Core',
+		'RowanSample9V4-Definitions',
+		'RowanSample9V4-Definitions-GemStone',
+		'RowanSample9V4-Definitions-GemStone-Tests',
+		'RowanSample9V4-Definitions-Tests',
+		'RowanSample9V4-Specs',
+		'RowanSample9V4-Specs-Shared',
+		'RowanSample9V4-Specs-Tests',
+		'RowanSample9V4-Specs-V1',
+		'RowanSample9V4-Specs-V1-Tests',
+		'RowanSample9V4-Specs-V2',
+		'RowanSample9V4-Specs-V2-Tests',
+		'RowanSample9V4-Tests'
+	],
+	'projectClusters' : RwResolvedProjectClusters {
+		#projectName : 'RowanSample9V4',
+		#clusters : {
+			'RowanSample9V4' : RwCluster {
+				#clusterName : 'RowanSample9V4',
+				#packageNames : [ ],
+				#projectNames : [ ],
+				#subclusters : [
+					'common_Core',
+					'common_Definitions',
+					'common_tests__gemstone_glass_Definitions',
+					'common_tests__pharo_Definitions',
+					'common__gemstone_glass_Definitions',
+					'common__pharo_Definitions',
+					'common_tests_Tests',
+					'common_Specs',
+					'common_tests_v1_Specs',
+					'common_tests_v2_Specs',
+					'common_v1_Specs',
+					'shared_Specs',
+					'common_v2_Specs'
+				],
+				#comment : ''
+			}
+		},
+		#subclusters : {
+			'common_tests_v1_Specs' : RwSubclusterV2 {
+				#subclusterName : 'common_tests_v1_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs-V1-Tests'
+				],
+				#comment : '',
+				#condition : '(((common) & (common)) & (tests)) & (v1)'
+			},
+			'common_tests__gemstone_glass_Definitions' : RwSubclusterV2 {
+				#subclusterName : 'common_tests__gemstone_glass_Definitions',
+				#packageNames : [
+					'RowanSample9V4-Definitions-GemStone-Tests'
+				],
+				#comment : '',
+				#condition : '(((common) & (common)) & (tests)) & (gemstone | glass)'
+			},
+			'common__pharo_Definitions' : RwSubclusterV2 {
+				#subclusterName : 'common__pharo_Definitions',
+				#packageNames : [
+					'RowanSample9V4-Definitions-Pharo'
+				],
+				#comment : '',
+				#condition : '((common) & (common)) & (pharo)'
+			},
+			'common_Definitions' : RwSubclusterV2 {
+				#subclusterName : 'common_Definitions',
+				#packageNames : [
+					'RowanSample9V4-Definitions'
+				],
+				#comment : '',
+				#condition : '(common) & (common)'
+			},
+			'common_Core' : RwSubclusterV2 {
+				#subclusterName : 'common_Core',
+				#packageNames : [
+					'RowanSample9V4-Core'
+				],
+				#comment : '',
+				#condition : '(common) & (common)'
+			},
+			'common_tests__pharo_Definitions' : RwSubclusterV2 {
+				#subclusterName : 'common_tests__pharo_Definitions',
+				#packageNames : [
+					'RowanSample9V4-Definitions-Pharo-Tests'
+				],
+				#comment : '',
+				#condition : '(((common) & (common)) & (tests)) & (pharo)'
+			},
+			'common__gemstone_glass_Definitions' : RwSubclusterV2 {
+				#subclusterName : 'common__gemstone_glass_Definitions',
+				#packageNames : [
+					'RowanSample9V4-Definitions-GemStone'
+				],
+				#comment : '',
+				#condition : '((common) & (common)) & (gemstone | glass)'
+			},
+			'common_tests_v2_Specs' : RwSubclusterV2 {
+				#subclusterName : 'common_tests_v2_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs-V2-Tests'
+				],
+				#comment : '',
+				#condition : '(((common) & (common)) & (tests)) & (v2)'
+			},
+			'common_v1_Specs' : RwSubclusterV2 {
+				#subclusterName : 'common_v1_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs-V1'
+				],
+				#comment : '',
+				#condition : '((common) & (common)) & (v1)'
+			},
+			'common_tests_Tests' : RwSubclusterV2 {
+				#subclusterName : 'common_tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Definitions-Tests',
+					'RowanSample9V4-Specs-Tests',
+					'RowanSample9V4-Tests'
+				],
+				#comment : '',
+				#condition : '((common) & (common)) & (tests)'
+			},
+			'shared_Specs' : RwSubclusterV2 {
+				#subclusterName : 'shared_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs-Shared'
+				],
+				#comment : 'This component is intended for sharing common code and should not be loaded independently',
+				#condition : '(((common) & (common)) & (v1)) & (common)'
+			},
+			'common_Specs' : RwSubclusterV2 {
+				#subclusterName : 'common_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs'
+				],
+				#comment : '',
+				#condition : '(common) & (common)'
+			},
+			'common_v2_Specs' : RwSubclusterV2 {
+				#subclusterName : 'common_v2_Specs',
+				#packageNames : [
+					'RowanSample9V4-Specs-V2'
+				],
+				#comment : '',
+				#condition : '((common) & (common)) & (v2)'
+			}
+		},
+		#expressionContext : RwCAQContext {
+			#variables : {
+				'testsV2' : true,
+				'common' : true,
+				'v2' : true,
+				'v1' : true,
+				'tests' : true,
+				'gemstone' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
+			}
+		}
+	}
+]
