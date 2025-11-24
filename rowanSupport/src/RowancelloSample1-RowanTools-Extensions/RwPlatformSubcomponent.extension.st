@@ -5,6 +5,7 @@ RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor [
 	"condition is an array"
 
 	| accumulatedConditionExpression conditions |
+    self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	conditions := self conditions.
 	accumulatedConditionExpression := conditions size > 1
 		ifTrue: [ '(' copy ]
@@ -22,10 +23,23 @@ RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor [
 ]
 
 { #category : 'accessing' }
+RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression [
+	"condition is an array"
+
+	| newAccumulatedConditionExpression |
+	newAccumulatedConditionExpression := RwCluster
+		updateConditionExpression: accumulatedConditionExpression copy
+		conditions: (self condition ifNil: [ 'common' ] ifNotNil: [ :c | c ]).
+	^ aVisitor
+		visitSubcomponent: self
+		withAccumulatedConditions: newAccumulatedConditionExpression
+]
+
+{ #category : 'accessing' }
 RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
 	"if conditions is nil, no coditions"
 	"condition is an array"
-	self halt.
+    self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 "
 	| conditions |
 	conditions := accumulatedConditions copy.
@@ -42,6 +56,7 @@ RwPlatformSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumul
 	"condition is an array"
 
 	| conditions |
+    self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	conditions := accumulatedConditions copy.
 	self condition do: [:each |
 		(conditions includes: each) ifFalse: [ conditions add: each ]].

@@ -70,6 +70,12 @@ EXAMPLES
             Core -D
 
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanSample9V4_0032 \
+            file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0032.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0032_components.ston' \
+            Core -D
+
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0070 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0070_components.ston' \
@@ -94,7 +100,7 @@ calculatePackageNamesFor: unused clusters: clusterNames projectClusters: project
 	context := projectClusters expressionContext.
 	packageNames := Set new.
 	clusterNames do: [:clusterName |
-		| cluster ast evaluator result stack index|
+		| cluster ast evaluator stack index|
 		cluster := projectClusters clusterNamed: clusterName.
 		packageNames addAll: cluster packageNames.
 		stack := Array new.
@@ -110,8 +116,7 @@ calculatePackageNamesFor: unused clusters: clusterNames projectClusters: project
           	evaluator := RwCAQEvaluator
           		context: context
             	ast: ast.
-          	result := evaluator evaluate.
-          	(result or: [(projectClusters subclusterNamed: subclusterName ifActivated: []) isEmpty not])
+          	(evaluator evaluate)
 							ifTrue: [
 								packageNames addAll: subcluster packageNames ] ] ].
 				index := index + 1 ] ].
@@ -258,7 +263,6 @@ ifFalse: [
 				clusters: loadComponentNames 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
-	projectClusters activatedSubclusters: (projectClusters activatedSubclusters sortWithBlock: [:a :b | a subclusterName < b subclusterName]).
 	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
 	self resultsFile asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.

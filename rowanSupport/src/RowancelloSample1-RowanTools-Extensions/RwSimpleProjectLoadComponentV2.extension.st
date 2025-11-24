@@ -8,6 +8,7 @@ RwSimpleProjectLoadComponentV2 >> clusterCondition [
 { #category : 'extensions' }
 RwSimpleProjectLoadComponentV2 >> clusterConditionExpression: conditions [
 	| expression |
+	self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	expression := String new.
 	1 to: conditions size do: [ :index | 
 		expression add: (conditions at: index).

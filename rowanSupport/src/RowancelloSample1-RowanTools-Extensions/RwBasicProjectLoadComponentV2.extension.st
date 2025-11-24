@@ -13,12 +13,8 @@ RwBasicProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor [
 { #category : 'visiting' }
 RwBasicProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
 	"if conditions is nil, no coditions"
-self halt.
-"
-	""no condition""
-
-	^ aVisitor visitLoadComponent: self withConditions: accumulatedConditions
-"
+self halt: '1. conditions no longer needed?'.
+	^ aVisitor visitLoadComponent: self withAccumulatedConditions: accumulatedConditions
 ]
 
 { #category : 'visiting' }

@@ -16,10 +16,23 @@ RwSubcomponent >> acceptClusterVisitor: aVisitor [
 ]
 
 { #category : 'visiting' }
+RwSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression [
+	"single condition ... string"
+
+	| newAccumulatedConditionExpression |
+	newAccumulatedConditionExpression := RwCluster
+		updateConditionExpression: accumulatedConditionExpression copy
+		conditions: (self condition ifNil: [ {'common'} ] ifNotNil: [ :c | {c} ]).
+	^ aVisitor
+		visitSubcomponent: self
+		withAccumulatedConditions: newAccumulatedConditionExpression
+]
+
+{ #category : 'obsolete' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditions conditions: conditions [
 	"if conditions is nil, no coditions"
 	"single condition ... string"
-	self halt.
+	self halt: 'not handled yet'.
 "
 	| conditions |
 	conditions := accumulatedConditions copy.
@@ -30,11 +43,12 @@ RwSubcomponent >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accu
 "
 ]
 
-{ #category : 'visiting' }
+{ #category : 'obsolete' }
 RwSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedConditions [
 	"single condition ... string"
 
 	| conditions |
+	self halt: 'this guy should be obsolete - use acceptClusterVisitor:withAccumulatedConditions:'.
 	conditions := accumulatedConditions copy.
 	(conditions includes: self condition) ifFalse: [ conditions add: self condition ].
 	^ aVisitor
@@ -45,6 +59,7 @@ RwSubcomponent >> acceptClusterVisitor: aVisitor withConditions: accumulatedCond
 { #category : 'accessing' }
 RwSubcomponent >> clusterConditionExpression: conditions [
 	| expression |
+	self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	expression := String new.
 	1 to: conditions size do: [ :index | 
 		expression add: (conditions at: index).

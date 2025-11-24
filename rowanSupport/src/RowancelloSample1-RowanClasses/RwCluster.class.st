@@ -26,6 +26,24 @@ RwCluster class >> new [
 	^ self basicNew initialize
 ]
 
+{ #category : 'utilities' }
+RwCluster class >> updateConditionExpression: baseExpression conditions: conditions [
+	| expression |
+	conditions isEmpty
+		ifTrue: [ ^ baseExpression ].
+	expression := baseExpression isEmpty
+		ifTrue: [ baseExpression copy ]
+		ifFalse: [ '(' , baseExpression , ') & (' ].
+	1 to: conditions size - 1 do: [ :index | 
+		"The conditions in the reciever are ored together"
+		expression add: (conditions at: index).
+		expression add: ' | ' ].
+	expression add: conditions last.
+	baseExpression isEmpty
+		ifFalse: [ expression add: ')' ].
+	^ expression
+]
+
 { #category : 'exporting' }
 RwCluster >> _exportToUrl: directoryUrl [
 	| url |

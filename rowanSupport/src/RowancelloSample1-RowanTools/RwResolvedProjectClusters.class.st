@@ -5,8 +5,7 @@ Class {
 		'projectName',
 		'clusters',
 		'subclusters',
-		'expressionContext',
-		'activatedSubclusters'
+		'expressionContext'
 	],
 	#category : 'RowancelloSample1-RowanTools'
 }
@@ -14,26 +13,6 @@ Class {
 { #category : 'instance creation' }
 RwResolvedProjectClusters class >> new [
 	^ self basicNew initialize
-]
-
-{ #category : 'accessing' }
-RwResolvedProjectClusters >> activatedSubclusters [
-	"A  subcluster is activated if it has been referenced from a component whose conditions are true. There may be multiple component paths  
-		to a subcluster and only one path needs to evaluate true to activate the subcluster"
-
-	^ activatedSubclusters
-]
-
-{ #category : 'accessing' }
-RwResolvedProjectClusters >> activatedSubclusters: object [
-	activatedSubclusters := object
-]
-
-{ #category : 'accessing' }
-RwResolvedProjectClusters >> activateSubclusterNamed: aSubclusterName [
-	"add a existing instance of RwSubcluster to clusterName"
-
-	self activatedSubclusters add: (self subclusterNamed: aSubclusterName)
 ]
 
 { #category : 'accessing' }
@@ -193,7 +172,6 @@ RwResolvedProjectClusters >> expressionContext [
 RwResolvedProjectClusters >> initialize [
 	clusters := Dictionary new.
 	subclusters := Dictionary new.
-	activatedSubclusters := Set new.
 	expressionContext := RwCAQContext new
 ]
 
@@ -244,13 +222,6 @@ RwResolvedProjectClusters >> subclusterNamed: aClusterName [
 { #category : 'accessing' }
 RwResolvedProjectClusters >> subclusterNamed: aClusterName ifAbsent: absentBlock [
 	^ self subclusters at: aClusterName ifAbsent: absentBlock
-]
-
-{ #category : 'accessing' }
-RwResolvedProjectClusters >> subclusterNamed: aSubclusterName ifActivated: activatedBlock [
-	self activatedSubclusters
-		detect: [ :each | each subclusterName = aSubclusterName ]
-		ifNone: [ ^ Set new ]
 ]
 
 { #category : 'accessing' }

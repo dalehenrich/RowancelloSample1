@@ -21,9 +21,11 @@ RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccu
 	"single condition ... string"
 	|  conditions newAccumulatedConditionExpression |
 	conditions := {}.
-	newAccumulatedConditionExpression := accumulatedConditionExpression copy.
 	self condition ifNotNil: [ :c | 
 		conditions add: c].
+	newAccumulatedConditionExpression := RwCluster
+		updateConditionExpression: accumulatedConditionExpression copy
+		conditions: conditions.
 	^ self
 		acceptClusterVisitor: aVisitor
 		withAccumulatedConditions: newAccumulatedConditionExpression
@@ -34,6 +36,7 @@ RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccu
 RwAbstractRowanProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAccumulatedConditions: accumulatedConditionExpression conditions: conditions [
 	"single condition ... string"
 	| expression |
+	self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	expression := accumulatedConditionExpression size > 1
 		ifTrue: [ '(' , accumulatedConditionExpression , ') & (' ]
 		ifFalse: [ String new ].

@@ -56,6 +56,7 @@ RwProjectComponentClusterVisitor >> _conditionFromArray: anArray [
 	"anArray is the list of conditions accumulated from  the components on the path leading to the subcluster being created"
 
 	| condition |
+	self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	condition := String new.
 	1 to: anArray size do: [ :index | 
 		condition add: (anArray at: index).
@@ -258,7 +259,6 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 					component
 						acceptClusterVisitor: self
 						withAccumulatedConditions: accumulatedConditionExpression ] ].
-	self halt: 'did not stop in compnentsToBeVisited condition'.
 	(self _projects: self projectsPath forProject: aComponent projectName)
 		do: [ :projectSpec | 
 			self halt: 'so what have we here? Not sure what project spec has to do with it'.
@@ -267,7 +267,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 		ifTrue: [ self currentClusterStack removeLast ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'obsolete' }
 RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulatedConditions: accumulatedConditions withConditions: conditions [
 	"RwLoad component .
 	For each load component create a cluster andfollow the depth first chain of components reference by this
@@ -400,7 +400,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 		ifTrue: [ self currentClusterStack removeLast ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'obsolete' }
 RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withConditions: conditionsArray [
 	"RwLoad component .
 	For each load component create a cluster andfollow the depth first chain of components reference by this
@@ -410,6 +410,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withCondition
 	"
 
 	| componentsToBeVisited accumulatedConditions createdCluster |
+	self halt: 'no longer used ... see visitLoadComponent:withAccumulatedConditions:' .
 	createdCluster := false.
 	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.	"conditionsArray includes the conditions for aComponent"
 	(aComponent class == RwLoadComponent
@@ -546,6 +547,83 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent [
 ]
 
 { #category : 'visiting' }
+RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withAccumulatedConditions: accumulatedExpression [
+	"Following the chain of subcomponents....take note of the condition ... if the package names are not empty, then we need to snap off a subCluster to record the expression and the package names ... continue traversing accumluating the conditional expression until we hit the end of the chain ...
+	NOTE it is possible that we will find that a subcluster is reached from a different path (conditional expression) so we will need update the expression with an OR operatior.
+	It seems that we'll need a way to easily determine whether or not we have reached a component with a comon conditional expression or not ... seems we want to hold a list of OR attributes and a list of AND attributes? 
+	It seems that this could get complicated"
+
+	| componentsToBeVisited    theSubcluster ast evaluator |
+	(aComponent class == RwSimpleNestedProjectLoadComponentV2
+		or: [ 
+			aComponent class == RwPlatformNestedProjectLoadComponentV2
+				or: [ 
+					aComponent class == RwSimpleProjectLoadComponentV2
+						or: [ 
+							aComponent class = RwSubcomponent
+								or: [ aComponent class = RwPlatformSubcomponent ] ] ] ])
+		ifFalse: [ 
+			self
+				error:
+					'expected a RwPlatformNestedProjectLoadComponentV2 or RwSimpleProjectLoadComponentV2 or RwSubcomponent' ].
+	(visitedComponentNames includes: aComponent name)
+		ifTrue: [ ^ self ].
+	self componentNames add: aComponent name.	"make this guy happy"
+
+	(aComponent packageNames isEmpty and: [ aComponent projectNames isEmpty ])
+		ifFalse: [ 
+			"Create a subcluster to record the packageNames and projectNames"
+			theSubcluster := (resolvedProject
+				addSubclusterNamed: (self _conditionComponentName: aComponent name)
+				toClusterNamed: self currentClusterStack last clusterName
+				condition: accumulatedExpression
+				comment: aComponent comment)
+				addPackagesNamed: aComponent packageNames;
+				addProjectsNamed: aComponent projectNames;
+				yourself.
+
+			ast := RwCAQParser new parse: accumulatedExpression.
+			evaluator := RwCAQEvaluator
+				context: resolvedProject expressionContext
+				ast: ast.
+			evaluator evaluate. "make sure that we con't have syntax errors"
+			aComponent conditionalPackageMapSpecs isEmpty
+				ifFalse: [ 
+					false
+						ifTrue: [ 
+							| thatSubcluster "skipping  this ... until basic structure is valid" |
+							aComponent conditionalPackageMapSpecs
+								keysAndValuesDo: [ :condition :thePackageNames | 
+									thatSubcluster := resolvedProject
+										addSubclusterNamed:
+											(self _conditionComponentName: aComponent name) , '-condition'
+										toClusterNamed: self currentClusterStack last clusterName
+										condition: condition
+										comment: 'subcluster generated from ' , aComponent name.
+									thatSubcluster addPackagesNamed: thePackageNames ] ] ] ].
+	self _visited: aComponent.
+
+	componentsToBeVisited := aComponent componentNames
+		collect: [ :theComponentName | 
+			| theComponent |
+			theComponent := self readComponents
+				at: theComponentName
+				ifAbsentPut: [ 
+					(RwAbstractRowanProjectLoadComponentV2
+						fromComponentsDirectory: resolvedProject componentsRoot
+						named: theComponentName)
+						projectName: resolvedProject projectName;
+						yourself ] ].
+	componentsToBeVisited
+		do: [ :component | 
+			(visitedComponentNames includes: component name)
+				ifFalse: [ component acceptClusterVisitor: self withAccumulatedConditions:  accumulatedExpression ] ].
+	(self _projects: self projectsPath forProject: aComponent projectName)
+		do: [ :projectSpec | 
+			self halt: 'handling required projects'  ]
+]
+
+{ #category : 'obsolete' }
 RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withAccumulatedConditions: accumulatedExpression withConditions: conditionsArray [
 	"Following the chain of subcomponents....take note of the condition ... if the package names are not empty, then we need to snap off a subCluster to record the expression and the package names ... continue traversing accumluating the conditional expression until we hit the end of the chain ...
 	NOTE it is possible that we will find that a subcluster is reached from a different path (conditional expression) so we will need update the expression with an OR operatior.
@@ -553,6 +631,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withAccumulate
 	It seems that this could get complicated"
 
 	| componentsToBeVisited    theSubcluster ast evaluator |
+	self halt: 'no longer used ... see visitLoadComponent:withAccumulatedConditions:' .
 	(aComponent class == RwSimpleNestedProjectLoadComponentV2
 		or: [ 
 			aComponent class == RwPlatformNestedProjectLoadComponentV2
@@ -635,7 +714,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withAccumulate
 			self halt: 'handling required projects'  ]
 ]
 
-{ #category : 'visiting' }
+{ #category : 'obsolete' }
 RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions: conditionsArray [
 	"Following the chain of subcomponents....take note of the condition ... if the package names are not empty, then we need to snap off a subCluster to record the expression and the package names ... continue traversing accumluating the conditional expression until we hit the end of the chain ...
 	NOTE it is possible that we will find that a subcluster is reached from a different path (conditional expression) so we will need update the expression with an OR operatior.
@@ -643,6 +722,7 @@ RwProjectComponentClusterVisitor >> visitSubcomponent: aComponent withConditions
 	It seems that this could get complicated"
 
 	| componentsToBeVisited accumulatedConditions accumulatedCondition theSubcluster ast evaluator |
+	self halt: 'no longer used ... see visitLoadComponent:withAccumulatedConditions:' .
 	accumulatedConditions := self _conditionConditionsArray: conditionsArray copy.	"conditionsArray includes the conditions for aComponent"
 	accumulatedCondition := self _conditionFromArray: accumulatedConditions.
 	(aComponent class == RwSimpleNestedProjectLoadComponentV2

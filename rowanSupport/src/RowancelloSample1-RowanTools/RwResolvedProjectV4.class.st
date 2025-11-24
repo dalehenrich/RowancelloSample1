@@ -74,13 +74,6 @@ RwResolvedProjectV4 >> _projectSpecification [
 				yourself ]
 ]
 
-{ #category : 'clusters' }
-RwResolvedProjectV4 >> activateSubclusterNamed: aSubclusterName [
-	"add a existing instance of RwSubcluster to clusterName"
-
-	self _projectClusters activateSubclusterNamed: aSubclusterName
-]
-
 { #category : 'obsolete' }
 RwResolvedProjectV4 >> addClusterNamed: aClusterName comment: aString [
 	"add a new instance of RwCluster to the project clusters and add the clusterName

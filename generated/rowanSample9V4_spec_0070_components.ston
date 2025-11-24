@@ -49,7 +49,7 @@
 					'RowanSample9V4-Core2'
 				],
 				#comment : '',
-				#condition : 'attr2'
+				#condition : '(common) & (attr2)'
 			},
 			'attr1_tests_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr1_tests_Core',
@@ -57,7 +57,7 @@
 					'RowanSample9V4-Core1-Tests'
 				],
 				#comment : '',
-				#condition : 'attr1 & tests'
+				#condition : '((common) & (attr1)) & (tests)'
 			},
 			'tests_Tests' : RwSubclusterV2 {
 				#subclusterName : 'tests_Tests',
@@ -65,7 +65,7 @@
 					'RowanSample9V4-Tests'
 				],
 				#comment : 'Primary component used for loading the test classes.',
-				#condition : 'tests'
+				#condition : '(common) & (tests)'
 			},
 			'attr1_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr1_Core',
@@ -73,7 +73,7 @@
 					'RowanSample9V4-Core1'
 				],
 				#comment : '',
-				#condition : 'attr1'
+				#condition : '(common) & (attr1)'
 			},
 			'attr2_tests_Core' : RwSubclusterV2 {
 				#subclusterName : 'attr2_tests_Core',
@@ -81,7 +81,7 @@
 					'RowanSample9V4-Core2-Tests'
 				],
 				#comment : '',
-				#condition : 'attr2 & tests'
+				#condition : '((common) & (attr2)) & (tests)'
 			}
 		},
 		#expressionContext : RwCAQContext {
@@ -95,32 +95,6 @@
 				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ],
 				'attr1' : true
 			}
-		},
-		#activatedSubclusters : [
-			RwSubclusterV2 {
-				#subclusterName : 'attr1_Core',
-				#packageNames : [
-					'RowanSample9V4-Core1'
-				],
-				#comment : '',
-				#condition : 'attr1'
-			},
-			RwSubclusterV2 {
-				#subclusterName : 'attr1_tests_Core',
-				#packageNames : [
-					'RowanSample9V4-Core1-Tests'
-				],
-				#comment : '',
-				#condition : 'attr1 & tests'
-			},
-			RwSubclusterV2 {
-				#subclusterName : 'tests_Tests',
-				#packageNames : [
-					'RowanSample9V4-Tests'
-				],
-				#comment : 'Primary component used for loading the test classes.',
-				#condition : 'tests'
-			}
-		]
+		}
 	}
 ]

@@ -26,6 +26,7 @@ RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withAcc
 	"condition is an array"
 
 	| newAccumulatedConditionExpression |
+self halt: 'conditions no longer needed?'.
 	aVisitor currentClusterStack isEmpty
 		ifTrue: [ 
 			self halt: 'is the right thing to do?'.
@@ -58,6 +59,7 @@ RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor: aVisitor withCon
 { #category : 'accessing' }
 RwPlatformNestedProjectLoadComponentV2 >> clusterConditionExpression: conditions [
 	| expression |
+	self halt: 'Use RwCluster>>updateConditionExpression:conditions:'.
 	expression := '(' copy.
 	1 to: conditions size do: [ :index | 
 		"The incoming conditions are anded together"

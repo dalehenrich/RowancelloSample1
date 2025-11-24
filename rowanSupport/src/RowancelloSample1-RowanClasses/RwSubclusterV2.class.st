@@ -76,26 +76,10 @@ RwSubclusterV2 >> condition [
 ]
 
 { #category : 'accessing' }
-RwSubclusterV2 >> condition: anArray [
-	| conds |
-self halt.
-	anArray _isArray
-		ifFalse: [ self error: 'The condition is constrained to be an array' ].
-	conds := anArray copyWithout: 'common'.	"eliminate 'common' condition ... "
-	conds isEmpty
-		ifTrue: [ 
-			"always true"
-			condition := 'common' ]
-		ifFalse: [ 
-			"incoming conditions are anded together"
-			condition := String new.
-			1 to: conds size do: [ :index | 
-				condition add: (conds at: index).
-				index < conds size
-					ifTrue: [ condition add: ' | ' ] ] ].
-GsFile gciLogServer: '5. (condition:)  ', condition printString, ' OR needed by RowanV3'.
-condition = 'tests | vast' ifTrue: [self halt.].
-condition = 'gemstone | gemstoneBase' ifTrue: [ self halt ].
+RwSubclusterV2 >> condition: aString [
+	aString isString
+		ifFalse: [ self error: 'The condition is expected to be an expression string' ].
+	condition := aString
 ]
 
 { #category : 'exporting' }
