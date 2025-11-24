@@ -28,17 +28,18 @@ RwCluster class >> new [
 
 { #category : 'utilities' }
 RwCluster class >> updateConditionExpression: baseExpression conditions: conditions [
-	| expression |
-	conditions isEmpty
+	| expression expressionConditions |
+	expressionConditions := conditions copyWithout:  'common'.
+	expressionConditions isEmpty
 		ifTrue: [ ^ baseExpression ].
 	expression := baseExpression isEmpty
 		ifTrue: [ baseExpression copy ]
 		ifFalse: [ '(' , baseExpression , ') & (' ].
-	1 to: conditions size - 1 do: [ :index | 
+	1 to: expressionConditions size - 1 do: [ :index | 
 		"The conditions in the reciever are ored together"
-		expression add: (conditions at: index).
+		expression add: (expressionConditions at: index).
 		expression add: ' | ' ].
-	expression add: conditions last.
+	expression add: expressionConditions last.
 	baseExpression isEmpty
 		ifFalse: [ expression add: ')' ].
 	^ expression
