@@ -96,5 +96,7 @@
 				'attr1' : true
 			}
 		}
-	}
+	},
+	'COMMENT' : '0 conditions shared by  0 subclusters out of 5 . That leaves 5 singleton subclusters, for a total of 5 subclusters needed, instead of 5. If the conditions can be shared :).',
+	'duplicateConditions' : { }
 ]

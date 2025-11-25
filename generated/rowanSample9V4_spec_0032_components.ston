@@ -186,5 +186,17 @@
 				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
 			}
 		}
+	},
+	'COMMENT' : '2 conditions shared by  5 subclusters out of 13 . That leaves 8 singleton subclusters, for a total of 10 subclusters needed, instead of 13. If the conditions can be shared :).',
+	'duplicateConditions' : {
+		'v1' : [
+			'common_v1_Specs',
+			'shared_Specs'
+		],
+		'common' : [
+			'common_Core',
+			'common_Definitions',
+			'common_Specs'
+		]
 	}
 ]
