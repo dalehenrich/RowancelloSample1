@@ -707,5 +707,61 @@
 				'shared' : true
 			}
 		}
+	},
+	'COMMENT' : '10 conditions shared by  33 subclusters out of 53 . That leaves 20 singleton subclusters, for a total of 30 subclusters needed, instead of 53. If the conditions can be shared :).',
+	'duplicateConditions' : {
+		'gs3.[7-]' : [
+			'common_platforms_gemstone37-_Core',
+			'common_platforms_gemstone37-_Definitions'
+		],
+		'gs3.[6-]' : [
+			'common_platforms_gemstone36-_Core',
+			'common_platforms_gemstone36-_CoreUpgrade'
+		],
+		'v2 & gemstone' : [
+			'common_v2_platforms_gemstone_Components',
+			'common_v2_platforms_gemstone_Core',
+			'common_v2_platforms_gemstone_Definitions',
+			'common_v2_platforms_gemstone_Loader'
+		],
+		' (gemstone | gemstoneBase)' : [
+			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+			'common_platforms_gemstone_gemstoneBase_Core',
+			'common_platforms_gemstone_gemstoneBase_Specifications'
+		],
+		'gemstone' : [
+			'common_platforms_gemstone_AST',
+			'common_platforms_gemstone_Core',
+			'common_platforms_gemstone_CoreUpgrade',
+			'common_platforms_gemstone_Definitions',
+			'common_platforms_gemstone_Tools'
+		],
+		'tests' : [
+			'common_tests_Core',
+			'common_tests_Tests'
+		],
+		'v2' : [
+			'common_v2_Components',
+			'common_v2_Core',
+			'common_v2_Definitions',
+			'common_v2_Specifications',
+			'common_v2_Tools'
+		],
+		'gs3.[5-]' : [
+			'common_platforms_gemstone35-_Core',
+			'common_platforms_gemstone35-_Tools'
+		],
+		'common' : [
+			'common_Components',
+			'common_Core',
+			'common_Definitions',
+			'common_Specifications',
+			'common_Tools'
+		],
+		'tests & v2' : [
+			'common_tests_v2_Components',
+			'common_tests_v2_Specifications',
+			'common_tests_v2_Tests'
+		]
 	}
 ]

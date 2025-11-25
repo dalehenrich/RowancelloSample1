@@ -3,6 +3,7 @@ options
 {
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
+	SuperDoitOptionalOptionWithNoArg long: 'duplicateConditions'.
 	SuperDoitOptionalOptionWithNoArg long: 'validate'.
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 	SuperDoitOptionalOptionWithNoArg long: 'custom'.
@@ -200,6 +201,31 @@ analyzeClustersInProject: resolvedProject
 		ifTrue: [ ^ { self calculateStats: projectClusters against: resolvedProject . projectClusters } ].
 	^ projectClusters
 %
+method
+calculateDuplicateSubclusterConditions: subclusters reportOn: resultArray
+	| duplicateConditions collected total noDupe |
+	noDupe := total := 0.
+	duplicateConditions := Dictionary new.
+	subclusters values do: [:subcluster |
+		| theCondition duplicates |
+		duplicates := IdentitySet new.
+		duplicateConditions at: subcluster condition put:duplicates.
+		theCondition := subcluster condition.
+		duplicates addAll: (subclusters selectValues: [:sample | sample condition = theCondition ])].
+	collected := Dictionary new.
+	duplicateConditions 
+		keysAndValuesDo: [:condition :theSubclusters |
+			| names |
+			names := (theSubclusters collect: [:each | each subclusterName]) sort.
+			names size > 1 
+				ifTrue: [ 
+					collected at: condition put: names.
+					total := total + names size ]
+				ifFalse: [ noDupe := noDupe + 1 ] ].
+	resultArray 
+		add: ('COMMENT' -> (collected keys size printString, ' conditions shared by  ', total printString, ' subclusters out of ', subclusters size printString, ' . That leaves ', noDupe printString, ' singleton subclusters, for a total of ', (collected keys size + noDupe) printString, ' subclusters needed, instead of ', subclusters size printString, '. If the conditions can be shared :).'));
+		add: ('duplicateConditions' -> collected). 
+%
 doit
 	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
 	self projectsHome
@@ -271,6 +297,8 @@ ifFalse: [
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
 	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
+	self duplicateConditions 
+		ifTrue: [ self calculateDuplicateSubclusterConditions: projectClusters subclusters reportOn: res ].
 	self resultsFile asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.
 		(STONWriter new on: writeStream)
