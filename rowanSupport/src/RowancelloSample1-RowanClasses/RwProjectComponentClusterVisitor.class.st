@@ -146,7 +146,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent [
 ]
 
 { #category : 'visiting' }
-RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulatedConditions: accumulatedConditionExpression [ 
+RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulatedConditions: accumulatedConditionExpression [
 	"RwLoad component .
 	For each load component create a cluster andfollow the depth first chain of components reference by this
 	top level component, creating subcomponents, adding  conditions to the accumulatedConditionExpression for each component 
@@ -154,7 +154,7 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 	expression and references. 
 	"
 
-	| componentsToBeVisited createdCluster  |
+	| componentsToBeVisited createdCluster |
 	createdCluster := false.
 	(aComponent class == RwLoadComponent
 		or: [ 
@@ -236,7 +236,9 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 	componentsToBeVisited
 		do: [ :component | 
 			(visitedComponentNames includes: component name)
-				ifTrue: ["already processed ... nothing to see here ???"]
+				ifTrue: [ 
+					(resolvedProject clusterNamed: self currentClusterStack last clusterName)
+						addSubclusterNamed: (self _conditionComponentName: component name) ]
 				ifFalse: [ 
 					component
 						acceptClusterVisitor: self

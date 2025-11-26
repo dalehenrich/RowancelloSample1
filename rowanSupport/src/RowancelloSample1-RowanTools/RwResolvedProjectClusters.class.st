@@ -108,7 +108,9 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName condition: aCondition comment: aString [
 	| cluster subcluster |
-self halt: 'subcluster should not be added to the cluster ... the cluster needs to reference only top-level components - work in progress'.
+false ifTrue: [ 
+	self halt: 'subcluster should not be added to the cluster ... the cluster needs to reference only top-level components - work in progress'.
+].
 	(aClusterName includes: $/) ifTrue: [self halt:'cluster not renamed'].
 	(aSubclusterName includes: $/) ifTrue: [self halt:'subcluster not renamed'].
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
