@@ -8,6 +8,8 @@ options
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 	SuperDoitOptionalOptionWithNoArg long: 'custom'.
 	SuperDoitOptionalOptionWithNoArg long: 'packageNames'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'targetGemStoneVersion' default:'3.7.5'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'addedAttributes' .
 	SuperDoitRequiredOptionWithRequiredArg long: 'resultsFile' .
 }
 %
@@ -106,13 +108,17 @@ EXAMPLES
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_SharedTests_components.ston' \
             SharedTests --validate --duplicateConditions -D
 
-	# Rowan:masterV3.5 - Upgrade (--validate --duplicateConditions)
+	# Rowan:masterV3.5 - Upgrade (--validate --duplicateConditions --addedAttributes)
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Upgrade_components.ston' \
-            Upgrade --validate --duplicateConditions -D
-
+            Upgrade --validate --duplicateConditions --addedAttributes="upgrade" -D
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3 \
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Upgrade_365_components.ston' \
+            Upgrade --validate --duplicateConditions --addedAttributes="upgrade" --targetGemStoneVersion=3.6.5 -D
   -----
 %
 method
@@ -258,6 +264,10 @@ doit
 	
 	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
 	attributes := { 'v2' . 'tests' . 'testsV2' . 'gemstone' . 'common' }.	"common attributes"
+	self addedAttributes
+		ifNotNil: [:added |
+			(added subStringsDelimitedBy: Character space)
+				do: [ :addedAttribute | attributes add: addedAttribute]].
 	loadSpec addCustomConditionalAttributes: attributes.
 	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
 false ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
@@ -303,11 +313,11 @@ ifFalse: [
 				context 
 					set: attribute;
 					set: 'gemstone-kernel';
-					set: 'gemstone.version' to: ((System gemVersionReport at: 'gsVersion') asRwGemStoneVersionNumber);
+					set: 'gemstone.version' to: (self targetGemStoneVersion asRwGemStoneVersionNumber);
 					yourself.
 				theAttributes 
 					add: 'gemstone-kernel'; 
-					add: (System gemVersionReport at: 'gsVersion') ]
+					add: self targetGemStoneVersion ]
 			ifFalse: [ context set: attribute ] ].
 	theAttributes := theAttributes asSet asArray. 
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.

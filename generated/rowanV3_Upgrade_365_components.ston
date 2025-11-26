@@ -1,0 +1,136 @@
+[
+	'attributes' : [
+		'3.6.5',
+		'common',
+		'examples',
+		'gemstone',
+		'gemstone-kernel',
+		'obsolete',
+		'shared',
+		'stubs',
+		'tests',
+		'testsV2',
+		'tonel',
+		'upgrade',
+		'v2',
+		'v2Only',
+		'v3'
+	],
+	'dif A-C' : [ ],
+	'dif C-A' : [ ],
+	'actual' : [
+		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-Kernel',
+		'Rowan-GemStone-Kernel-36x',
+		'Rowan-GemStone-Kernel-Extensions-36x',
+		'Rowan-GemStone-Url'
+	],
+	'calculated' : [
+		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-Kernel',
+		'Rowan-GemStone-Kernel-36x',
+		'Rowan-GemStone-Kernel-Extensions-36x',
+		'Rowan-GemStone-Url'
+	],
+	'projectClusters' : RwResolvedProjectClusters {
+		#projectName : 'Rowan',
+		#clusters : {
+			'Upgrade' : RwCluster {
+				#clusterName : 'Upgrade',
+				#packageNames : [ ],
+				#projectNames : [ ],
+				#subclusters : [
+					'common_platforms_gemstone_CoreUpgrade',
+					'common_platforms_gemstone35-_Core',
+					'common_platforms_gemstone36-_CoreUpgrade',
+					'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+					'common_platforms_gemstone_gemstoneBase_Core',
+					'common_v2_v2Only_platforms_gemstone36-_Loader'
+				],
+				#comment : 'top-level component for generating Rowan upgrade .gs files ... required GemStone kernel class extensions'
+			}
+		},
+		#subclusters : {
+			'common_v2_v2Only_platforms_gemstone36-_Loader' : RwSubclusterV2 {
+				#subclusterName : 'common_v2_v2Only_platforms_gemstone36-_Loader',
+				#packageNames : [
+					'Rowan-GemStone-Kernel-Extensions-36x'
+				],
+				#comment : '',
+				#condition : 'upgrade & gs3.[6-]'
+			},
+			'common_platforms_gemstone_CoreUpgrade' : RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_CoreUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Kernel'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+				#condition : 'upgrade & gemstone'
+			},
+			'common_platforms_gemstone35-_Core' : RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone35-_Core',
+				#packageNames : [
+					'Rowan-GemStone-35x'
+				],
+				#comment : 'Core gs3.[5-]  packages ',
+				#condition : 'upgrade & gs3.[5-]'
+			},
+			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' : RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Components-Kernel'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+				#condition : 'upgrade &  (gemstone | gemstoneBase)'
+			},
+			'common_platforms_gemstone36-_CoreUpgrade' : RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone36-_CoreUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Kernel-36x'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+				#condition : 'upgrade & gs3.[6-]'
+			},
+			'common_platforms_gemstone_gemstoneBase_Core' : RwSubclusterV2 {
+				#subclusterName : 'common_platforms_gemstone_gemstoneBase_Core',
+				#packageNames : [
+					'Rowan-GemStone-Url'
+				],
+				#comment : 'Core gemstone or gemstoneBase packages',
+				#condition : 'upgrade &  (gemstone | gemstoneBase)'
+			}
+		},
+		#expressionContext : RwCAQContext {
+			#variables : {
+				'v2' : true,
+				'common' : true,
+				'v3' : true,
+				'tonel' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.6.5' ],
+				'gemstone' : true,
+				'upgrade' : true,
+				'stubs' : true,
+				'v2Only' : true,
+				'tests' : true,
+				'examples' : true,
+				'testsV2' : true,
+				'obsolete' : true,
+				'shared' : true
+			}
+		}
+	},
+	'COMMENT' : '2 conditions shared by  4 subclusters out of 6 . That leaves 2 singleton subclusters, for a total of 4 subclusters needed, instead of 6. If the conditions can be shared :).',
+	'duplicateConditions' : {
+		'upgrade & gs3.[6-]' : [
+			'common_platforms_gemstone36-_CoreUpgrade',
+			'common_v2_v2Only_platforms_gemstone36-_Loader'
+		],
+		'upgrade &  (gemstone | gemstoneBase)' : [
+			'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+			'common_platforms_gemstone_gemstoneBase_Core'
+		]
+	}
+]
