@@ -51,17 +51,17 @@
 				#subclusters : [
 					'common_Core',
 					'common_Definitions',
-					'common_tests__gemstone_glass_Definitions',
-					'common_tests__pharo_Definitions',
-					'common__gemstone_glass_Definitions',
-					'common__pharo_Definitions',
-					'common_tests_Tests',
 					'common_Specs',
+					'common_tests_Tests',
 					'common_tests_v1_Specs',
 					'common_tests_v2_Specs',
+					'common_tests__gemstone_glass_Definitions',
+					'common_tests__pharo_Definitions',
 					'common_v1_Specs',
-					'shared_Specs',
-					'common_v2_Specs'
+					'common_v2_Specs',
+					'common__gemstone_glass_Definitions',
+					'common__pharo_Definitions',
+					'shared_Specs'
 				],
 				#comment : ''
 			}

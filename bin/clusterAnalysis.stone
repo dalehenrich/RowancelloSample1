@@ -252,6 +252,13 @@ calculateDuplicateSubclusterConditions: subclusters reportOn: resultArray
 		add: ('COMMENT' -> (collected keys size printString, ' conditions shared by  ', total printString, ' subclusters out of ', subclusters size printString, ' . That leaves ', noDupe printString, ' singleton subclusters, for a total of ', (collected keys size + noDupe) printString, ' subclusters needed, instead of ', subclusters size printString, '. If the conditions can be shared :).'));
 		add: ('duplicateConditions' -> collected). 
 %
+method
+sortProjectClusterFields: projectClusters
+	"alphabetically sort all of the arrays in projectClusters"
+	 projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
+			cluster subclusters: cluster subclusters sort ].
+	
+%
 doit
 	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
 	self projectsHome
@@ -321,6 +328,7 @@ ifFalse: [
 			ifFalse: [ context set: attribute ] ].
 	theAttributes := theAttributes asSet asArray. 
 	projectClusters := resolvedProject projectDefinition clusterAnalysis.
+	self sortProjectClusterFields: projectClusters.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
 				clusters: loadComponentNames 

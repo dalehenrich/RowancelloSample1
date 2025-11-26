@@ -42,9 +42,9 @@
 				#packageNames : [ ],
 				#projectNames : [ ],
 				#subclusters : [
-					'common_platforms_gemstone_CoreUpgrade',
 					'common_platforms_gemstone35-_Core',
 					'common_platforms_gemstone36-_CoreUpgrade',
+					'common_platforms_gemstone_CoreUpgrade',
 					'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade',
 					'common_platforms_gemstone_gemstoneBase_Core',
 					'common_v2_v2Only_platforms_gemstone36-_Loader'

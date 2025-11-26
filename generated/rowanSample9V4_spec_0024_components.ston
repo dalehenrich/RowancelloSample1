@@ -36,8 +36,8 @@
 					'platform_gemstone_Core',
 					'platform_pharo_Core',
 					'platform_vast_Core',
-					'tests_Tests',
-					'tests_platform_vast_Tests'
+					'tests_platform_vast_Tests',
+					'tests_Tests'
 				],
 				#comment : 'Top-level component for loading the application'
 			}
