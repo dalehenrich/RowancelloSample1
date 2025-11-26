@@ -64,35 +64,55 @@ EXAMPLES
   $basename --debugGem <script-arguments>    <topaz-arguments>
   $basename <script-arguments>               <topaz-arguments>
 
+	# RowanSample9V4:spec_0024 - Core
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0024 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0024.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0024_components.ston' \
             Core -D
 
+	# RowanSample9V4:spec_0032 - RowanSample9V4
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0032 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0032.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0032_components.ston' \
             RowanSample9V4 -D
 
+	# RowanSample9V4:spec_0072 - Core
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0070 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0070_components.ston' \
             Core -D
 
-   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+	# Rowan:masterV3.5 - Rowan SharedTests Upgrade
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' \
             Rowan SharedTests Upgrade -D
 
-   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+	# Rowan:masterV3.5 - Rowan SharedTests Upgrade (--validate --duplicateConditions)
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' \
-            Rowan SharedTests Upgrade --validate -D
+            Rowan SharedTests Upgrade --validate --duplicateConditions -D
+
+	# Rowan:masterV3.5 - SharedTests (--validate --duplicateConditions)
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3 \
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_SharedTests_components.ston' \
+            SharedTests --validate --duplicateConditions -D
+
+	# Rowan:masterV3.5 - Upgrade (--validate --duplicateConditions)
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3 \
+            file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Upgrade_components.ston' \
+            Upgrade --validate --duplicateConditions -D
+
   -----
 %
 method
