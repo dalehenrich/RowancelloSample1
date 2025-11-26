@@ -1,0 +1,75 @@
+###
+bin/clusterAnalysis.stone --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+    --projectName=RowanV3                                                    \
+    file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \            
+    --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston' \          
+    Rowan SharedTests Upgrade \
+    -D \
+    --duplicateConditions
+###
+	The goal is to clearly identify the subclusters directly referenced by the top-level components (Rowan SharedTests Upgrade).
+  These top-level subclusters are the ones that are added to each of the clusters (Rowan SharedTests Upgrade).
+  The remaining subclusters are added to the project, but do not need to be associated with any specific cluster.
+###
+==> 1 Halt (AbstractException) >> _signalToDebugger @10 line 8
+2 Halt (AbstractException) >> defaultAction     @2 line 18
+3 Halt (AbstractException) >> _defaultAction    @4 line 4
+4 Halt (AbstractException) >> _signal           @2 line 20
+5 Halt (AbstractException) >> signal:           @3 line 7
+6 Halt class (AbstractException class) >> signal: @3 line 4
+7 RwResolvedProjectClusters (Object) >> halt:   @2 line 6
+8 RwResolvedProjectClusters >> addSubclusterNamed:toClusterNamed:condition:comment: @2 line 3
+9 RwResolvedProjectV4 >> addSubclusterNamed:toClusterNamed:condition:comment: @6 line 5
+10 RwProjectComponentClusterVisitor >> visitSubcomponent:withAccumulatedConditions: @37 line 28
+11 RwPlatformNestedProjectLoadComponentV2 >> acceptClusterVisitor:withAccumulatedConditions: @6 line 9
+12 [] in RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @137 line 94
+13 Array (Collection) >> do:                     @5 line 10
+14 RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @96 line 89
+15 RwSimpleNestedProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor:withAccumulatedConditions:conditions: @5 line 7
+16 RwSimpleNestedProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor:withAccumulatedConditions: @6 line 8
+17 [] in RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @137 line 94
+18 Array (Collection) >> do:                     @5 line 10
+19 RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @96 line 89
+20 RwSimpleNestedProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor:withAccumulatedConditions:conditions: @5 line 7
+21 RwSimpleNestedProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor:withAccumulatedConditions: @6 line 8
+22 [] in RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @137 line 94
+23 Array (Collection) >> do:                     @5 line 10
+24 RwProjectComponentClusterVisitor >> visitLoadComponent:withAccumulatedConditions: @96 line 89
+25 RwSimpleProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor:withAccumulatedConditions:conditions: @5 line 7
+26 RwSimpleProjectLoadComponentV2 (RwAbstractRowanProjectLoadComponentV2) >> acceptClusterVisitor: @9 line 11
+27 RwProjectComponentClusterVisitor >> visit:    @2 line 3
+28 [] in RwResolvedProjectComponentVisitorV2 >> _visitComponents: @36 line 30
+29 Array (Collection) >> do:                     @5 line 10
+30 RwProjectComponentClusterVisitor (RwResolvedProjectComponentVisitorV2) >> _visitComponents: @28 line 20
+31 RwProjectComponentClusterVisitor >> _visitTopLevelComponents: @3 line 5
+############################################################################################################################################################
+^^ this is the spot where I need start making an effort to record the subclusters for these 
+^^ top-level components in the cluster ... the rest will be stored as subclusters in the project
+############################################################################################################################################################
+32 RwProjectComponentClusterVisitor >> _readComponentsForProject:withComponentNames:customConditionalAttributes:platformConditionalAttributes: @5 line 5
+33 RwProjectComponentClusterVisitor (RwResolvedProjectComponentVisitorV2) >> _readComponentsForProject: @5 line 3
+34 RwProjectComponentClusterVisitor class (RwResolvedProjectComponentVisitorV2 class) >> readLoadSpecForProject: @3 line 4
+35 RwProjectComponentClusterVisitor class >> clusterAnalysisForProject: @2 line 3
+36 RwResolvedProjectV4 >> clusterAnalysis        @2 line 2
+37 Executed Code                                 @93 line 64
+38 GsNMethod >> _executeInContext:               @1 line 11
+39 String >> evaluateInContext:symbolList:       @3 line 10
+40 SuperDoitExecutionClass (SuperDoitExecutionMetadataClass) >> theDoit @4 line 80
+41 [] in SuperDoitExecution >> doit              @20 line 6
+42 ExecBlock0 (ExecBlock) >> on:do:              @3 line 44
+43 SuperDoitExecutionClass (SuperDoitExecution) >> doit @4 line 8
+44 SuperDoitDoitCommand >> executeAgainst:       @27 line 19
+45 SuperDoitDoitCommand >> executeAgainst:onErrorDo: @2 line 4
+46 [] in SuperDoitCommandDefinition >> executeAgainst:onErrorDo: @7 line 3
+47 OrderedCollection (Collection) >> do:         @5 line 10
+48 SuperDoitCommandDefinition >> executeAgainst:onErrorDo: @3 line 3
+49 [] in SuperDoitCommandParser >> parseAndExecuteScriptFile: @22 line 17
+50 ExecBlock0 (ExecBlock) >> ensure:             @2 line 12
+51 SuperDoitCommandParser >> parseAndExecuteScriptFile: @4 line 53
+52 SuperDoitCommandParser class >> processInputFile @29 line 21
+53 Executed Code                                 @2 line 6
+54 GsNMethod class >> _gsReturnToC               @1 line 11
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------

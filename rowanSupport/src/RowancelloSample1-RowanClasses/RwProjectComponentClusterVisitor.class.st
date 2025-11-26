@@ -72,13 +72,15 @@ RwProjectComponentClusterVisitor >> _readComponentsForProject: aResolvedProject 
 	resolvedProject := aResolvedProject.
 	platformConditionalAttributes := aPlatformConditionalAttributes.
 	customConditionalAttributes := aCustomConditionalAttributes.
-	^ self _visitComponents: componentNamesToRead
+	^ self _visitTopLevelComponents: componentNamesToRead
 ]
 
 { #category : 'private' }
-RwProjectComponentClusterVisitor >> _visitComponents: componentNamesToRead [
+RwProjectComponentClusterVisitor >> _visitTopLevelComponents: componentNamesToRead [
+	"visiting top-level components"
+
 	self topLevelComponentNames: componentNamesToRead.
-	^ super _visitComponents: componentNamesToRead
+	^ self _visitComponents: componentNamesToRead
 ]
 
 { #category : 'accessing' }
