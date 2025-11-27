@@ -39,7 +39,10 @@ RwCluster class >> updateConditionExpression: baseExpression conditions: conditi
 				ifTrue: [ String new ]
 				ifFalse: [ baseExpression , ' & ' ] ].
 	expressionConditions size > 1
-		ifTrue: [ expression := expression , ' (' ].
+		ifTrue: [ 
+			expression size > 1
+				ifTrue: [ expression := expression , ' (' ]
+				ifFalse: [ expression := expression , '(' ] ].
 	1 to: expressionConditions size - 1 do: [ :index | 
 		"The conditions in the reciever are ored together"
 		expression add: (expressionConditions at: index).
