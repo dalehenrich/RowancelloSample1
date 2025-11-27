@@ -1,0 +1,37 @@
+RwResolvedProjectClusters {
+	#clusters : {
+		'AST' : RwCluster {
+			#clusterName : 'AST',
+			#packageNames : [ ],
+			#projectNames : [ ],
+			#subclusters : [
+				'AST-Core',
+				'AST-Core-Tests'
+			],
+			#comment : 'Provide method format support for GemStone'
+		}
+	},
+	#subclusters : {
+		'AST-Core-Tests' : RwSubclusterV2 {
+			#subclusterName : 'AST-Core-Tests',
+			#packageNames : [
+				'AST-Kernel-Tests-Core',
+				'AST-Tests-Core'
+			],
+			#comment : 'AST tests',
+			#condition : 'tests & gemstone'
+		},
+		'AST-Core' : RwSubclusterV2 {
+			#subclusterName : 'AST-Core',
+			#packageNames : [
+				'AST-Core',
+				'AST-Kernel-Core'
+			],
+			#comment : 'AST core',
+			#condition : 'gemstone'
+		}
+	},
+	#expressionContext : RwCAQContext {
+		#variables : { }
+	}
+}
