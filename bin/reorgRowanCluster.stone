@@ -41,6 +41,19 @@ DESCRIPTION
   Take a generated cluster structure (rowanV3_Rowan_components.ston for example) produce a new
   cluster structure that represents the INTENT of the original component structure.
 
+	New cluster name/old subclusters (must account for all subclusters):
+		AST:
+			common_platforms_gemstone_AST
+			common_tests_platforms_gemstone_Tests
+		Stubs:
+			common_stubs_gemstone37-_Core
+		Obsolete and targetted to not be in standard V4 image:
+			common_obsolete_gemstone_Obsolete
+		Obsolete and not loaded into a standard V3 image (kept around for historical reasons):
+			common_obsolete_ObsoleteReaderWriter
+			common_tests_obsolete_Tests
+	"
+
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
                              may be skipped if the script is run in a GsDevKit_home
@@ -68,6 +81,23 @@ EXAMPLES
 instvars
 proposedProjectClusters
 projectClusters
+rowanV35Slice
+%
+method
+defineSlices
+	"Slices are the top-level, loadable objects. A slice is defined as a list of clusters. This method will define the slices
+		and as clusters are created they will be added to the appropriate slice."
+
+	proposedProjectClusters
+		addSliceNamed: 'RowanV2' 
+			comment: 'The RowanV2 slice is intended to include only RowanV2 support code, corresponding to v2 condition. Sufficient to support V2 metadata';
+		addSliceNamed: 'RowanV3' 
+			comment: 'The RowanV3 slice is intended to include only RowanV3 support code, corresponding to v3 condition. Sufficient to support V3 metadata';
+		addSliceNamed: 'RowanV3.5' 
+			comment: 'The RowanV3.5 slice is intended to duplicated the packages loaded into the standard 3.7.5 Rowan3 extent';
+		addSliceNamed: 'RowanV4.0' 
+			comment: 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ';
+		yourself	
 %
 method
 refactorStubs
@@ -79,7 +109,8 @@ refactorStubs
 	common_stubs_gemstone37_Core :=  projectClusters subclusterNamed: 'common_stubs_gemstone37-_Core'.
 	stubsCluster :=  proposedProjectClusters 
 		addClusterNamed: 'Stubs' 
-		comment: 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base.'.
+		comment: 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base. Note that the methods managed by the Obsolete-GemStone cluster will no longer be needed in the image'.
+	rowanV35Slice addClusterNamed: stubsCluster clusterName.
 	stubsSubcluster := proposedProjectClusters 
 		addSubclusterNamed: 'GemStone-Stubs' 
 		toClusterNamed: 'Stubs' 
@@ -87,7 +118,6 @@ refactorStubs
 	stubsSubcluster
 		addPackagesNamed: common_stubs_gemstone37_Core packageNames;
 		condition: 'gs3.[7-]'.
-	"not conditions involved"
 %
 method
 refactorAST	
@@ -98,6 +128,7 @@ refactorAST
 	common_tests_platforms_gemstone_Tests := projectClusters subclusterNamed: 'common_tests_platforms_gemstone_Tests'.
 
 	astCluster := proposedProjectClusters addClusterNamed: 'AST' comment: 'Provide method format support for GemStone'.
+	rowanV35Slice addClusterNamed: astCluster clusterName.
 
 	astSubcluster := proposedProjectClusters addSubclusterNamed: 'AST-Core' toClusterNamed: 'AST' comment: 'AST core'.
 	astSubcluster 
@@ -113,6 +144,54 @@ refactorAST
 		expressionContext
 			set: 'tests' to: true;
 			yourself
+%
+method
+refactorObsolete
+	"
+		The Rowan-Obsolete-Core and Rowan-Obsolete-Tests (obsoleteReaderWriter) packages are not loaded in a 
+		standard Rowan:masterV3.5 image and are kept around for historical reasons.
+
+			'common_obsolete_ObsoleteReaderWriter' : RwSubclusterV2 {
+				#subclusterName : 'common_obsolete_ObsoleteReaderWriter',
+				#packageNames : [
+					'Rowan-Obsolete-Core'
+				],
+				#comment : 'subcluster generated from common/obsolete/ObsoleteReaderWriter',
+				#condition : 'obsoleteReaderWriter'
+			},
+			'common_tests_obsolete_Tests' : RwSubclusterV2 {
+				#subclusterName : 'common_tests_obsolete_Tests',
+				#packageNames : [
+					'Rowan-Obsolete-Tests'
+				],
+				#comment : 'subcluster generated from common/tests/obsolete/Tests',
+				#condition : 'tests & obsoleteReaderWriter'
+			},
+
+		The obsolete methods and classes are classes and methods that are 'scheduled' to be removed from Rowan.
+
+			'common_obsolete_gemstone_Obsolete' : RwSubclusterV2 {
+				#subclusterName : 'common_obsolete_gemstone_Obsolete',
+				#packageNames : [
+					'Rowan-Obsolete-GemStone'
+				],
+				#comment : 'ObsoleteTools gemstone  packages ',
+				#condition : 'obsolete & gemstone'
+			},
+	"
+	| common_obsolete_gemstone_Obsolete obsoleteCluster obsoleteSubcluster |
+	common_obsolete_gemstone_Obsolete :=  projectClusters subclusterNamed: 'common_obsolete_gemstone_Obsolete'.
+	obsoleteCluster :=  proposedProjectClusters 
+		addClusterNamed: 'Obsolete-GemStone' 
+		comment: 'The methods in the Obsolete-GemStone cluster are scheduled to be removed from the system for Rowan V4 in favor of the standard API methods, i.e., those methods that have been stubbed out (see the Stubs cluster). Currently they are present in a standard V3 image. They will be removed when the Stubs work is complete'.
+	rowanV35Slice addClusterNamed: obsoleteCluster clusterName.
+	obsoleteSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Obsolete-GemStone' 
+		toClusterNamed: 'Obsolete-GemStone' 
+		comment: 'GemStone Behavior, Class and GsNMethod glue methods'.
+	obsoleteSubcluster
+		addPackagesNamed: common_obsolete_gemstone_Obsolete packageNames;
+		condition: 'gemstone'.
 %
 method
 todo
@@ -131,9 +210,12 @@ doit
 	self sourceFile asFileReference readStreamDo: [:stream |
 		clusterStructure := STON fromStream: stream ].
 	projectClusters := (clusterStructure at: 6) value.
-	self 
+	self defineSlices.
+	rowanV35Slice := proposedProjectClusters sliceNamed: 'RowanV3.5'.
+	self
 		refactorAST;
 		refactorStubs;
+		refactorObsolete;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.

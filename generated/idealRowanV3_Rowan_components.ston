@@ -1,5 +1,37 @@
 RwResolvedProjectClusters {
+	#slices : {
+		'RowanV3.5' : RwSlice {
+			#sliceName : 'RowanV3.5',
+			#comment : 'The RowanV3.5 slice is intended to duplicated the packages loaded into the standard 3.7.5 Rowan3 extent',
+			#clusters : [
+				'AST',
+				'Stubs',
+				'Obsolete-GemStone'
+			]
+		},
+		'RowanV4.0' : RwSlice {
+			#sliceName : 'RowanV4.0',
+			#comment : 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. '
+		},
+		'RowanV2' : RwSlice {
+			#sliceName : 'RowanV2',
+			#comment : 'The RowanV2 slice is intended to include only RowanV2 support code, corresponding to v2 condition. Sufficient to support V2 metadata'
+		},
+		'RowanV3' : RwSlice {
+			#sliceName : 'RowanV3',
+			#comment : 'The RowanV3 slice is intended to include only RowanV3 support code, corresponding to v3 condition. Sufficient to support V3 metadata'
+		}
+	},
 	#clusters : {
+		'Obsolete-GemStone' : RwCluster {
+			#clusterName : 'Obsolete-GemStone',
+			#packageNames : [ ],
+			#projectNames : [ ],
+			#subclusters : [
+				'Obsolete-GemStone'
+			],
+			#comment : 'The methods in the Obsolete-GemStone cluster are scheduled to be removed from the system for Rowan V4 in favor of the standard API methods, i.e., those methods that have been stubbed out (see the Stubs cluster). Currently they are present in a standard V3 image. They will be removed when the Stubs work is complete'
+		},
 		'AST' : RwCluster {
 			#clusterName : 'AST',
 			#packageNames : [ ],
@@ -17,10 +49,18 @@ RwResolvedProjectClusters {
 			#subclusters : [
 				'GemStone-Stubs'
 			],
-			#comment : 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base.'
+			#comment : 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base. Note that the methods managed by the Obsolete-GemStone cluster will no longer be needed in the image'
 		}
 	},
 	#subclusters : {
+		'Obsolete-GemStone' : RwSubclusterV2 {
+			#subclusterName : 'Obsolete-GemStone',
+			#packageNames : [
+				'Rowan-Obsolete-GemStone'
+			],
+			#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
+			#condition : 'gemstone'
+		},
 		'AST-Core' : RwSubclusterV2 {
 			#subclusterName : 'AST-Core',
 			#packageNames : [

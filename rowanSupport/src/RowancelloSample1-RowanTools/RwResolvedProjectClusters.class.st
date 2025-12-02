@@ -3,6 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'projectName',
+		'slices',
 		'clusters',
 		'subclusters',
 		'expressionContext'
@@ -57,6 +58,23 @@ RwResolvedProjectClusters >> addProjectsNamed: projectNames toSubclusterNamed: s
 				error:
 					'There is no subcluster named ' , subclusterName printString
 						, ' defined in the project named ' , self projectName printString ]
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> addSliceNamed: aSliceName comment: aString [
+	(self slices at: aSliceName ifAbsent: [  ])
+		ifNotNil: [ 
+			self
+				error:
+					'There is already a slice named ' , aSliceName printString
+						, ' defined in the project named ' , self projectName printString ].
+	^ self slices
+		at: aSliceName
+		put:
+			(RwSlice new
+				sliceName: aSliceName;
+				comment: aString;
+				yourself)
 ]
 
 { #category : 'accessing' }
@@ -175,6 +193,7 @@ RwResolvedProjectClusters >> expressionContext [
 RwResolvedProjectClusters >> initialize [
 	clusters := Dictionary new.
 	subclusters := Dictionary new.
+	slices := Dictionary new.
 	expressionContext := RwCAQContext new
 ]
 
@@ -209,6 +228,32 @@ RwResolvedProjectClusters >> referencesToPackageNamed: packageName [
 					(subclusterReferences at: packageName ifAbsentPut: [ Set new ])
 						add: subcluster subclusterName ] ].
 	^ refs
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> sliceNamed: aSliceName [
+	^ self
+		sliceNamed: aSliceName
+		ifAbsent: [ 
+			self
+				error:
+					'There is no slice named ' , aSliceName printString
+						, ' defined in the project named ' , self projectName printString ]
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> sliceNamed: aSliceName ifAbsent: absentBlock [
+	^ self slices at: aSliceName ifAbsent: absentBlock
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> slices [
+	^ slices ifNil: [ slices := Array new ]
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> slices: object [
+	slices := object
 ]
 
 { #category : 'accessing' }
