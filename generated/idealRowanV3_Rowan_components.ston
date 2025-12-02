@@ -11,15 +11,10 @@ RwResolvedProjectClusters {
 		},
 		'RowanV4.0' : RwSlice {
 			#sliceName : 'RowanV4.0',
-			#comment : 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. '
-		},
-		'RowanV2' : RwSlice {
-			#sliceName : 'RowanV2',
-			#comment : 'The RowanV2 slice is intended to include only RowanV2 support code, corresponding to v2 condition. Sufficient to support V2 metadata'
-		},
-		'RowanV3' : RwSlice {
-			#sliceName : 'RowanV3',
-			#comment : 'The RowanV3 slice is intended to include only RowanV3 support code, corresponding to v3 condition. Sufficient to support V3 metadata'
+			#comment : 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ',
+			#clusters : [
+				'AST'
+			]
 		}
 	},
 	#clusters : {

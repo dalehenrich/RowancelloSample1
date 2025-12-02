@@ -81,6 +81,7 @@ EXAMPLES
 instvars
 proposedProjectClusters
 projectClusters
+rowanV40Slice
 rowanV35Slice
 %
 method
@@ -89,10 +90,6 @@ defineSlices
 		and as clusters are created they will be added to the appropriate slice."
 
 	proposedProjectClusters
-		addSliceNamed: 'RowanV2' 
-			comment: 'The RowanV2 slice is intended to include only RowanV2 support code, corresponding to v2 condition. Sufficient to support V2 metadata';
-		addSliceNamed: 'RowanV3' 
-			comment: 'The RowanV3 slice is intended to include only RowanV3 support code, corresponding to v3 condition. Sufficient to support V3 metadata';
 		addSliceNamed: 'RowanV3.5' 
 			comment: 'The RowanV3.5 slice is intended to duplicated the packages loaded into the standard 3.7.5 Rowan3 extent';
 		addSliceNamed: 'RowanV4.0' 
@@ -128,6 +125,7 @@ refactorAST
 	common_tests_platforms_gemstone_Tests := projectClusters subclusterNamed: 'common_tests_platforms_gemstone_Tests'.
 
 	astCluster := proposedProjectClusters addClusterNamed: 'AST' comment: 'Provide method format support for GemStone'.
+	rowanV40Slice addClusterNamed: astCluster clusterName.
 	rowanV35Slice addClusterNamed: astCluster clusterName.
 
 	astSubcluster := proposedProjectClusters addSubclusterNamed: 'AST-Core' toClusterNamed: 'AST' comment: 'AST core'.
@@ -211,6 +209,7 @@ doit
 		clusterStructure := STON fromStream: stream ].
 	projectClusters := (clusterStructure at: 6) value.
 	self defineSlices.
+	rowanV40Slice := proposedProjectClusters sliceNamed: 'RowanV4.0'.
 	rowanV35Slice := proposedProjectClusters sliceNamed: 'RowanV3.5'.
 	self
 		refactorAST;
