@@ -70,7 +70,28 @@ proposedProjectClusters
 projectClusters
 %
 method
+refactorStubs
+	"The methods managed in the Stubs packages are methods that are the interface between common code for Rowan and the Base.
+		The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use the same set of methods
+		wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not
+		need to have a special case when run in Rowan or the Base."
+	| common_stubs_gemstone37_Core stubsCluster stubsSubcluster |
+	common_stubs_gemstone37_Core :=  projectClusters subclusterNamed: 'common_stubs_gemstone37-_Core'.
+	stubsCluster :=  proposedProjectClusters 
+		addClusterNamed: 'Stubs' 
+		comment: 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base.'.
+	stubsSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'GemStone-Stubs' 
+		toClusterNamed: 'Stubs' 
+		comment: 'GemStone Behavior, Class and GsNMethod glue methods'.
+	stubsSubcluster
+		addPackagesNamed: common_stubs_gemstone37_Core packageNames;
+		condition: 'gs3.[7-]'.
+	"not conditions involved"
+%
+method
 refactorAST	
+	"common_platforms_gemstone_AST"
 	"AST project was ported from GLASS implementation"
 	| common_platforms_gemstone_AST common_tests_platforms_gemstone_Tests astCluster astSubcluster astTestSubcluster |
 	common_platforms_gemstone_AST := projectClusters subclusterNamed: 'common_platforms_gemstone_AST'.
@@ -79,16 +100,19 @@ refactorAST
 	astCluster := proposedProjectClusters addClusterNamed: 'AST' comment: 'Provide method format support for GemStone'.
 
 	astSubcluster := proposedProjectClusters addSubclusterNamed: 'AST-Core' toClusterNamed: 'AST' comment: 'AST core'.
-
 	astSubcluster 
 		addPackagesNamed: common_platforms_gemstone_AST packageNames;
 		condition: 'gemstone'.
 
 	astTestSubcluster := proposedProjectClusters addSubclusterNamed: 'AST-Core-Tests' toClusterNamed: 'AST' comment: 'AST tests'.
-
 	astTestSubcluster
 		addPackagesNamed: ((common_tests_platforms_gemstone_Tests packageNames) select: [:each | each beginsWith: 'AST']);
 		condition: 'tests & gemstone'.
+
+	proposedProjectClusters
+		expressionContext
+			set: 'tests' to: true;
+			yourself
 %
 method
 todo
@@ -107,7 +131,10 @@ doit
 	self sourceFile asFileReference readStreamDo: [:stream |
 		clusterStructure := STON fromStream: stream ].
 	projectClusters := (clusterStructure at: 6) value.
-	self refactorAST.
+	self 
+		refactorAST;
+		refactorStubs;
+		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.
 		STON 

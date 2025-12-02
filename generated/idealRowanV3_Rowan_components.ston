@@ -9,9 +9,27 @@ RwResolvedProjectClusters {
 				'AST-Core-Tests'
 			],
 			#comment : 'Provide method format support for GemStone'
+		},
+		'Stubs' : RwCluster {
+			#clusterName : 'Stubs',
+			#packageNames : [ ],
+			#projectNames : [ ],
+			#subclusters : [
+				'GemStone-Stubs'
+			],
+			#comment : 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base.'
 		}
 	},
 	#subclusters : {
+		'AST-Core' : RwSubclusterV2 {
+			#subclusterName : 'AST-Core',
+			#packageNames : [
+				'AST-Core',
+				'AST-Kernel-Core'
+			],
+			#comment : 'AST core',
+			#condition : 'gemstone'
+		},
 		'AST-Core-Tests' : RwSubclusterV2 {
 			#subclusterName : 'AST-Core-Tests',
 			#packageNames : [
@@ -21,17 +39,18 @@ RwResolvedProjectClusters {
 			#comment : 'AST tests',
 			#condition : 'tests & gemstone'
 		},
-		'AST-Core' : RwSubclusterV2 {
-			#subclusterName : 'AST-Core',
+		'GemStone-Stubs' : RwSubclusterV2 {
+			#subclusterName : 'GemStone-Stubs',
 			#packageNames : [
-				'AST-Core',
-				'AST-Kernel-Core'
+				'Rowan-GemStone-Kernel-Stubs-37x'
 			],
-			#comment : 'AST core',
-			#condition : 'gemstone'
+			#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
+			#condition : 'gs3.[7-]'
 		}
 	},
 	#expressionContext : RwCAQContext {
-		#variables : { }
+		#variables : {
+			'tests' : true
+		}
 	}
 }
