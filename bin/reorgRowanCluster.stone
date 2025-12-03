@@ -200,10 +200,11 @@ refactorObsolete
 method
 refactorV2
 	"Create a cluster that collects all of the v2 subclusters - ignore the 3.6 code (if any)"
-	| v2Cluster |
+	| v2Cluster reverseConditionMap |
 	v2Cluster := proposedProjectClusters
 		addClusterNamed: 'V2'
 		comment: 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'.
+	reverseConditionMap := Dictionary new.
 	rowanV35Slice addClusterNamed: v2Cluster clusterName.
 	{
 		'common_v2_Specifications'.
@@ -227,13 +228,20 @@ refactorV2
 	} do: [:subclusterName |
 		| subcluster originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
-		subcluster := proposedProjectClusters 
-			addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
-			toClusterNamed: 'V2'
-			comment: originalSubcluster comment.
-		subcluster 
-			addPackagesNamed: originalSubcluster packageNames;
-			condition: originalSubcluster condition ].
+		(reverseConditionMap at: originalSubcluster condition ifAbsent: [])
+			ifNil: [ 
+				subcluster := proposedProjectClusters 
+					addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
+					toClusterNamed: 'V2'
+					comment: originalSubcluster comment.
+				subcluster 
+					addPackagesNamed: originalSubcluster packageNames;
+					condition: originalSubcluster condition.
+				reverseConditionMap at: originalSubcluster condition put: subcluster ]
+			ifNotNil: [:existingSubcluster |
+				existingSubcluster
+					addPackagesNamed: originalSubcluster packageNames;
+					comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ].
 %
 method
 todo
