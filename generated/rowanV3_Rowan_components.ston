@@ -364,7 +364,7 @@
 					'Rowan-GemStone-Definitions-OnlyV2'
 				],
 				#comment : '',
-				#condition : 'v2 & v2Only & v2Only & gemstone'
+				#condition : 'v2 & v2Only & gemstone'
 			},
 			'common_platforms_gemstone_CoreUpgrade' : RwSubclusterV2 {
 				#subclusterName : 'common_platforms_gemstone_CoreUpgrade',

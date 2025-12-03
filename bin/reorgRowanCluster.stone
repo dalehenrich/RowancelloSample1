@@ -3,6 +3,7 @@ options
 {
 	SuperDoitRequiredOptionWithRequiredArg long: 'sourceFile' .
 	SuperDoitRequiredOptionWithRequiredArg long: 'resultsFile' .
+	SuperDoitOptionalOptionWithNoArg long: 'inspect' .
 }
 %
 #
@@ -82,12 +83,17 @@ EXAMPLES
   $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
              --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
              -D
+  $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
+             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
+             --inspect
+             -D
 -----
 %
 instvars
 proposedProjectClusters
 projectClusters
 rowanV40Slice
+rowanV40_loadedSlice
 rowanV35Slice
 %
 method
@@ -100,6 +106,8 @@ defineSlices
 			comment: 'The RowanV3.5 slice is intended to duplicated the packages loaded into the standard 3.7.5 Rowan3 extent';
 		addSliceNamed: 'RowanV4.0' 
 			comment: 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ';
+		addSliceNamed: 'RowanV4.0_loaded' 
+			comment: 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus conditional v3, v2 and v2Only to allow RowanV4.0 to read v3 and v2 format repositories';
 		yourself	
 %
 method
@@ -132,6 +140,7 @@ refactorAST
 
 	astCluster := proposedProjectClusters addClusterNamed: 'AST' comment: 'Provide method format support for GemStone'.
 	rowanV40Slice addClusterNamed: astCluster clusterName.
+	rowanV40_loadedSlice addClusterNamed: astCluster clusterName.
 	rowanV35Slice addClusterNamed: astCluster clusterName.
 
 	astSubcluster := proposedProjectClusters addSubclusterNamed: 'AST-Core' toClusterNamed: 'AST' comment: 'AST core'.
@@ -206,6 +215,7 @@ refactorV2
 		comment: 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'.
 	reverseConditionMap := Dictionary new.
 	rowanV35Slice addClusterNamed: v2Cluster clusterName.
+	rowanV40_loadedSlice  addClusterNamed: v2Cluster clusterName.
 	{
 		'common_v2_Specifications'.
 		'common_v2_Components'.
@@ -268,6 +278,7 @@ doit
 	projectClusters := (clusterStructure at: 6) value.
 	self defineSlices.
 	rowanV40Slice := proposedProjectClusters sliceNamed: 'RowanV4.0'.
+	rowanV40_loadedSlice := proposedProjectClusters sliceNamed: 'RowanV4.0_loaded'.
 	rowanV35Slice := proposedProjectClusters sliceNamed: 'RowanV3.5'.
 	self
 		refactorAST;
@@ -280,5 +291,6 @@ doit
 		STON 
 			put: proposedProjectClusters
 			onStreamPretty: stream ].
+	self inspect ifTrue: [ proposedProjectClusters halt ].
 	^ true
 %

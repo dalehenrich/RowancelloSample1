@@ -16,6 +16,14 @@ RwResolvedProjectClusters {
 			#clusters : [
 				'AST'
 			]
+		},
+		'RowanV4.0_loaded' : RwSlice {
+			#sliceName : 'RowanV4.0_loaded',
+			#comment : 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus conditional v3, v2 and v2Only to allow RowanV4.0 to read v3 and v2 format repositories',
+			#clusters : [
+				'AST',
+				'V2'
+			]
 		}
 	},
 	#clusters : {
@@ -38,7 +46,6 @@ RwResolvedProjectClusters {
 				'tests_v2_v2Only_Components',
 				'v2_platforms_gemstone_Core',
 				'tests_v2_Components',
-				'v2_v2Only_platforms_gemstone_Loader',
 				'v2_platforms_gemstone36-_Loader',
 				'v2_v2Only_platforms_gemstone36-_Loader',
 				'v2_platforms_gemstoneBase_Components',
@@ -70,10 +77,11 @@ RwResolvedProjectClusters {
 		'v2_v2Only_platforms_gemstone_Definitions' : RwSubclusterV2 {
 			#subclusterName : 'v2_v2Only_platforms_gemstone_Definitions',
 			#packageNames : [
-				'Rowan-GemStone-Definitions-OnlyV2'
+				'Rowan-GemStone-Definitions-OnlyV2',
+				'Rowan-GemStone-Loader-Extensions-OnlyV2'
 			],
-			#comment : '',
-			#condition : 'v2 & v2Only & v2Only & gemstone'
+			#comment : ' [common_v2_v2Only_platforms_gemstone_Loader] ',
+			#condition : 'v2 & v2Only & gemstone'
 		},
 		'v2_v2Only_Tools' : RwSubclusterV2 {
 			#subclusterName : 'v2_v2Only_Tools',
@@ -138,14 +146,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
 			#condition : 'tests & v2 & v2Only'
-		},
-		'v2_v2Only_platforms_gemstone_Loader' : RwSubclusterV2 {
-			#subclusterName : 'v2_v2Only_platforms_gemstone_Loader',
-			#packageNames : [
-				'Rowan-GemStone-Loader-Extensions-OnlyV2'
-			],
-			#comment : '',
-			#condition : 'v2 & v2Only & gemstone'
 		},
 		'v2_platforms_gemstone_Core' : RwSubclusterV2 {
 			#subclusterName : 'v2_platforms_gemstone_Core',
