@@ -195,7 +195,9 @@ RwResolvedProjectClusters {
 	},
 	#expressionContext : RwCAQContext {
 		#variables : {
-			'tests' : true
+			'v2' : true,
+			'tests' : true,
+			'v2Only' : true
 		}
 	}
 }

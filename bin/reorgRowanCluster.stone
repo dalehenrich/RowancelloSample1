@@ -242,6 +242,12 @@ refactorV2
 				existingSubcluster
 					addPackagesNamed: originalSubcluster packageNames;
 					comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ].
+	proposedProjectClusters
+		expressionContext
+			set: 'v2' to: true;
+			set: 'v2Only' to: true;
+			set: 'tests' to: true;
+			yourself
 %
 method
 todo
