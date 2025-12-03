@@ -41,6 +41,12 @@ DESCRIPTION
   Take a generated cluster structure (rowanV3_Rowan_components.ston for example) produce a new
   cluster structure that represents the INTENT of the original component structure.
 
+	Overall goal is to be able to create a 3.7.5 RowanV3.5 image that supports only v3 components and methods,
+	excluding the v2 api, classes and tests.
+
+	Then create a 3.7.5 RowanV4.0 image that onlys supports clusters and subclusters ... with v2 and v3 support optionally loadable.
+	it is likely that this will require repackaging and fine-tuning the meaning of v2 api.
+
 	New cluster name/old subclusters (must account for all subclusters):
 		AST:
 			common_platforms_gemstone_AST
@@ -192,6 +198,44 @@ refactorObsolete
 		condition: 'gemstone'.
 %
 method
+refactorV2
+	"Create a cluster that collects all of the v2 subclusters - ignore the 3.6 code (if any)"
+	| v2Cluster |
+	v2Cluster := proposedProjectClusters
+		addClusterNamed: 'V2'
+		comment: 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'.
+	rowanV35Slice addClusterNamed: v2Cluster clusterName.
+	{
+		'common_v2_Specifications'.
+		'common_v2_Components'.
+		'common_v2_Core'.
+		'common_v2_v2Only_platforms_gemstone_Definitions'.
+		'common_tests_v2_v2Only_Components'.
+		'common_v2_platforms_gemstone_Core'.
+		'common_v2_platforms_gemstone_Loader'.
+		'common_v2_Definitions'.
+		'common_tests_v2_Components'.
+		'common_v2_platforms_gemstone_Definitions'.
+		'common_v2_v2Only_platforms_gemstone_Loader'.
+		'common_v2_platforms_gemstone36-_Loader'.
+		'common_v2_v2Only_platforms_gemstone36-_Loader'.
+		'common_tests_v2_Specifications'.
+		'common_v2_platforms_gemstoneBase_Components'.
+		'common_tests_v2_Tests'.
+		'common_v2_Tools'.
+		'common_v2_v2Only_Tools'.
+	} do: [:subclusterName |
+		| subcluster originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		subcluster := proposedProjectClusters 
+			addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
+			toClusterNamed: 'V2'
+			comment: originalSubcluster comment.
+		subcluster 
+			addPackagesNamed: originalSubcluster packageNames;
+			condition: originalSubcluster condition ].
+%
+method
 todo
 	"common_tests_platforms_gemstone_Tests has two more packages not processed: Rowan-DataCurator-Tests, Rowan-Tests-GemStone"
 %
@@ -215,6 +259,7 @@ doit
 		refactorAST;
 		refactorStubs;
 		refactorObsolete;
+		refactorV2;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.
