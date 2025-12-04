@@ -19,7 +19,6 @@ RwResolvedProjectClusters {
 				'AST',
 				'Stubs',
 				'V4',
-				'Tonel',
 				'Rowan-Core'
 			],
 			#packageNames : [ ],
@@ -33,7 +32,6 @@ RwResolvedProjectClusters {
 				'Stubs',
 				'V2',
 				'V4',
-				'Tonel',
 				'Rowan-Core'
 			],
 			#packageNames : [ ],
@@ -80,15 +78,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'
 		},
-		'Tonel' : RwCluster {
-			#clusterName : 'Tonel',
-			#packageNames : [ ],
-			#projectNames : [ ],
-			#subclusters : [
-				'Tonel'
-			],
-			#comment : 'The methods in Tonel cluster implement tonel package format.'
-		},
 		'Stubs' : RwCluster {
 			#clusterName : 'Stubs',
 			#packageNames : [ ],
@@ -132,7 +121,8 @@ RwResolvedProjectClusters {
 				'Rowan-Definitions',
 				'Rowan-Specifications',
 				'Rowan-Cypress-Core',
-				'Rowan-Tools-Core'
+				'Rowan-Tools-Core',
+				'Rowan-Tonel-Core'
 			],
 			#projectNames : [ ],
 			#subclusters : [
@@ -168,6 +158,14 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'AST tests',
 			#condition : 'tests & gemstone'
+		},
+		'tests_v2_Tests' : RwSubclusterV2 {
+			#subclusterName : 'tests_v2_Tests',
+			#packageNames : [
+				'Rowan-TestsV2'
+			],
+			#comment : 'subcluster generated from common/tests/v2/Tests',
+			#condition : 'tests'
 		},
 		'platforms_gemstone_Tools' : RwSubclusterV2 {
 			#subclusterName : 'platforms_gemstone_Tools',
@@ -283,22 +281,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Components gemstoneBase packages',
 			#condition : 'gemstoneBase'
-		},
-		'tests_v2_Tests' : RwSubclusterV2 {
-			#subclusterName : 'tests_v2_Tests',
-			#packageNames : [
-				'Rowan-TestsV2'
-			],
-			#comment : 'subcluster generated from common/tests/v2/Tests',
-			#condition : 'tests'
-		},
-		'Tonel' : RwSubclusterV2 {
-			#subclusterName : 'Tonel',
-			#packageNames : [
-				'Rowan-Tonel-Core'
-			],
-			#comment : 'Tonel support',
-			#condition : 'gemstone'
 		}
 	},
 	#expressionContext : RwCAQContext {

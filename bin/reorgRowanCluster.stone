@@ -82,14 +82,13 @@ DESCRIPTION
 		V4 (V3 in V3.5 image):
 			common_v3_Core
 			common_tests_v3_Tests
-		tonel:
-			common_tonel_Core
 		Rowan-Core:
 			(unconditional)
 			common_Components
 			common_Core
 			common_Definitions
 			common_Specifications
+			common_tonel_Core
 			common_Tools
 			(conditional)
 			common_platforms_gemstone_Tools
@@ -328,8 +327,9 @@ refactorV4
 %
 method
 refactorTonel
-	"Create a cluster for tonel support in gemstone"
+	"Create a cluster for tonel support in gemstone -- NOW INCLUDED IN Rowan-Core cluster"
 	| common_tonel_Core tonelCluster tonelSubcluster |
+self halt: 'No longer used ... included in Rowan-Core cluster'.
 	common_tonel_Core := projectClusters subclusterNamed: 'common_tonel_Core'.
 	tonelCluster :=  proposedProjectClusters 
 		addClusterNamed: 'Tonel' 
@@ -355,6 +355,7 @@ refactorRowanCommon
 			'common_Definitions'.
 			'common_Specifications'.
 			'common_Tools'.
+			'common_tonel_Core'.
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
@@ -400,6 +401,7 @@ validateRowanCoreSubclusters
 			'common_Definitions' .
 			'common_Specifications' .
 			'common_Tools' .
+			'common_tonel_Core' .
 	} do: [ :subclusterName | 
 		calculatedSubclusterPackageNames addAll: (projectClusters subclusterNamed: subclusterName) packageNames ].
 	expectedPackageNames := (proposedProjectClusters clusterNamed: 'Rowan-Core') packageNames asSet.
@@ -432,7 +434,6 @@ doit
 		refactorObsolete;
 		refactorV2;
 		refactorV4;
-		refactorTonel;
 		refactorRowanCommon;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
