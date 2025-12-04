@@ -278,22 +278,30 @@ refactorV2
 	} do: [:subclusterName |
 		| subcluster originalSubcluster newExpression |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
-		(reverseConditionMap at: originalSubcluster condition ifAbsent: [])
-			ifNil: [ 
-				subcluster := proposedProjectClusters 
-					addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
-					toClusterNamed: 'V2'
-					comment: originalSubcluster comment.
-				newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
-				newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
-				subcluster 
-					addPackagesNamed: originalSubcluster packageNames;
-					condition: newExpression.
-				reverseConditionMap at: originalSubcluster condition put: subcluster ]
-			ifNotNil: [:existingSubcluster |
-				existingSubcluster
-					addPackagesNamed: originalSubcluster packageNames;
-					comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ].
+		newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
+		newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
+		newExpression = 'common'
+			ifTrue: [ 
+				"add the packages to the current cluster"
+				v2Cluster addPackagesNamed: originalSubcluster packageNames ]
+			ifFalse: [ 
+				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
+				(reverseConditionMap at: newExpression ifAbsent: [])
+					ifNil: [ 
+						"create a subcluster to record packages for newExpression"
+						subcluster := proposedProjectClusters 
+							addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
+							toClusterNamed: 'V2'
+							comment: originalSubcluster comment.
+						subcluster 
+							addPackagesNamed: originalSubcluster packageNames;
+							condition: newExpression.
+						reverseConditionMap at: originalSubcluster condition put: subcluster ]
+					ifNotNil: [:existingSubcluster |
+						"add the packages to the existingSubcluster with matching conditional expression"
+						existingSubcluster
+							addPackagesNamed: originalSubcluster packageNames;
+							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
 	proposedProjectClusters
 		expressionContext
 			set: 'v4' to: true;
@@ -303,6 +311,10 @@ refactorV2
 method
 stripUnnecessaryVariable: variable from: expression 
 	| newExpression |
+	expression = variable 
+		ifTrue: [
+			"unconditionally add the packages to the parent cluster"
+			^ 'common' ].
 	newExpression := expression copyReplaceAll: '& ', variable, ' &' with: '&'.
 	newExpression := newExpression copyReplaceAll: variable, ' &' with: ''.
 	newExpression := newExpression copyReplaceAll: '& ', variable with: ''.
