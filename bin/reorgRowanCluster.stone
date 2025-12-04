@@ -276,7 +276,7 @@ refactorV2
 		'common_v2_Tools'.
 		'common_v2_v2Only_Tools'.
 	} do: [:subclusterName |
-		| subcluster originalSubcluster |
+		| subcluster originalSubcluster newExpression |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
 		(reverseConditionMap at: originalSubcluster condition ifAbsent: [])
 			ifNil: [ 
@@ -284,9 +284,11 @@ refactorV2
 					addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
 					toClusterNamed: 'V2'
 					comment: originalSubcluster comment.
+				newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
+				newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
 				subcluster 
 					addPackagesNamed: originalSubcluster packageNames;
-					condition: originalSubcluster condition.
+					condition: newExpression.
 				reverseConditionMap at: originalSubcluster condition put: subcluster ]
 			ifNotNil: [:existingSubcluster |
 				existingSubcluster
@@ -294,11 +296,17 @@ refactorV2
 					comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ].
 	proposedProjectClusters
 		expressionContext
-			set: 'v2' to: true;
-			set: 'v2Only' to: true;
 			set: 'v4' to: true;
 			set: 'tests' to: true;
 			yourself
+%
+method
+stripUnnecessaryVariable: variable from: expression 
+	| newExpression |
+	newExpression := expression copyReplaceAll: '& ', variable, ' &' with: '&'.
+	newExpression := newExpression copyReplaceAll: variable, ' &' with: ''.
+	newExpression := newExpression copyReplaceAll: '& ', variable with: ''.
+	^ newExpression trimBoth
 %
 method
 refactorV4
