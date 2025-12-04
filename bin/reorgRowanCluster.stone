@@ -304,26 +304,13 @@ refactorV2
 							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
 	proposedProjectClusters
 		expressionContext
-			set: 'v4' to: true;
 			set: 'tests' to: true;
 			yourself
 %
 method
-stripUnnecessaryVariable: variable from: expression 
-	| newExpression |
-	expression = variable 
-		ifTrue: [
-			"unconditionally add the packages to the parent cluster"
-			^ 'common' ].
-	newExpression := expression copyReplaceAll: '& ', variable, ' &' with: '&'.
-	newExpression := newExpression copyReplaceAll: variable, ' &' with: ''.
-	newExpression := newExpression copyReplaceAll: '& ', variable with: ''.
-	^ newExpression trimBoth
-%
-method
 refactorV4
 	"Create a cluster that collects all of the v3 subclusters ... which are actually V4 functionality"
-	| common_v3_Core common_tests_v3_Tests v4Cluster v4Subcluster v4TestsSubcluster |
+	| common_v3_Core common_tests_v3_Tests v4Cluster v4TestsSubcluster |
 	common_v3_Core := projectClusters subclusterNamed: 'common_v3_Core'.
 	common_tests_v3_Tests := projectClusters subclusterNamed: 'common_tests_v3_Tests'.
 	v4Cluster :=  proposedProjectClusters 
@@ -331,15 +318,13 @@ refactorV4
 		comment: 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'.
 	rowanV40Slice addClusterNamed: v4Cluster clusterName.
 	rowanV40_loadedSlice addClusterNamed: v4Cluster clusterName.
-
-	v4Subcluster := proposedProjectClusters addSubclusterNamed: 'V4-Shared' toClusterNamed: 'V4' comment: 'V4 api support shared with Rowan V3'.
-	v4Subcluster 
+	v4Cluster 
 		addPackagesNamed: common_v3_Core packageNames;
-		condition: 'v4'.
-	v4TestsSubcluster := proposedProjectClusters addSubclusterNamed: 'V4-Shared-Tests' toClusterNamed: 'V4' comment: 'V4 api tests shared with Rowan V3'.
+		yourself.
+	v4TestsSubcluster := proposedProjectClusters addSubclusterNamed: 'V4-Tests' toClusterNamed: 'V4' comment: 'V4 api tests'.
 	v4TestsSubcluster 
 		addPackagesNamed: common_tests_v3_Tests packageNames;
-		condition: 'v4 & tests'.
+		condition: 'tests'.
 %
 method
 refactorTonel
@@ -391,6 +376,18 @@ refactorRowanCommon
 		subcluster 
 			addPackagesNamed: originalSubcluster packageNames;
 			condition: originalSubcluster condition  ].
+%
+method
+stripUnnecessaryVariable: variable from: expression 
+	| newExpression |
+	expression = variable 
+		ifTrue: [
+			"unconditionally add the packages to the parent cluster"
+			^ 'common' ].
+	newExpression := expression copyReplaceAll: '& ', variable, ' &' with: '&'.
+	newExpression := newExpression copyReplaceAll: variable, ' &' with: ''.
+	newExpression := newExpression copyReplaceAll: '& ', variable with: ''.
+	^ newExpression trimBoth
 %
 method
 validateRowanCoreSubclusters

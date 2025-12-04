@@ -100,11 +100,12 @@ RwResolvedProjectClusters {
 		},
 		'V4' : RwCluster {
 			#clusterName : 'V4',
-			#packageNames : [ ],
+			#packageNames : [
+				'Rowan-CoreV4'
+			],
 			#projectNames : [ ],
 			#subclusters : [
-				'V4-Shared',
-				'V4-Shared-Tests'
+				'V4-Tests'
 			],
 			#comment : 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'
 		},
@@ -150,14 +151,14 @@ RwResolvedProjectClusters {
 			#comment : 'Definitions vw gemstone packages',
 			#condition : 'gemstone'
 		},
-		'V4-Shared-Tests' : RwSubclusterV2 {
-			#subclusterName : 'V4-Shared-Tests',
+		'V4-Tests' : RwSubclusterV2 {
+			#subclusterName : 'V4-Tests',
 			#packageNames : [
 				'Rowan-TestsV3',
 				'Rowan-TestsV4'
 			],
-			#comment : 'V4 api tests shared with Rowan V3',
-			#condition : 'v4 & tests'
+			#comment : 'V4 api tests',
+			#condition : 'tests'
 		},
 		'AST-Core-Tests' : RwSubclusterV2 {
 			#subclusterName : 'AST-Core-Tests',
@@ -201,14 +202,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : '',
 			#condition : 'gs3.[6-]'
-		},
-		'V4-Shared' : RwSubclusterV2 {
-			#subclusterName : 'V4-Shared',
-			#packageNames : [
-				'Rowan-CoreV4'
-			],
-			#comment : 'V4 api support shared with Rowan V3',
-			#condition : 'v4'
 		},
 		'v2_v2Only_platforms_gemstone_Loader' : RwSubclusterV2 {
 			#subclusterName : 'v2_v2Only_platforms_gemstone_Loader',
@@ -310,8 +303,7 @@ RwResolvedProjectClusters {
 	},
 	#expressionContext : RwCAQContext {
 		#variables : {
-			'tests' : true,
-			'v4' : true
+			'tests' : true
 		}
 	}
 }
