@@ -6,7 +6,8 @@ RwResolvedProjectClusters {
 				'AST',
 				'Stubs',
 				'Obsolete-GemStone',
-				'V2'
+				'V2',
+				'Rowan-Core'
 			],
 			#packageNames : [ ],
 			#projectNames : [ ],
@@ -18,7 +19,8 @@ RwResolvedProjectClusters {
 				'AST',
 				'Stubs',
 				'V4',
-				'Tonel'
+				'Tonel',
+				'Rowan-Core'
 			],
 			#packageNames : [ ],
 			#projectNames : [ ],
@@ -31,7 +33,8 @@ RwResolvedProjectClusters {
 				'Stubs',
 				'V2',
 				'V4',
-				'Tonel'
+				'Tonel',
+				'Rowan-Core'
 			],
 			#packageNames : [ ],
 			#projectNames : [ ],
@@ -88,7 +91,8 @@ RwResolvedProjectClusters {
 			#packageNames : [ ],
 			#projectNames : [ ],
 			#subclusters : [
-				'V4-Shared'
+				'V4-Shared',
+				'V4-Shared-Tests'
 			],
 			#comment : 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'
 		},
@@ -118,8 +122,10 @@ RwResolvedProjectClusters {
 				'Rowan-Tools-Core'
 			],
 			#projectNames : [ ],
-			#subclusters : [ ],
-			#comment : 'Collection of packages defining the Rowan core functionality'
+			#subclusters : [
+				'platforms_gemstone_Tools'
+			],
+			#comment : 'Collection of packages and subclusters defining the Rowan core functionality'
 		}
 	},
 	#subclusters : {
@@ -130,20 +136,6 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
 			#condition : 'tests & v2 & v2Only'
-		},
-		'v2_Specifications' : RwSubclusterV2 {
-			#subclusterName : 'v2_Specifications',
-			#packageNames : [
-				'Rowan-SpecificationsV2',
-				'Rowan-ComponentsV2',
-				'Rowan-CoreV2',
-				'Rowan-Core-DefinitionsV2',
-				'Rowan-Definitions-Common',
-				'Rowan-DefinitionsV2',
-				'Rowan-Tools-CoreV2'
-			],
-			#comment : 'subcluster generated from common/v2/Specifications [common_v2_Components] subcluster generated from common/v2/Components [common_v2_Core] subcluster generated from common/v2/Core [common_v2_Definitions] subcluster generated from common/v2/Definitions [common_v2_Tools] subcluster generated from common/v2/Tools',
-			#condition : 'v2'
 		},
 		'AST-Core-Tests' : RwSubclusterV2 {
 			#subclusterName : 'AST-Core-Tests',
@@ -160,6 +152,16 @@ RwResolvedProjectClusters {
 				'Rowan-Tonel-Core'
 			],
 			#comment : 'Tonel support',
+			#condition : 'gemstone'
+		},
+		'platforms_gemstone_Tools' : RwSubclusterV2 {
+			#subclusterName : 'platforms_gemstone_Tools',
+			#packageNames : [
+				'Rowan-Tools-Extensions-GemStone',
+				'Rowan-Tools-GemStone',
+				'Rowan-Tools-Kernel'
+			],
+			#comment : 'Tools gemstone  packages ',
 			#condition : 'gemstone'
 		},
 		'tests_v2_Components' : RwSubclusterV2 {
@@ -256,6 +258,29 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'Components gemstoneBase packages',
 			#condition : 'v2 & gemstoneBase'
+		},
+		'v2_Specifications' : RwSubclusterV2 {
+			#subclusterName : 'v2_Specifications',
+			#packageNames : [
+				'Rowan-SpecificationsV2',
+				'Rowan-ComponentsV2',
+				'Rowan-CoreV2',
+				'Rowan-Core-DefinitionsV2',
+				'Rowan-Definitions-Common',
+				'Rowan-DefinitionsV2',
+				'Rowan-Tools-CoreV2'
+			],
+			#comment : 'subcluster generated from common/v2/Specifications [common_v2_Components] subcluster generated from common/v2/Components [common_v2_Core] subcluster generated from common/v2/Core [common_v2_Definitions] subcluster generated from common/v2/Definitions [common_v2_Tools] subcluster generated from common/v2/Tools',
+			#condition : 'v2'
+		},
+		'V4-Shared-Tests' : RwSubclusterV2 {
+			#subclusterName : 'V4-Shared-Tests',
+			#packageNames : [
+				'Rowan-TestsV3',
+				'Rowan-TestsV4'
+			],
+			#comment : 'V4 api tests shared with Rowan V3',
+			#condition : 'v4 & tests'
 		}
 	},
 	#expressionContext : RwCAQContext {

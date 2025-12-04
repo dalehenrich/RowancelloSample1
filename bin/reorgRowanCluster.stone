@@ -81,14 +81,18 @@ DESCRIPTION
 			common_v2_v2Only_Tools
 		V4 (V3 in V3.5 image):
 			common_v3_Core
+			common_tests_v3_Tests
 		tonel:
 			common_tonel_Core
 		Rowan-Core:
+			(unconditional)
 			common_Components
 			common_Core
 			common_Definitions
 			common_Specifications
 			common_Tools
+			(conditional)
+			common_platforms_gemstone_Tools
 	"
 
 OPTIONS
@@ -299,8 +303,9 @@ refactorV2
 method
 refactorV4
 	"Create a cluster that collects all of the v3 subclusters ... which are actually V4 functionality"
-	| common_v3_Core v4Cluster v4Subcluster |
+	| common_v3_Core common_tests_v3_Tests v4Cluster v4Subcluster v4TestsSubcluster |
 	common_v3_Core := projectClusters subclusterNamed: 'common_v3_Core'.
+	common_tests_v3_Tests := projectClusters subclusterNamed: 'common_tests_v3_Tests'.
 	v4Cluster :=  proposedProjectClusters 
 		addClusterNamed: 'V4' 
 		comment: 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'.
@@ -311,6 +316,10 @@ refactorV4
 	v4Subcluster 
 		addPackagesNamed: common_v3_Core packageNames;
 		condition: 'v4'.
+	v4TestsSubcluster := proposedProjectClusters addSubclusterNamed: 'V4-Shared-Tests' toClusterNamed: 'V4' comment: 'V4 api tests shared with Rowan V3'.
+	v4TestsSubcluster 
+		addPackagesNamed: common_tests_v3_Tests packageNames;
+		condition: 'v4 & tests'.
 %
 method
 refactorTonel
@@ -334,7 +343,7 @@ refactorRowanCommon
 	| rowanCluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
-		comment: 'Collection of packages defining the Rowan core functionality'.
+		comment: 'Collection of packages and subclusters defining the Rowan core functionality'.
 	{
 			'common_Components'.
 			'common_Core'.
@@ -345,6 +354,23 @@ refactorRowanCommon
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
 		rowanCluster addPackagesNamed: originalSubcluster packageNames ].
+	rowanV35Slice addClusterNamed: rowanCluster clusterName.
+	rowanV40Slice  addClusterNamed: rowanCluster clusterName.
+	rowanV40_loadedSlice  addClusterNamed: rowanCluster clusterName.
+
+	"Collection of subclusters (conditional) to be added to Rowan-Core cluster"
+	{
+		'common_platforms_gemstone_Tools' .
+	} do:  [:subclusterName |
+		| subcluster originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		subcluster := proposedProjectClusters 
+			addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
+			toClusterNamed: rowanCluster clusterName
+			comment: originalSubcluster comment.
+		subcluster 
+			addPackagesNamed: originalSubcluster packageNames;
+			condition: originalSubcluster condition  ].
 %
 method
 validateRowanCoreSubclusters
