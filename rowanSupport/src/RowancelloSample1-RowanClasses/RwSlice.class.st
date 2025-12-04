@@ -3,27 +3,34 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'sliceName',
-		'comment',
-		'clusters'
+		'clusterNames',
+		'packageNames',
+		'projectNames',
+		'comment'
 	],
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
 
+{ #category : 'instance creation' }
+RwSlice class >> new [
+
+	^ self basicNew initialize
+]
+
 { #category : 'accessing' }
 RwSlice >> addClusterNamed: aClusterName [
-	(self clusters includes: aClusterName)
-		ifFalse: [ self clusters add: aClusterName ]
+	(self clusterNames includes: aClusterName)
+		ifFalse: [ self clusterNames add: aClusterName ]
 ]
 
 { #category : 'accessing' }
-RwSlice >> clusters [
-	^clusters ifNil: [ clusters := Array new ]
+RwSlice >> clusterNames [
+	^clusterNames
 ]
 
 { #category : 'accessing' }
-RwSlice >> clusters: newValue [
-	clusters := newValue
-
+RwSlice >> clusterNames: object [
+	clusterNames := object
 ]
 
 { #category : 'accessing' }
@@ -40,7 +47,29 @@ RwSlice >> comment: newValue [
 
 { #category : 'initialization' }
 RwSlice >> initialize [
-	clusters := Array new.
+	clusterNames := Array new.
+	packageNames := Array new.
+	projectNames := Array new
+]
+
+{ #category : 'accessing' }
+RwSlice >> packageNames [
+	^packageNames
+]
+
+{ #category : 'accessing' }
+RwSlice >> packageNames: object [
+	packageNames := object
+]
+
+{ #category : 'accessing' }
+RwSlice >> projectNames [
+	^projectNames
+]
+
+{ #category : 'accessing' }
+RwSlice >> projectNames: object [
+	projectNames := object
 ]
 
 { #category : 'accessing' }

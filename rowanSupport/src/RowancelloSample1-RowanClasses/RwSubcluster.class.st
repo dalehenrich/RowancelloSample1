@@ -17,6 +17,12 @@ Class {
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
 
+{ #category : 'instance creation' }
+RwSubcluster class >> new [
+
+	^ self basicNew initialize
+]
+
 { #category : 'exporting' }
 RwSubcluster >> _exportToUrl: directoryUrl [
 	| url |

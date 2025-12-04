@@ -4,6 +4,7 @@ options
 	SuperDoitRequiredOptionWithRequiredArg long: 'sourceFile' .
 	SuperDoitRequiredOptionWithRequiredArg long: 'resultsFile' .
 	SuperDoitOptionalOptionWithNoArg long: 'inspect' .
+	SuperDoitOptionalOptionWithNoArg long: 'validate' .
 }
 %
 #
@@ -59,6 +60,35 @@ DESCRIPTION
 		Obsolete and not loaded into a standard V3 image (kept around for historical reasons):
 			common_obsolete_ObsoleteReaderWriter
 			common_tests_obsolete_Tests
+		V2:
+			common_v2_Specifications
+			common_v2_Components
+			common_v2_Core
+			common_v2_v2Only_platforms_gemstone_Definitions
+			common_tests_v2_v2Only_Components
+			common_v2_platforms_gemstone_Core
+			common_v2_platforms_gemstone_Loader
+			common_v2_Definitions
+			common_tests_v2_Components
+			common_v2_platforms_gemstone_Definitions
+			common_v2_v2Only_platforms_gemstone_Loader
+			common_v2_platforms_gemstone36-_Loader
+			common_v2_v2Only_platforms_gemstone36-_Loader
+			common_tests_v2_Specifications
+			common_v2_platforms_gemstoneBase_Components
+			common_tests_v2_Tests
+			common_v2_Tools
+			common_v2_v2Only_Tools
+		V4 (V3 in V3.5 image):
+			common_v3_Core
+		tonel:
+			common_tonel_Core
+		Rowan-Core:
+			common_Components
+			common_Core
+			common_Definitions
+			common_Specifications
+			common_Tools
 	"
 
 OPTIONS
@@ -86,6 +116,10 @@ EXAMPLES
   $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
              --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
              --inspect
+             -D
+  $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
+             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
+             --validate
              -D
 -----
 %
@@ -121,6 +155,8 @@ refactorStubs
 	stubsCluster :=  proposedProjectClusters 
 		addClusterNamed: 'Stubs' 
 		comment: 'The methods managed in the GemStone-Stubs cluster are methods that are the interface methods between common code for Rowan and the Base.  The methods are implemented in Behavior, Class, and GsNMethod and are intended to allow code to use methods a common set of method names wheteher or not the code is run in the Base or Rowan. With the use of stub methods, code browsers and tools like topaz do not need to have a special case when run in Rowan or the Base. Note that the methods managed by the Obsolete-GemStone cluster will no longer be needed in the image'.
+	rowanV40Slice addClusterNamed: stubsCluster clusterName.
+	rowanV40_loadedSlice addClusterNamed: stubsCluster clusterName.
 	rowanV35Slice addClusterNamed: stubsCluster clusterName.
 	stubsSubcluster := proposedProjectClusters 
 		addSubclusterNamed: 'GemStone-Stubs' 
@@ -208,7 +244,7 @@ refactorObsolete
 %
 method
 refactorV2
-	"Create a cluster that collects all of the v2 subclusters - ignore the 3.6 code (if any)"
+	"Create a cluster that collects all of the v2 subclusters"
 	| v2Cluster reverseConditionMap |
 	v2Cluster := proposedProjectClusters
 		addClusterNamed: 'V2'
@@ -256,8 +292,75 @@ refactorV2
 		expressionContext
 			set: 'v2' to: true;
 			set: 'v2Only' to: true;
+			set: 'v4' to: true;
 			set: 'tests' to: true;
 			yourself
+%
+method
+refactorV4
+	"Create a cluster that collects all of the v3 subclusters ... which are actually V4 functionality"
+	| common_v3_Core v4Cluster v4Subcluster |
+	common_v3_Core := projectClusters subclusterNamed: 'common_v3_Core'.
+	v4Cluster :=  proposedProjectClusters 
+		addClusterNamed: 'V4' 
+		comment: 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'.
+	rowanV40Slice addClusterNamed: v4Cluster clusterName.
+	rowanV40_loadedSlice addClusterNamed: v4Cluster clusterName.
+
+	v4Subcluster := proposedProjectClusters addSubclusterNamed: 'V4-Shared' toClusterNamed: 'V4' comment: 'V4 api support shared with Rowan V3'.
+	v4Subcluster 
+		addPackagesNamed: common_v3_Core packageNames;
+		condition: 'v4'.
+%
+method
+refactorTonel
+	"Create a cluster for tonel support in gemstone"
+	| common_tonel_Core tonelCluster tonelSubcluster |
+	common_tonel_Core := projectClusters subclusterNamed: 'common_tonel_Core'.
+	tonelCluster :=  proposedProjectClusters 
+		addClusterNamed: 'Tonel' 
+		comment: 'The methods in Tonel cluster implement tonel package format.'.
+	rowanV40Slice addClusterNamed: tonelCluster clusterName.
+	rowanV40_loadedSlice addClusterNamed: tonelCluster clusterName.
+
+	tonelSubcluster := proposedProjectClusters addSubclusterNamed: 'Tonel' toClusterNamed: 'Tonel' comment: 'Tonel support'.
+	tonelSubcluster 
+		addPackagesNamed: common_tonel_Core packageNames;
+		condition: 'gemstone'.
+%
+method
+refactorRowanCommon
+	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
+	| rowanCluster |
+	rowanCluster := proposedProjectClusters
+		addClusterNamed: 'Rowan-Core'
+		comment: 'Collection of packages defining the Rowan core functionality'.
+	{
+			'common_Components'.
+			'common_Core'.
+			'common_Definitions'.
+			'common_Specifications'.
+			'common_Tools'.
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		rowanCluster addPackagesNamed: originalSubcluster packageNames ].
+%
+method
+validateRowanCoreSubclusters
+	|calculatedSubclusterPackageNames expectedPackageNames |
+	calculatedSubclusterPackageNames := Set new.
+	{
+		"Rowan-Core:"
+			'common_Components' .
+			'common_Core' .
+			'common_Definitions' .
+			'common_Specifications' .
+			'common_Tools' .
+	} do: [ :subclusterName | 
+		calculatedSubclusterPackageNames addAll: (projectClusters subclusterNamed: subclusterName) packageNames ].
+	expectedPackageNames := (proposedProjectClusters clusterNamed: 'Rowan-Core') packageNames asSet.
+	calculatedSubclusterPackageNames = expectedPackageNames ifFalse: [ self error: 'mismatch between calculated Rowan-Core package names and expected' ].
 %
 method
 todo
@@ -285,6 +388,9 @@ doit
 		refactorStubs;
 		refactorObsolete;
 		refactorV2;
+		refactorV4;
+		refactorTonel;
+		refactorRowanCommon;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.
@@ -292,5 +398,6 @@ doit
 			put: proposedProjectClusters
 			onStreamPretty: stream ].
 	self inspect ifTrue: [ proposedProjectClusters halt ].
+	self validate ifTrue: [ self validateRowanCoreSubclusters ].
 	^ true
 %
