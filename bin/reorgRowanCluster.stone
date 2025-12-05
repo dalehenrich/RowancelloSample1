@@ -153,9 +153,9 @@ defineSlices
 		addSliceNamed: 'RowanV4.0' 
 			comment: 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ';
 		addSliceNamed: 'RowanV4.0_loaded' 
-			comment: 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus conditional v3, v2 and v2Only to allow RowanV4.0 to read v3 and v2 format repositories';
+			comment: 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus Rowan V3 and V2 functionality to allow RowanV4.0 to read V3 and V2 format repositories';
 		addSliceNamed: 'RowanV3.5_upgrade'
-			comment: 'The RowanV3.5_upgrade slice is used for generating some Rowan upgrade .gs files as part of the GemStone product build process ... (see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName: for the usage of this slice during the upgrade process). This cluster is not intended to be loaded into the standard Rowan image ... The packages are loaded into the standard image by the V2 cluster';
+			comment: 'The RowanV3.5_upgrade slice is used for generating some Rowan upgrade .gs files as part of the GemStone product build process ... (see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName: for the usage of this slice during the upgrade process). This slice is not intended to be loaded into the standard Rowan image ... The packages are loaded into the standard image by the V2 slice';
 		yourself	
 %
 method
