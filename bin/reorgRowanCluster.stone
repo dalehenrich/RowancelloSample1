@@ -405,12 +405,21 @@ refactorUpgrade
 		'common_v2_v2Only_platforms_gemstone36-_Loader' .
 
 	} do: [:componentName |
-		| subcluster originalSubcluster newExpression subclusterName |
+		| subcluster originalSubcluster newExpression subclusterName forceNewSubcluster |
 		subclusterName := componentName copyFrom: 'common_' size +1 to: componentName size.
 		originalSubcluster := projectClusters subclusterNamed: componentName.
 
 		newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
 		newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
+
+		forceNewSubcluster := false.
+		((componentName = 'common_platforms_gemstone_gemstoneBase_Core' 
+				or: [componentName = 'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' ]) 
+					and: [newExpression = '(gemstone | gemstoneBase)'])
+			ifTrue: [ 
+				"remove the gemstoneBase condition ... not needed"
+				newExpression := 'gemstone'.
+				forceNewSubcluster := true.	"we want a unique subcluster for this one" ].
 
 		newExpression = 'common'
 			ifTrue: [ 
@@ -418,8 +427,8 @@ refactorUpgrade
 				upgradeCluster addPackagesNamed: originalSubcluster packageNames ]
 			ifFalse: [ 
 				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
-				(reverseConditionMap at: newExpression ifAbsent: [])
-					ifNil: [ 
+				((reverseConditionMap includesKey: newExpression) not or: [forceNewSubcluster])
+					ifTrue: [ 
 						"create a subcluster to record packages for newExpression"
 						subcluster := proposedProjectClusters 
 							subclusterNamed: subclusterName
@@ -432,10 +441,11 @@ refactorUpgrade
 							addPackagesNamed: originalSubcluster packageNames;
 							condition: newExpression.
 						reverseConditionMap at: originalSubcluster condition put: subcluster ]
-					ifNotNil: [:existingSubcluster |
+					ifFalse: [
 						"add the packages to the existingSubcluster with matching conditional expression"
-						existingSubcluster
-							addPackagesNamed: originalSubcluster packageNames;
+						| existingSubcluster |
+						existingSubcluster := reverseConditionMap at: newExpression.
+						existingSubcluster	addPackagesNamed: originalSubcluster packageNames;
 							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
 	rowanUpgradeSlice addClusterNamed: upgradeCluster clusterName.
 %

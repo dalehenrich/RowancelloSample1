@@ -57,7 +57,8 @@ RwResolvedProjectClusters {
 				'platforms_gemstone35-_Core',
 				'platforms_gemstone_CoreUpgrade',
 				'platforms_gemstone36-_CoreUpgrade',
-				'platforms_gemstone_gemstoneBase_ComponentsUpgrade'
+				'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+				'platforms_gemstone_gemstoneBase_Core'
 			],
 			#comment : 'top-level component used for generating Rowan upgrade .gs files as part of the GemStone product build process ... see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName:. This cluster is not intended to be loaded into image ... the packages involved are referenced in another subcluster'
 		},
@@ -178,14 +179,6 @@ RwResolvedProjectClusters {
 			#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
 			#condition : 'gs3.[7-]'
 		},
-		'tests_v2_Tests' : RwSubclusterV2 {
-			#subclusterName : 'tests_v2_Tests',
-			#packageNames : [
-				'Rowan-TestsV2'
-			],
-			#comment : 'subcluster generated from common/tests/v2/Tests',
-			#condition : 'tests'
-		},
 		'tests_v2_Components' : RwSubclusterV2 {
 			#subclusterName : 'tests_v2_Components',
 			#packageNames : [
@@ -205,11 +198,10 @@ RwResolvedProjectClusters {
 		'platforms_gemstone_gemstoneBase_ComponentsUpgrade' : RwSubclusterV2 {
 			#subclusterName : 'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
 			#packageNames : [
-				'Rowan-GemStone-Components-Kernel',
-				'Rowan-GemStone-Url'
+				'Rowan-GemStone-Components-Kernel'
 			],
-			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage [common_platforms_gemstone_gemstoneBase_Core] Core gemstone or gemstoneBase packages',
-			#condition : '(gemstone | gemstoneBase)'
+			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
+			#condition : 'gemstone'
 		},
 		'v2_v2Only_platforms_gemstone_Loader' : RwSubclusterV2 {
 			#subclusterName : 'v2_v2Only_platforms_gemstone_Loader',
@@ -327,6 +319,22 @@ RwResolvedProjectClusters {
 			],
 			#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage [common_v2_v2Only_platforms_gemstone36-_Loader] ',
 			#condition : 'gs3.[6-]'
+		},
+		'tests_v2_Tests' : RwSubclusterV2 {
+			#subclusterName : 'tests_v2_Tests',
+			#packageNames : [
+				'Rowan-TestsV2'
+			],
+			#comment : 'subcluster generated from common/tests/v2/Tests',
+			#condition : 'tests'
+		},
+		'platforms_gemstone_gemstoneBase_Core' : RwSubclusterV2 {
+			#subclusterName : 'platforms_gemstone_gemstoneBase_Core',
+			#packageNames : [
+				'Rowan-GemStone-Url'
+			],
+			#comment : 'Core gemstone or gemstoneBase packages',
+			#condition : 'gemstone'
 		}
 	},
 	#expressionContext : RwCAQContext {
