@@ -73,7 +73,6 @@ RwResolvedProjectClusters {
 				'v2_platforms_gemstone36-_Loader',
 				'v2_v2Only_platforms_gemstone36-_Loader',
 				'tests_v2_Specifications',
-				'v2_platforms_gemstoneBase_Components',
 				'tests_v2_Tests'
 			],
 			#comment : 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'
@@ -159,6 +158,14 @@ RwResolvedProjectClusters {
 			#comment : 'AST tests',
 			#condition : 'tests & gemstone'
 		},
+		'GemStone-Stubs' : RwSubclusterV2 {
+			#subclusterName : 'GemStone-Stubs',
+			#packageNames : [
+				'Rowan-GemStone-Kernel-Stubs-37x'
+			],
+			#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
+			#condition : 'gs3.[7-]'
+		},
 		'tests_v2_Tests' : RwSubclusterV2 {
 			#subclusterName : 'tests_v2_Tests',
 			#packageNames : [
@@ -233,23 +240,6 @@ RwResolvedProjectClusters {
 			#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
 			#condition : 'tests'
 		},
-		'AST-Core' : RwSubclusterV2 {
-			#subclusterName : 'AST-Core',
-			#packageNames : [
-				'AST-Core',
-				'AST-Kernel-Core'
-			],
-			#comment : 'AST core',
-			#condition : 'gemstone'
-		},
-		'v2_v2Only_platforms_gemstone_Definitions' : RwSubclusterV2 {
-			#subclusterName : 'v2_v2Only_platforms_gemstone_Definitions',
-			#packageNames : [
-				'Rowan-GemStone-Definitions-OnlyV2'
-			],
-			#comment : '',
-			#condition : 'gemstone'
-		},
 		'Obsolete-GemStone' : RwSubclusterV2 {
 			#subclusterName : 'Obsolete-GemStone',
 			#packageNames : [
@@ -266,21 +256,22 @@ RwResolvedProjectClusters {
 			#comment : '',
 			#condition : 'gs3.[6-]'
 		},
-		'GemStone-Stubs' : RwSubclusterV2 {
-			#subclusterName : 'GemStone-Stubs',
+		'v2_v2Only_platforms_gemstone_Definitions' : RwSubclusterV2 {
+			#subclusterName : 'v2_v2Only_platforms_gemstone_Definitions',
 			#packageNames : [
-				'Rowan-GemStone-Kernel-Stubs-37x'
+				'Rowan-GemStone-Definitions-OnlyV2'
 			],
-			#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
-			#condition : 'gs3.[7-]'
+			#comment : '',
+			#condition : 'gemstone'
 		},
-		'v2_platforms_gemstoneBase_Components' : RwSubclusterV2 {
-			#subclusterName : 'v2_platforms_gemstoneBase_Components',
+		'AST-Core' : RwSubclusterV2 {
+			#subclusterName : 'AST-Core',
 			#packageNames : [
-				'Rowan-GsBase-ComponentsV2'
+				'AST-Core',
+				'AST-Kernel-Core'
 			],
-			#comment : 'Components gemstoneBase packages',
-			#condition : 'gemstoneBase'
+			#comment : 'AST core',
+			#condition : 'gemstone'
 		}
 	},
 	#expressionContext : RwCAQContext {
