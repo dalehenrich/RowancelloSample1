@@ -93,6 +93,13 @@ DESCRIPTION
 			common_Tools
 			(conditional)
 			common_platforms_gemstone_Tools
+		Upgrade:
+			common_platforms_gemstone35-_Core
+			common_platforms_gemstone_CoreUpgrade
+			common_platforms_gemstone36-_CoreUpgrade
+			common_platforms_gemstone_gemstoneBase_ComponentsUpgrade
+			common_platforms_gemstone_gemstoneBase_Core
+			common_v2_v2Only_platforms_gemstone36-_Loader			
 	"
 
 OPTIONS
@@ -133,6 +140,7 @@ projectClusters
 rowanV40Slice
 rowanV40_loadedSlice
 rowanV35Slice
+rowanUpgradeSlice
 %
 method
 defineSlices
@@ -146,6 +154,8 @@ defineSlices
 			comment: 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ';
 		addSliceNamed: 'RowanV4.0_loaded' 
 			comment: 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus conditional v3, v2 and v2Only to allow RowanV4.0 to read v3 and v2 format repositories';
+		addSliceNamed: 'RowanV3.5_upgrade'
+			comment: 'The RowanV3.5_upgrade slice is used for generating some Rowan upgrade .gs files as part of the GemStone product build process ... (see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName: for the usage of this slice during the upgrade process). This cluster is not intended to be loaded into the standard Rowan image ... The packages are loaded into the standard image by the V2 cluster';
 		yourself	
 %
 method
@@ -379,6 +389,57 @@ refactorRowanCommon
 			condition: originalSubcluster condition  ].
 %
 method
+refactorUpgrade
+	"Create a cluster that collects all of the Upgrade subclusters"
+	| upgradeCluster reverseConditionMap |
+	upgradeCluster := proposedProjectClusters
+		addClusterNamed: 'Upgrade'
+		comment: 'top-level component used for generating Rowan upgrade .gs files as part of the GemStone product build process ... see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName:. This cluster is not intended to be loaded into image ... the packages involved are referenced in another subcluster'.
+	reverseConditionMap := Dictionary new.
+	{
+		'common_platforms_gemstone35-_Core'.
+		'common_platforms_gemstone_CoreUpgrade' .
+		'common_platforms_gemstone36-_CoreUpgrade' .
+		'common_platforms_gemstone_gemstoneBase_ComponentsUpgrade' .
+		'common_platforms_gemstone_gemstoneBase_Core' .
+		'common_v2_v2Only_platforms_gemstone36-_Loader' .
+
+	} do: [:componentName |
+		| subcluster originalSubcluster newExpression subclusterName |
+		subclusterName := componentName copyFrom: 'common_' size +1 to: componentName size.
+		originalSubcluster := projectClusters subclusterNamed: componentName.
+
+		newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
+		newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
+
+		newExpression = 'common'
+			ifTrue: [ 
+				"add the packages to the current cluster"
+				upgradeCluster addPackagesNamed: originalSubcluster packageNames ]
+			ifFalse: [ 
+				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
+				(reverseConditionMap at: newExpression ifAbsent: [])
+					ifNil: [ 
+						"create a subcluster to record packages for newExpression"
+						subcluster := proposedProjectClusters 
+							subclusterNamed: subclusterName
+							ifAbsent: [
+								proposedProjectClusters 
+									addSubclusterNamed:  subclusterName
+									toClusterNamed: 'Upgrade'
+									comment: originalSubcluster comment ].
+						subcluster 
+							addPackagesNamed: originalSubcluster packageNames;
+							condition: newExpression.
+						reverseConditionMap at: originalSubcluster condition put: subcluster ]
+					ifNotNil: [:existingSubcluster |
+						"add the packages to the existingSubcluster with matching conditional expression"
+						existingSubcluster
+							addPackagesNamed: originalSubcluster packageNames;
+							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
+	rowanUpgradeSlice addClusterNamed: upgradeCluster clusterName.
+%
+method
 stripUnnecessaryVariable: variable from: expression 
 	| newExpression |
 	expression = variable 
@@ -428,6 +489,7 @@ doit
 	rowanV40Slice := proposedProjectClusters sliceNamed: 'RowanV4.0'.
 	rowanV40_loadedSlice := proposedProjectClusters sliceNamed: 'RowanV4.0_loaded'.
 	rowanV35Slice := proposedProjectClusters sliceNamed: 'RowanV3.5'.
+	rowanUpgradeSlice := proposedProjectClusters sliceNamed: 'RowanV3.5_upgrade'.
 	self
 		refactorAST;
 		refactorStubs;
@@ -435,6 +497,7 @@ doit
 		refactorV2;
 		refactorV4;
 		refactorRowanCommon;
+		refactorUpgrade;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.
