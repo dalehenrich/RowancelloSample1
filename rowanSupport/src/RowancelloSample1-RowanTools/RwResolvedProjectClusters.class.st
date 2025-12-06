@@ -102,8 +102,11 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName comment: aString [
+	"add new subcluster to aClusterName"
+
 	| cluster subcluster |
-	(aSubclusterName includes: $/) ifTrue: [self halt:'not renamed'].
+	(aSubclusterName includes: $/)
+		ifTrue: [ self halt: 'not renamed' ].
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
 		ifNil: [ 
 			self
@@ -125,10 +128,9 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 
 { #category : 'accessing' }
 RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed: aClusterName condition: aCondition comment: aString [
+	"add new subcluster to aClusterName"
+
 	| cluster subcluster |
-false ifTrue: [ 
-	self halt: 'subcluster should not be added to the cluster ... the cluster needs to reference only top-level components - work in progress'.
-].
 	(aClusterName includes: $/) ifTrue: [self halt:'cluster not renamed'].
 	(aSubclusterName includes: $/) ifTrue: [self halt:'subcluster not renamed'].
 	(cluster := self clusters at: aClusterName ifAbsent: [  ])
@@ -148,6 +150,55 @@ false ifTrue: [
 						condition: aCondition;
 						yourself) ].
 	cluster addSubclusterNamed: aSubclusterName.
+	^ subcluster
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toSliceNamed: aSliceName [
+	"add existing subcluster to aSliceName"
+
+	| slice subcluster |
+	(aSubclusterName includes: $/)
+		ifTrue: [ self halt: 'not renamed' ].
+	(slice := self slices at: aSliceName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no slice named ' , aSliceName printString
+						, ' defined in the project named ' , self projectName printString ].
+	subcluster := (self subclusters at: aSubclusterName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no subcluster named ' , aSubclusterName printString
+						, ' defined in the project named ' , self projectName printString ].
+	slice addSubclusterNamed: aSubclusterName.
+	^ subcluster
+]
+
+{ #category : 'accessing' }
+RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toSliceNamed: aSliceName  comment: aString [
+	"add new subcluster to aSliceName"
+
+	| slice subcluster |
+	(aSubclusterName includes: $/)
+		ifTrue: [ self halt: 'not renamed' ].
+	(slice := self slices at: aSliceName ifAbsent: [  ])
+		ifNil: [ 
+			self
+				error:
+					'There is no slice named ' , aSliceName printString
+						, ' defined in the project named ' , self projectName printString ].
+	subcluster := (self subclusters at: aSubclusterName ifAbsent: [  ])
+		ifNil: [ 
+			self subclusters
+				at: aSubclusterName
+				put:
+					(RwSubclusterV2 new
+						subclusterName: aSubclusterName;
+						comment: aString;
+						yourself) ].
+	slice addSubclusterNamed: aSubclusterName.
 	^ subcluster
 ]
 

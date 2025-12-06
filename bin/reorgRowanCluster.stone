@@ -93,7 +93,7 @@ DESCRIPTION
 			common_Tools
 			(conditional)
 			common_platforms_gemstone_Tools
-		Upgrade:
+		RowanV3.5_upgrade (slice):
 			common_platforms_gemstone35-_Core
 			common_platforms_gemstone_CoreUpgrade
 			common_platforms_gemstone36-_CoreUpgrade
@@ -149,7 +149,7 @@ defineSlices
 
 	proposedProjectClusters
 		addSliceNamed: 'RowanV3.5' 
-			comment: 'The RowanV3.5 slice is intended to duplicated the packages loaded into the standard 3.7.5 Rowan3 extent';
+			comment: 'The RowanV3.5 slice is intended to duplicate the packages loaded into the standard 3.7.5 Rowan3 extent';
 		addSliceNamed: 'RowanV4.0' 
 			comment: 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. ';
 		addSliceNamed: 'RowanV4.0_loaded' 
@@ -390,11 +390,8 @@ refactorRowanCommon
 %
 method
 refactorUpgrade
-	"Create a cluster that collects all of the Upgrade subclusters"
-	| upgradeCluster reverseConditionMap |
-	upgradeCluster := proposedProjectClusters
-		addClusterNamed: 'Upgrade'
-		comment: 'top-level component used for generating Rowan upgrade .gs files as part of the GemStone product build process ... see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName:. This cluster is not intended to be loaded into image ... the packages involved are referenced in another subcluster'.
+	"The slice collects all of the Upgrade subclusters (no need for a cluster ... the subclusters are shared, but the cluster is not ... so no need for cluster)"
+	| reverseConditionMap |
 	reverseConditionMap := Dictionary new.
 	{
 		'common_platforms_gemstone35-_Core'.
@@ -423,8 +420,8 @@ refactorUpgrade
 
 		newExpression = 'common'
 			ifTrue: [ 
-				"add the packages to the current cluster"
-				upgradeCluster addPackagesNamed: originalSubcluster packageNames ]
+				"add the packages to the slice"
+				rowanUpgradeSlice addPackagesNamed: originalSubcluster packageNames ]
 			ifFalse: [ 
 				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
 				((reverseConditionMap includesKey: newExpression) not or: [forceNewSubcluster])
@@ -435,7 +432,7 @@ refactorUpgrade
 							ifAbsent: [
 								proposedProjectClusters 
 									addSubclusterNamed:  subclusterName
-									toClusterNamed: 'Upgrade'
+									toSliceNamed: rowanUpgradeSlice sliceName
 									comment: originalSubcluster comment ].
 						subcluster 
 							addPackagesNamed: originalSubcluster packageNames;
@@ -447,7 +444,6 @@ refactorUpgrade
 						existingSubcluster := reverseConditionMap at: newExpression.
 						existingSubcluster	addPackagesNamed: originalSubcluster packageNames;
 							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
-	rowanUpgradeSlice addClusterNamed: upgradeCluster clusterName.
 %
 method
 stripUnnecessaryVariable: variable from: expression 
