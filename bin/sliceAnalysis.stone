@@ -4,7 +4,8 @@ options
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectName'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'projectClusters'.
-	SuperDoitOptionalOptionWithRequiredArg long: 'spec'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'specUrl'.
+
 	SuperDoitOptionalOptionWithNoArg long: 'validate'.
 	SuperDoitOptionalOptionWithNoArg long: 'stats'.
 	SuperDoitOptionalOptionWithNoArg long: 'packageNames'.
@@ -43,7 +44,7 @@ DESCRIPTION
   instance of RwResolvedProjectClusters with several RwSlices defined: RowanV3.5, 
   RowanV4.0, RowanV4.0_loaded, and RowanV3.5_upgrade.
 
-  The script will take a single slice (for now) and produce a list of packages 
+  This script will take a slice name from the command line and produce a list of packages 
   that should be loaded by the slice.
 
 	Using the --validate option will arrange to have the package list produced by 
@@ -71,39 +72,31 @@ EXAMPLES
 	# Rowan:masterV3.5 - Rowan
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
-            --spec=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
-            --projectClusters='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_slices.ston' \
-            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_packages.ston' \
-            RowanV3.5 -D
+            --specUrl=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --projectClusters='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Rowan_components.ston' \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Upgrade_packages.ston' \
+            --addedAttributes=upgrade
+            RowanV3.5 Upgrade -D
 
   -----
 %
 method
-calculatePackageNamesFor: unused clusters: clusterNames projectClusters: projectClusters
-	| packageNames context |
+calculatePackageNamesFor: unused slices: sliceNames projectClusters: projectClusters
+	| packageNames context subcluster|
 	context := projectClusters expressionContext.
 	packageNames := Set new.
-	clusterNames do: [:clusterName |
-		| cluster ast evaluator stack index|
-		cluster := projectClusters clusterNamed: clusterName.
-		packageNames addAll: cluster packageNames.
-		stack := Array new.
-		stack add: cluster subclusters.
-		index := 1.
-		[index > stack size] 
-			whileFalse: [
-				index to: stack size do: [:i | 
-					(stack at: i) do: [:subclusterName |
-						| subcluster |
-						subcluster := projectClusters subclusterNamed: subclusterName.
-          	ast := RwCAQParser new parse: subcluster condition.                           
-          	evaluator := RwCAQEvaluator
-          		context: context
-            	ast: ast.
-          	(evaluator evaluate)
-							ifTrue: [
-								packageNames addAll: subcluster packageNames ] ] ].
-				index := index + 1 ] ].
+	sliceNames do: [:sliceName |
+		| slice ast evaluator stack index|
+		slice := projectClusters sliceNamed: sliceName.
+		packageNames addAll: slice packageNames.
+		slice subclusterNames do: [:subclusterName |
+			subcluster := projectClusters sliceNamed: subclusterName.
+    	ast := RwCAQParser new parse: subcluster condition.                           
+   		evaluator := RwCAQEvaluator
+   			context: context
+   			ast: ast.
+      (evaluator evaluate)
+				ifTrue: [ packageNames addAll: subcluster packageNames ] ] ].
 	^ packageNames sort
 %
 method
@@ -217,24 +210,24 @@ sortProjectClusterFields: projectClusters
 	
 %
 doit
-	| resolvedProject loadSpec loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
+	| resolvedProject loadSpec sliceName loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
 				ifNil: [ self error: 'ROWAN_PROJECTS_HOME not definied. Define ROWAN_PROJECTS_HOME or use --projectsHome option' ] ]
 		ifNotNil: [:rowanProjectsHome | System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME' put: rowanProjectsHome ].
-	self positionalArgs size < 1 ifTrue: [ self error: 'Must provide the loadSpecUrl as first positional argument'].
-	loadComponentNames := self positionalArgs copyFrom: 2 to: self positionalArgs size.
-	
-	loadSpec := (RwSpecification fromUrl: (self positionalArgs at: 1)) copyAsV4_cluster. 
+	self positionalArgs size < 2 ifTrue: [ self error: 'Must provide the sliceName and component name positional arguments'].
+	sliceName := self positionalArgs at: 1.
+	loadComponentNames := {self positionalArgs at: 2}.
+	loadSpec := (RwSpecification fromUrl: self specUrl) copyAsV4_cluster. 
 	attributes := { 'v2' . 'tests' . 'testsV2' . 'gemstone' . 'common' }.	"common attributes"
 	self addedAttributes
 		ifNotNil: [:added |
 			(added subStringsDelimitedBy: Character space)
-				do: [ :addedAttribute | attributes add: addedAttribute]].
+				do: [ :addedAttribute | 
+					attributes add: addedAttribute]].
 	loadSpec addCustomConditionalAttributes: attributes.
 	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
-false ifTrue: [ 	attributes := (attributes , { 'gemstoneBase'}) asSet asArray ].
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
@@ -279,21 +272,19 @@ ifFalse: [
 					set: 'gemstone-kernel';
 					set: 'gemstone.version' to: (self targetGemStoneVersion asRwGemStoneVersionNumber);
 					yourself.
-				theAttributes 
-					add: 'gemstone-kernel'; 
+				theAttributes
+					add: 'gemstone-kernel';
 					add: self targetGemStoneVersion ]
 			ifFalse: [ context set: attribute ] ].
-	theAttributes := theAttributes asSet asArray. 
-	projectClusters := resolvedProject projectDefinition clusterAnalysis.
+	theAttributes := theAttributes asSet asArray.
+	projectClusters := self projectClusters asFileReference readStreamDo: [:stream | STON fromStream: stream].
 	self sortProjectClusterFields: projectClusters.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
-				clusters: loadComponentNames 
+				slices: { sliceName } 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
 	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
-	self duplicateConditions 
-		ifTrue: [ self calculateDuplicateSubclusterConditions: projectClusters subclusters reportOn: res ].
 	self resultsFile asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.
 		(STONWriter new on: writeStream)
