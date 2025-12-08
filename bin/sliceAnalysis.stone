@@ -86,7 +86,7 @@ calculatePackageNamesFor: unused slices: sliceNames projectClusters: projectClus
 	context := projectClusters expressionContext.
 	packageNames := Set new.
 	sliceNames do: [:sliceName |
-		| slice ast evaluator stack index|
+		| slice ast evaluator |
 		slice := projectClusters sliceNamed: sliceName.
 		packageNames addAll: slice packageNames.
 		slice subclusterNames do: [:subclusterName |
