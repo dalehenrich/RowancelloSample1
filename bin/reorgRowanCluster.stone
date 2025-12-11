@@ -122,15 +122,7 @@ EXAMPLES
   $basename <script-arguments>               <topaz-arguments>
 
   $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
-             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
-             -D
-  $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
-             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
-             --inspect
-             -D
-  $basename  --sourceFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_components.ston \
-             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanV3_Rowan_clusters.ston \
-             --validate
+             --resultsFile=/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Rowan_components.ston \
              -D
 -----
 %
@@ -289,28 +281,23 @@ refactorV2
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
 		newExpression := self stripUnnecessaryVariable: 'v2Only' from: originalSubcluster condition.
 		newExpression := self stripUnnecessaryVariable: 'v2' from: newExpression.
-		newExpression = 'common'
-			ifTrue: [ 
-				"add the packages to the current cluster"
-				v2Cluster addPackagesNamed: originalSubcluster packageNames ]
-			ifFalse: [ 
-				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
-				(reverseConditionMap at: newExpression ifAbsent: [])
-					ifNil: [ 
-						"create a subcluster to record packages for newExpression"
-						subcluster := proposedProjectClusters 
-							addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
-							toClusterNamed: 'V2'
-							comment: originalSubcluster comment.
-						subcluster 
-							addPackagesNamed: originalSubcluster packageNames;
-							condition: newExpression.
-						reverseConditionMap at: originalSubcluster condition put: subcluster ]
-					ifNotNil: [:existingSubcluster |
-						"add the packages to the existingSubcluster with matching conditional expression"
-						existingSubcluster
-							addPackagesNamed: originalSubcluster packageNames;
-							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
+		"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
+		(reverseConditionMap at: newExpression ifAbsent: [])
+			ifNil: [ 
+				"create a subcluster to record packages for newExpression"
+				subcluster := proposedProjectClusters 
+					addSubclusterNamed: (subclusterName copyFrom: 'common_' size +1 to: subclusterName size) 
+					toClusterNamed: 'V2'
+					comment: originalSubcluster comment.
+				subcluster 
+					addPackagesNamed: originalSubcluster packageNames;
+					condition: newExpression.
+				reverseConditionMap at: originalSubcluster condition put: subcluster ]
+			ifNotNil: [:existingSubcluster |
+				"add the packages to the existingSubcluster with matching conditional expression"
+				existingSubcluster
+					addPackagesNamed: originalSubcluster packageNames;
+					comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ].
 	proposedProjectClusters
 		expressionContext
 			set: 'tests' to: true;
@@ -319,7 +306,7 @@ refactorV2
 method
 refactorV4
 	"Create a cluster that collects all of the v3 subclusters ... which are actually V4 functionality"
-	| common_v3_Core common_tests_v3_Tests v4Cluster v4TestsSubcluster |
+	| common_v3_Core common_tests_v3_Tests v4Cluster v4Subcluster v4TestsSubcluster |
 	common_v3_Core := projectClusters subclusterNamed: 'common_v3_Core'.
 	common_tests_v3_Tests := projectClusters subclusterNamed: 'common_tests_v3_Tests'.
 	v4Cluster :=  proposedProjectClusters 
@@ -327,7 +314,11 @@ refactorV4
 		comment: 'The methods in V4 cluster are currently used in the standard V3 image to implement early V4 support.'.
 	rowanV40Slice addClusterNamed: v4Cluster clusterName.
 	rowanV40_loadedSlice addClusterNamed: v4Cluster clusterName.
-	v4Cluster 
+	v4Subcluster := proposedProjectClusters 
+		addSubclusterNamed: 'V4' 
+		toClusterNamed: 'V4'
+		comment: 'V4 packages from common_v3_Core component'.
+	v4Subcluster 
 		addPackagesNamed: common_v3_Core packageNames;
 		yourself.
 	v4TestsSubcluster := proposedProjectClusters addSubclusterNamed: 'V4-Tests' toClusterNamed: 'V4' comment: 'V4 api tests'.
@@ -355,10 +346,14 @@ self halt: 'No longer used ... included in Rowan-Core cluster'.
 method
 refactorRowanCommon
 	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
-	| rowanCluster |
+	| rowanCluster rowanSubcluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
 		comment: 'Collection of packages and subclusters defining the Rowan core functionality'.
+	rowanSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Core' 
+		toClusterNamed: 'Rowan-Core'
+		comment: 'packages Rowan-Core'.
 	{
 			'common_Components'.
 			'common_Core'.
@@ -369,7 +364,7 @@ refactorRowanCommon
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
-		rowanCluster addPackagesNamed: originalSubcluster packageNames ].
+		rowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
 	rowanV35Slice addClusterNamed: rowanCluster clusterName.
 	rowanV40Slice  addClusterNamed: rowanCluster clusterName.
 	rowanV40_loadedSlice  addClusterNamed: rowanCluster clusterName.
@@ -391,7 +386,7 @@ refactorRowanCommon
 method
 refactorUpgrade
 	"The slice collects all of the Upgrade subclusters (no need for a cluster ... the subclusters are shared, but the cluster is not ... so no need for cluster)"
-	| reverseConditionMap |
+	| reverseConditionMap upgradeCluster |
 	reverseConditionMap := Dictionary new.
 	{
 		'common_platforms_gemstone35-_Core'.
@@ -421,18 +416,25 @@ refactorUpgrade
 		newExpression = 'common'
 			ifTrue: [ 
 				"add the packages to the slice"
+				self halt: 'need to create a cluster to hold the subclusters ... not needed before'.
 				rowanUpgradeSlice addPackagesNamed: originalSubcluster packageNames ]
 			ifFalse: [ 
 				"create a new subcluster for packages or add packages to existing subcluster with same conditional expression"
 				((reverseConditionMap includesKey: newExpression) not or: [forceNewSubcluster])
 					ifTrue: [ 
-						"create a subcluster to record packages for newExpression"
+						"create a cluster and subcluster to record packages for newExpression"
+						upgradeCluster 
+							ifNil: [ 
+								upgradeCluster := proposedProjectClusters
+									addClusterNamed: rowanUpgradeSlice sliceName
+									comment: 'Collection of packages and subclusters defining the Rowan upgrade packages'.
+								rowanUpgradeSlice addClusterNamed: upgradeCluster clusterName ].
 						subcluster := proposedProjectClusters 
 							subclusterNamed: subclusterName
 							ifAbsent: [
 								proposedProjectClusters 
 									addSubclusterNamed:  subclusterName
-									toSliceNamed: rowanUpgradeSlice sliceName
+									toClusterNamed: upgradeCluster clusterName
 									comment: originalSubcluster comment ].
 						subcluster 
 							addPackagesNamed: originalSubcluster packageNames;
