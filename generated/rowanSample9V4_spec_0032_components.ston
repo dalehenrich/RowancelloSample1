@@ -43,12 +43,11 @@
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
+		#slices : { },
 		#clusters : {
 			'RowanSample9V4' : RwCluster {
 				#clusterName : 'RowanSample9V4',
-				#packageNames : [ ],
-				#projectNames : [ ],
-				#subclusters : [
+				#subclusterNames : [
 					'common_Core',
 					'common_Definitions',
 					'common_Specs',
@@ -67,7 +66,7 @@
 			}
 		},
 		#subclusters : {
-			'common_tests_v1_Specs' : RwSubclusterV2 {
+			'common_tests_v1_Specs' : RwSubcluster {
 				#subclusterName : 'common_tests_v1_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs-V1-Tests'
@@ -75,7 +74,7 @@
 				#comment : '',
 				#condition : 'tests & v1'
 			},
-			'common_tests__gemstone_glass_Definitions' : RwSubclusterV2 {
+			'common_tests__gemstone_glass_Definitions' : RwSubcluster {
 				#subclusterName : 'common_tests__gemstone_glass_Definitions',
 				#packageNames : [
 					'RowanSample9V4-Definitions-GemStone-Tests'
@@ -83,7 +82,7 @@
 				#comment : '',
 				#condition : 'tests &  (gemstone | glass)'
 			},
-			'common__pharo_Definitions' : RwSubclusterV2 {
+			'common__pharo_Definitions' : RwSubcluster {
 				#subclusterName : 'common__pharo_Definitions',
 				#packageNames : [
 					'RowanSample9V4-Definitions-Pharo'
@@ -91,7 +90,7 @@
 				#comment : '',
 				#condition : 'pharo'
 			},
-			'common_Definitions' : RwSubclusterV2 {
+			'common_Definitions' : RwSubcluster {
 				#subclusterName : 'common_Definitions',
 				#packageNames : [
 					'RowanSample9V4-Definitions'
@@ -99,7 +98,7 @@
 				#comment : '',
 				#condition : 'common'
 			},
-			'common_Core' : RwSubclusterV2 {
+			'common_Core' : RwSubcluster {
 				#subclusterName : 'common_Core',
 				#packageNames : [
 					'RowanSample9V4-Core'
@@ -107,7 +106,7 @@
 				#comment : '',
 				#condition : 'common'
 			},
-			'common_tests__pharo_Definitions' : RwSubclusterV2 {
+			'common_tests__pharo_Definitions' : RwSubcluster {
 				#subclusterName : 'common_tests__pharo_Definitions',
 				#packageNames : [
 					'RowanSample9V4-Definitions-Pharo-Tests'
@@ -115,15 +114,15 @@
 				#comment : '',
 				#condition : 'tests & pharo'
 			},
-			'common__gemstone_glass_Definitions' : RwSubclusterV2 {
+			'common__gemstone_glass_Definitions' : RwSubcluster {
 				#subclusterName : 'common__gemstone_glass_Definitions',
 				#packageNames : [
 					'RowanSample9V4-Definitions-GemStone'
 				],
 				#comment : '',
-				#condition : ' (gemstone | glass)'
+				#condition : '(gemstone | glass)'
 			},
-			'common_tests_v2_Specs' : RwSubclusterV2 {
+			'common_tests_v2_Specs' : RwSubcluster {
 				#subclusterName : 'common_tests_v2_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs-V2-Tests'
@@ -131,7 +130,7 @@
 				#comment : '',
 				#condition : 'tests & v2'
 			},
-			'common_v1_Specs' : RwSubclusterV2 {
+			'common_v1_Specs' : RwSubcluster {
 				#subclusterName : 'common_v1_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs-V1'
@@ -139,7 +138,7 @@
 				#comment : '',
 				#condition : 'v1'
 			},
-			'common_tests_Tests' : RwSubclusterV2 {
+			'common_tests_Tests' : RwSubcluster {
 				#subclusterName : 'common_tests_Tests',
 				#packageNames : [
 					'RowanSample9V4-Definitions-Tests',
@@ -149,7 +148,7 @@
 				#comment : '',
 				#condition : 'tests'
 			},
-			'shared_Specs' : RwSubclusterV2 {
+			'shared_Specs' : RwSubcluster {
 				#subclusterName : 'shared_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs-Shared'
@@ -157,7 +156,7 @@
 				#comment : 'This component is intended for sharing common code and should not be loaded independently',
 				#condition : 'v1'
 			},
-			'common_Specs' : RwSubclusterV2 {
+			'common_Specs' : RwSubcluster {
 				#subclusterName : 'common_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs'
@@ -165,7 +164,7 @@
 				#comment : '',
 				#condition : 'common'
 			},
-			'common_v2_Specs' : RwSubclusterV2 {
+			'common_v2_Specs' : RwSubcluster {
 				#subclusterName : 'common_v2_Specs',
 				#packageNames : [
 					'RowanSample9V4-Specs-V2'
@@ -186,17 +185,5 @@
 				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
 			}
 		}
-	},
-	'COMMENT' : '2 conditions shared by  5 subclusters out of 13 . That leaves 8 singleton subclusters, for a total of 10 subclusters needed, instead of 13. If the conditions can be shared :).',
-	'duplicateConditions' : {
-		'v1' : [
-			'common_v1_Specs',
-			'shared_Specs'
-		],
-		'common' : [
-			'common_Core',
-			'common_Definitions',
-			'common_Specs'
-		]
 	}
 ]

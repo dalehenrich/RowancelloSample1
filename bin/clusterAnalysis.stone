@@ -80,7 +80,7 @@ EXAMPLES
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/rowanSample9V4_spec_0032_components.ston' \
             RowanSample9V4 -D
 
-	# RowanSample9V4:spec_0072 - Core
+	# RowanSample9V4:spec_0070- Core
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanSample9V4_0070 \
             file:///bosch1/users/dhenrich/_stones/git/RowanSample9V4/rowan/specs/spec_0070.ston \
@@ -129,9 +129,8 @@ calculatePackageNamesFor: unused clusters: clusterNames projectClusters: project
 	clusterNames do: [:clusterName |
 		| cluster ast evaluator stack index|
 		cluster := projectClusters clusterNamed: clusterName.
-		packageNames addAll: cluster packageNames.
 		stack := Array new.
-		stack add: cluster subclusters.
+		stack add: cluster subclusterNames.
 		index := 1.
 		[index > stack size] 
 			whileFalse: [
@@ -256,7 +255,7 @@ method
 sortProjectClusterFields: projectClusters
 	"alphabetically sort all of the arrays in projectClusters"
 	 projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
-			cluster subclusters: cluster subclusters sort ].
+			cluster subclusterNames: cluster subclusterNames sort ].
 	
 %
 doit

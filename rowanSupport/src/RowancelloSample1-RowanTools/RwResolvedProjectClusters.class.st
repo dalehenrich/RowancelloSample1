@@ -118,7 +118,7 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 			self subclusters
 				at: aSubclusterName
 				put:
-					(RwSubclusterV2 new
+					(RwSubcluster new
 						subclusterName: aSubclusterName;
 						comment: aString;
 						yourself) ].
@@ -144,7 +144,7 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toClusterNamed:
 			self subclusters
 				at: aSubclusterName
 				put:
-					(RwSubclusterV2 new
+					(RwSubcluster new
 						subclusterName: aSubclusterName;
 						comment: aString;
 						condition: aCondition;
@@ -194,7 +194,7 @@ RwResolvedProjectClusters >> addSubclusterNamed: aSubclusterName toSliceNamed: a
 			self subclusters
 				at: aSubclusterName
 				put:
-					(RwSubclusterV2 new
+					(RwSubcluster new
 						subclusterName: aSubclusterName;
 						comment: aString;
 						yourself) ].

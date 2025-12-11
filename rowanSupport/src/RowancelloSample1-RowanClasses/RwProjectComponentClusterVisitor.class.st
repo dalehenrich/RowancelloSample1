@@ -169,14 +169,27 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 	self componentNames add: aComponent name.	"make this guy happy"
 	(self topLevelComponentNames includes: aComponent name)
 		ifTrue: [ 
-			| theCluster |
-			theCluster := (resolvedProject
+			| theCluster theSubcluster |
+			theCluster := resolvedProject
 				addClusterNamed: (self _conditionComponentName: aComponent name)
-				comment: aComponent comment)
-				addPackagesNamed: aComponent packageNames;
-				addProjectsNamed: aComponent projectNames;
-				yourself.
-			createdCluster := true.
+				comment: aComponent comment.
+			createdCluster := true.	"create a subcluster for aComponent"
+			(aComponent packageNames isEmpty and: [ aComponent projectNames isEmpty ])
+				ifFalse: [ 
+					"create a subcluster to hold the clusters packages and projects"
+					(resolvedProject
+						subclusterNamed: (self _conditionComponentName: aComponent name)
+						ifAbsent: [  ])
+						ifNotNil: [ self error: 'Unexpectedly overriding an existing subcluster ' , aComponent name ].
+					theSubcluster := resolvedProject
+						addSubclusterNamed: (self _conditionComponentName: aComponent name)
+						toClusterNamed: theCluster clusterName
+						condition: accumulatedConditionExpression
+						comment: 'subcluster generated for ' , aComponent name.
+					theSubcluster
+						addPackagesNamed: aComponent packageNames;
+						addProjectsNamed: aComponent projectNames;
+						yourself ].
 			self currentClusterStack isEmpty
 				ifFalse: [ 
 					(aComponent class == RwLoadComponent
@@ -194,16 +207,8 @@ RwProjectComponentClusterVisitor >> visitLoadComponent: aComponent withAccumulat
 					self halt: 'hello conditionalPackageMapSpecs'.
 					false
 						ifTrue: [ 
-							| theSubcluster |
 							aComponent conditionalPackageMapSpecs
-								keysAndValuesDo: [ :condition :thePackageNames | 
-									theSubcluster := resolvedProject
-										addSubclusterNamed:
-											(self _conditionComponentName: aComponent name) , '_condition'
-										toClusterNamed: theCluster clusterName
-										condition: condition
-										comment: 'subcluster generated from ' , aComponent name.
-									theSubcluster addPackagesNamed: thePackageNames ] ] ] ]
+								keysAndValuesDo: [ :condition :thePackageNames | theSubcluster addPackagesNamed: thePackageNames ] ] ] ]
 		ifFalse: [ 
 			(aComponent packageNames isEmpty
 				and: [ aComponent projectNames isEmpty and: [ self currentClusterStack isEmpty not ] ])

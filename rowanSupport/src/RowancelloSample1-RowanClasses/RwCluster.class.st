@@ -12,9 +12,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'clusterName',
-		'packageNames',
-		'projectNames',
-		'subclusters',
+		'subclusterNames',
 		'comment'
 	],
 	#category : 'RowancelloSample1-Rowan-Classes'
@@ -74,29 +72,9 @@ RwCluster >> _exportToUrl: directoryUrl [
 ]
 
 { #category : 'accessing' }
-RwCluster >> addPackagesNamed: packagesNamed [
-	"list of unconditional package names associated with the cluster"
-
-	packagesNamed
-		do: [ :each | 
-			(packageNames includes: each)
-				ifFalse: [ packageNames add: each ] ]
-]
-
-{ #category : 'accessing' }
-RwCluster >> addProjectsNamed: projectsNamed [
-	"list of unconditional project names associated with the cluster"
-
-	projectsNamed
-		do: [ :each | 
-			(projectNames includes: each)
-				ifFalse: [ projectNames add: each ] ]
-]
-
-{ #category : 'accessing' }
 RwCluster >> addSubclusterNamed: aSubclusterName [
-	(subclusters includes: aSubclusterName)
-		ifFalse: [ subclusters add: aSubclusterName ]
+	(subclusterNames includes: aSubclusterName)
+		ifFalse: [ subclusterNames add: aSubclusterName ]
 ]
 
 { #category : 'accessing' }
@@ -128,9 +106,7 @@ RwCluster >> exportToUrl: directoryUrl [
 
 { #category : 'initialization' }
 RwCluster >> initialize [
-	subclusters := Array new.
-	packageNames := Array new.
-	projectNames := Array new
+	subclusterNames := Array new.
 ]
 
 { #category : 'initialization' }
@@ -138,28 +114,11 @@ RwCluster >> initializeForExport [
 ]
 
 { #category : 'accessing' }
-RwCluster >> packageNames [
-	^packageNames
+RwCluster >> subclusterNames [
+	^subclusterNames
 ]
 
 { #category : 'accessing' }
-RwCluster >> projectNames [
-	^projectNames
-]
-
-{ #category : 'accessing' }
-RwCluster >> subclusterNamed: aSubclusterName [
-	^ subclusters
-		detect: [ :subcluster | subcluster name = aSubclusterName ]
-		ifNone: [ self error: 'No subcluster named: ' , aSubclusterName printString , ' found.' ]
-]
-
-{ #category : 'accessing' }
-RwCluster >> subclusters [
-	^subclusters
-]
-
-{ #category : 'accessing' }
-RwCluster >> subclusters: object [
-	subclusters := object
+RwCluster >> subclusterNames: object [
+	subclusterNames := object
 ]

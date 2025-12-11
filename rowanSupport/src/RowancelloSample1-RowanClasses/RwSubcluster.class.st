@@ -1,27 +1,15 @@
-"
-A RwSubcluster has a name, and a collection of condition/packageAndProjectNames pairs. When a subcluster is loaded, the list of packageAndProjectNames associated with a condition  that evaluates to true are loaded. A packageOrPronectName may not be present in more than one packageAndProjectName list in a subcluster and a packageOrProjectName may not be referenced by more than one subcluster ... Essentially each packageorProject must be associated with a single, unique condition in a single subcluster. 
-
-These restrictions are put into place, because it can become too difficult to manage the dependencies if a package shows up in multple subclusters ...
-
-See class comment for RwLoadeSpecifictionV4_cluster and RwCluster for additional information.
-"
 Class {
 	#name : 'RwSubcluster',
 	#superclass : 'Object',
 	#instVars : [
 		'subclusterName',
+		'packageNames',
+		'projectNames',
 		'comment',
-		'conditionalPackageMap',
-		'conditionalProjectMap'
+		'condition'
 	],
 	#category : 'RowancelloSample1-Rowan-Classes'
 }
-
-{ #category : 'instance creation' }
-RwSubcluster class >> new [
-
-	^ self basicNew initialize
-]
 
 { #category : 'exporting' }
 RwSubcluster >> _exportToUrl: directoryUrl [
@@ -44,15 +32,19 @@ RwSubcluster >> _exportToUrl: directoryUrl [
 ]
 
 { #category : 'accessing' }
-RwSubcluster >> addPackagesNamed: packagesNamed condition: conditionExpression [
-	| ar |
-	ar := self conditionalPackageMap
-		at: conditionExpression
-		ifAbsentPut: [ Array new ].
+RwSubcluster >> addPackagesNamed: packagesNamed [
 	packagesNamed
 		do: [ :each | 
-			(ar includes: each)
-				ifFalse: [ ar add: each ] ]
+			(self packageNames includes: each)
+				ifFalse: [ packageNames add: each ] ]
+]
+
+{ #category : 'accessing' }
+RwSubcluster >> addProjectsNamed: projectsNamed [
+	projectsNamed
+		do: [ :each | 
+			(self projectNames includes: each)
+				ifFalse: [ projectNames add: each ] ]
 ]
 
 { #category : 'accessing' }
@@ -79,13 +71,15 @@ RwSubcluster >> comment: object [
 ]
 
 { #category : 'accessing' }
-RwSubcluster >> conditionalPackageMap [
-	^conditionalPackageMap ifNil: [  conditionalPackageMap := Dictionary new ]
+RwSubcluster >> condition [
+	^condition
 ]
 
 { #category : 'accessing' }
-RwSubcluster >> conditionalProjectMap [
-	^conditionalProjectMap  ifNil: [  conditionalProjectMap := Dictionary new ]
+RwSubcluster >> condition: aString [
+	aString isString
+		ifFalse: [ self error: 'The condition is expected to be an expression string' ].
+	condition := aString
 ]
 
 { #category : 'exporting' }
@@ -97,6 +91,16 @@ RwSubcluster >> exportToUrl: directoryUrl [
 
 { #category : 'initialization' }
 RwSubcluster >> initializeForExport [
+]
+
+{ #category : 'accessing' }
+RwSubcluster >> packageNames [
+	^packageNames ifNil: [ packageNames := Array new ]
+]
+
+{ #category : 'accessing' }
+RwSubcluster >> projectNames [
+	^projectNames ifNil: [ projectNames := Array new ]
 ]
 
 { #category : 'accessing' }

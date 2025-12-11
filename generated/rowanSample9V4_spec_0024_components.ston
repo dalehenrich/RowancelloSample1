@@ -24,15 +24,12 @@
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
+		#slices : { },
 		#clusters : {
 			'Core' : RwCluster {
 				#clusterName : 'Core',
-				#packageNames : [
-					'RowanSample9V4-Core',
-					'RowanSample9V4-Extensions'
-				],
-				#projectNames : [ ],
-				#subclusters : [
+				#subclusterNames : [
+					'Core',
 					'platform_gemstone_Core',
 					'platform_pharo_Core',
 					'platform_vast_Core',
@@ -43,15 +40,7 @@
 			}
 		},
 		#subclusters : {
-			'tests_Tests' : RwSubclusterV2 {
-				#subclusterName : 'tests_Tests',
-				#packageNames : [
-					'RowanSample9V4-Tests'
-				],
-				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
-				#condition : 'tests'
-			},
-			'platform_pharo_Core' : RwSubclusterV2 {
+			'platform_pharo_Core' : RwSubcluster {
 				#subclusterName : 'platform_pharo_Core',
 				#packageNames : [
 					'RowanSample9V4-Export-Pharo'
@@ -59,7 +48,7 @@
 				#comment : 'Component for loading pharo-specific packages',
 				#condition : 'pharo'
 			},
-			'platform_vast_Core' : RwSubclusterV2 {
+			'platform_vast_Core' : RwSubcluster {
 				#subclusterName : 'platform_vast_Core',
 				#packageNames : [
 					'RowanSample9V4-Export-VAST',
@@ -68,7 +57,24 @@
 				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/STON is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image.\n\n\t\tThe package named RowanSample9-VAST-Application, which contains the Envy \n\t\tApplication class is also included in this component.',
 				#condition : 'vast'
 			},
-			'platform_gemstone_Core' : RwSubclusterV2 {
+			'Core' : RwSubcluster {
+				#subclusterName : 'Core',
+				#packageNames : [
+					'RowanSample9V4-Core',
+					'RowanSample9V4-Extensions'
+				],
+				#comment : 'subcluster generated for Core',
+				#condition : 'common'
+			},
+			'tests_Tests' : RwSubcluster {
+				#subclusterName : 'tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Tests'
+				],
+				#comment : 'Component for loading vast-specific test packages and components. \n\t\tThe component named VAST_IMAGE/SUnit is a pseudo-component that refers to \n\t\tapplications expected to reside in the VAST image',
+				#condition : 'tests'
+			},
+			'platform_gemstone_Core' : RwSubcluster {
 				#subclusterName : 'platform_gemstone_Core',
 				#packageNames : [
 					'RowanSample9V4-Export-GemStone'
@@ -76,7 +82,7 @@
 				#comment : 'Component for loading gemstone-specific packages',
 				#condition : 'gemstone'
 			},
-			'tests_platform_vast_Tests' : RwSubclusterV2 {
+			'tests_platform_vast_Tests' : RwSubcluster {
 				#subclusterName : 'tests_platform_vast_Tests',
 				#packageNames : [
 					'RowanSample9V4-VAST-Test-Application'
@@ -96,7 +102,5 @@
 				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
 			}
 		}
-	},
-	'COMMENT' : '0 conditions shared by  0 subclusters out of 5 . That leaves 5 singleton subclusters, for a total of 5 subclusters needed, instead of 5. If the conditions can be shared :).',
-	'duplicateConditions' : { }
+	}
 ]

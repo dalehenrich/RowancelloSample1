@@ -25,25 +25,23 @@
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#projectName : 'RowanSample9V4',
+		#slices : { },
 		#clusters : {
 			'Core' : RwCluster {
 				#clusterName : 'Core',
-				#packageNames : [
-					'RowanSample9V4-Core'
-				],
-				#projectNames : [ ],
-				#subclusters : [
+				#subclusterNames : [
 					'attr1_Core',
 					'attr1_tests_Core',
 					'attr2_Core',
 					'attr2_tests_Core',
+					'Core',
 					'tests_Tests'
 				],
 				#comment : 'Primary component used for loading the core classes.'
 			}
 		},
 		#subclusters : {
-			'attr2_Core' : RwSubclusterV2 {
+			'attr2_Core' : RwSubcluster {
 				#subclusterName : 'attr2_Core',
 				#packageNames : [
 					'RowanSample9V4-Core2'
@@ -51,7 +49,7 @@
 				#comment : '',
 				#condition : 'attr2'
 			},
-			'attr1_tests_Core' : RwSubclusterV2 {
+			'attr1_tests_Core' : RwSubcluster {
 				#subclusterName : 'attr1_tests_Core',
 				#packageNames : [
 					'RowanSample9V4-Core1-Tests'
@@ -59,15 +57,7 @@
 				#comment : '',
 				#condition : 'attr1 & tests'
 			},
-			'tests_Tests' : RwSubclusterV2 {
-				#subclusterName : 'tests_Tests',
-				#packageNames : [
-					'RowanSample9V4-Tests'
-				],
-				#comment : 'Primary component used for loading the test classes.',
-				#condition : 'tests'
-			},
-			'attr1_Core' : RwSubclusterV2 {
+			'attr1_Core' : RwSubcluster {
 				#subclusterName : 'attr1_Core',
 				#packageNames : [
 					'RowanSample9V4-Core1'
@@ -75,13 +65,29 @@
 				#comment : '',
 				#condition : 'attr1'
 			},
-			'attr2_tests_Core' : RwSubclusterV2 {
+			'attr2_tests_Core' : RwSubcluster {
 				#subclusterName : 'attr2_tests_Core',
 				#packageNames : [
 					'RowanSample9V4-Core2-Tests'
 				],
 				#comment : '',
 				#condition : 'attr2 & tests'
+			},
+			'Core' : RwSubcluster {
+				#subclusterName : 'Core',
+				#packageNames : [
+					'RowanSample9V4-Core'
+				],
+				#comment : 'subcluster generated for Core',
+				#condition : 'common'
+			},
+			'tests_Tests' : RwSubcluster {
+				#subclusterName : 'tests_Tests',
+				#packageNames : [
+					'RowanSample9V4-Tests'
+				],
+				#comment : 'Primary component used for loading the test classes.',
+				#condition : 'tests'
 			}
 		},
 		#expressionContext : RwCAQContext {
@@ -96,7 +102,5 @@
 				'attr1' : true
 			}
 		}
-	},
-	'COMMENT' : '0 conditions shared by  0 subclusters out of 5 . That leaves 5 singleton subclusters, for a total of 5 subclusters needed, instead of 5. If the conditions can be shared :).',
-	'duplicateConditions' : { }
+	}
 ]

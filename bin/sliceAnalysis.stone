@@ -75,7 +75,7 @@ EXAMPLES
             --specUrl=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             --projectClusters='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Rowan_components.ston' \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Upgrade_packages.ston' \
-            --addedAttributes=upgrade
+            --addedAttributes=upgrade \
             RowanV3.5 Upgrade -D
 
   -----
