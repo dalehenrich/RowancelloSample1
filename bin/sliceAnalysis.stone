@@ -75,7 +75,7 @@ EXAMPLES
             --specUrl=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
             --projectClusters='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Rowan_components.ston' \
             --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Upgrade_packages.ston' \
-            --addedAttributes=upgrade \
+            --addedAttributes='upgrade' \
             RowanV3.5 Upgrade -D
 
   -----
@@ -86,17 +86,19 @@ calculatePackageNamesFor: unused slices: sliceNames projectClusters: projectClus
 	context := projectClusters expressionContext.
 	packageNames := Set new.
 	sliceNames do: [:sliceName |
-		| slice ast evaluator |
+		| slice |
 		slice := projectClusters sliceNamed: sliceName.
-		packageNames addAll: slice packageNames.
-		slice subclusterNames do: [:subclusterName |
-			subcluster := projectClusters sliceNamed: subclusterName.
-    	ast := RwCAQParser new parse: subcluster condition.                           
-   		evaluator := RwCAQEvaluator
-   			context: context
-   			ast: ast.
-      (evaluator evaluate)
-				ifTrue: [ packageNames addAll: subcluster packageNames ] ] ].
+		slice clusterNames do: [:clusterName |
+			| cluster ast evaluator |
+			cluster := projectClusters clusterNamed: clusterName.
+			cluster subclusterNames do: [:subclusterName |
+				subcluster := projectClusters subclusterNamed: subclusterName.
+  	  	ast := RwCAQParser new parse: subcluster condition.                           
+   			evaluator := RwCAQEvaluator
+   				context: context
+   				ast: ast.
+    	  (evaluator evaluate)
+					ifTrue: [ packageNames addAll: subcluster packageNames ] ] ] ].
 	^ packageNames sort
 %
 method
@@ -206,11 +208,11 @@ method
 sortProjectClusterFields: projectClusters
 	"alphabetically sort all of the arrays in projectClusters"
 	 projectClusters clusters keysAndValuesDo: [:clusterName :cluster |
-			cluster subclusters: cluster subclusters sort ].
+			cluster subclusterNames: cluster subclusterNames sort ].
 	
 %
 doit
-	| resolvedProject loadSpec sliceName loadComponentNames x calculated actual attributes context projectClusters res theAttributes |
+	|  resolvedProject loadSpec sliceName loadComponentNames x calculated actual rowanAttributes contextAttributes context projectClusters res |
 	self projectsHome
 		ifNil: [
 			(System gemEnvironmentVariable: 'ROWAN_PROJECTS_HOME') 
@@ -220,14 +222,15 @@ doit
 	sliceName := self positionalArgs at: 1.
 	loadComponentNames := {self positionalArgs at: 2}.
 	loadSpec := (RwSpecification fromUrl: self specUrl) copyAsV4_cluster. 
-	attributes := { 'v2' . 'tests' . 'testsV2' . 'gemstone' . 'common' }.	"common attributes"
+	contextAttributes := {}. "attributes for clusters"
+	rowanAttributes := { 'v2' . 'tests' . 'testsV2' . 'gemstone' . 'common' }.	"common attributes"
 	self addedAttributes
 		ifNotNil: [:added |
 			(added subStringsDelimitedBy: Character space)
 				do: [ :addedAttribute | 
-					attributes add: addedAttribute]].
-	loadSpec addCustomConditionalAttributes: attributes.
-	attributes := (attributes , loadSpec customConditionalAttributes) asSet asArray.
+					rowanAttributes add: addedAttribute.
+					contextAttributes add: addedAttribute]].
+	loadSpec addCustomConditionalAttributes: rowanAttributes.
 self projectName = 'RowanV3' ifTrue: [
 	loadSpec 
 		projectAlias: self projectName;
@@ -238,7 +241,7 @@ ifFalse: [
 	baseProjectName := 'RowanSample9V4'.
 	self projectName = 'RowanSample9V4_0070'
 		ifTrue: [
-			attributes := attributes, { 'attr1' }.
+			rowanAttributes := rowanAttributes, { 'attr1' }.
 			loadSpec addCustomConditionalAttributes: { 'attr1' }.
 			loadSpec 
 				projectAlias: baseProjectName;
@@ -261,9 +264,9 @@ ifFalse: [
 								componentNames: loadComponentNames ]
 						ifFalse: [ self error: 'Unknown label: ', self projectName printString, '. Expected RowanV3, RowanSample9V4_0070, RowanSample9V4_0024, or  RowanSample9V4_0032' ] ] ] ].
 	resolvedProject := loadSpec read.
-	context :=  resolvedProject expressionContext.
-	theAttributes := attributes copy.
-	attributes do: [:attribute |
+	projectClusters := self projectClusters asFileReference readStreamDo: [:stream | STON fromStream: stream].
+	context :=  projectClusters expressionContext.
+	contextAttributes do: [:attribute |
 		attribute = 'gemstone'
 			ifTrue: [
 				"define additional gemstone system attributes ala Rowan>>platformConditionalAttributes"
@@ -271,20 +274,15 @@ ifFalse: [
 					set: attribute;
 					set: 'gemstone-kernel';
 					set: 'gemstone.version' to: (self targetGemStoneVersion asRwGemStoneVersionNumber);
-					yourself.
-				theAttributes
-					add: 'gemstone-kernel';
-					add: self targetGemStoneVersion ]
+					yourself ]
 			ifFalse: [ context set: attribute ] ].
-	theAttributes := theAttributes asSet asArray.
-	projectClusters := self projectClusters asFileReference readStreamDo: [:stream | STON fromStream: stream].
 	self sortProjectClusterFields: projectClusters.
 	calculated := (self
 				calculatePackageNamesFor: 'unused'
 				slices: { sliceName } 
 				projectClusters: projectClusters) asSet.
 	actual := resolvedProject packageNames asSet.
-	res := { 'attributes' -> theAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
+	res := { 'context attributes' -> contextAttributes sort . 'dif A-C' -> (actual - calculated) sort . 'dif C-A' -> (calculated - actual) sort . 'actual' -> actual sort . 'calculated' ->calculated sort  . 'projectClusters' -> projectClusters }.
 	self resultsFile asFileReference writeStreamDo: [:writeStream |
 		writeStream truncate.
 		(STONWriter new on: writeStream)

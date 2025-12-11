@@ -353,6 +353,7 @@ refactorRowanCommon
 	rowanSubcluster := proposedProjectClusters 
 		addSubclusterNamed: 'Rowan-Core' 
 		toClusterNamed: 'Rowan-Core'
+		condition: 'true'
 		comment: 'packages Rowan-Core'.
 	{
 			'common_Components'.

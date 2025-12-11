@@ -320,7 +320,8 @@ RwResolvedProjectClusters {
 				'Rowan-Tools-Core',
 				'Rowan-Tonel-Core'
 			],
-			#comment : 'packages Rowan-Core'
+			#comment : 'packages Rowan-Core',
+			#condition : 'true'
 		},
 		'platforms_gemstone35-_Core' : RwSubcluster {
 			#subclusterName : 'platforms_gemstone35-_Core',
