@@ -105,6 +105,7 @@ RwResolvedProjectClusters {
 			#clusterName : 'Rowan-Core',
 			#subclusterNames : [
 				'Rowan-Core',
+				'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
 				'Rowan-Core-Tests',
 				'Rowan-Core-GemStone-Tests',
 				'platforms_gemstone_Tools',

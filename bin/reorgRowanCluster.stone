@@ -355,12 +355,14 @@ refactorRowanCommon
 			'common_Specifications'.
 			'common_Tools'.
 			'common_tonel_Core'.
-			'common_v3_Core'.					"V4 functionality that is included in 3.7.5 Rowan 3 extent"
+			'common_v3_Core'.														"V4 functionality that is included in 3.7.5 Rowan 3 extent"
+			'common_v2_platforms_gemstone_Components' .	"V2 functionality that is included in 3.7.5 Rowan 3 extent"
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
 		rowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
-
+	"The platforms_gemstone_gemstoneBase_ComponentsUpgrade is referenced by the RowanV3.5_upgrade cluster (for generating .gs files) and the Rowan-Core cluster (in image)"
+	rowanCluster addSubclusterNamed: 'platforms_gemstone_gemstoneBase_ComponentsUpgrade'.
 	"Rowan Core test subcluster"
 	testRowanSubcluster := proposedProjectClusters 
 		addSubclusterNamed: 'Rowan-Core-Tests' 

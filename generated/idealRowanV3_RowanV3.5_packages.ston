@@ -11,7 +11,6 @@
 		'v2'
 	],
 	'dif A-C' : [
-		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-ComponentsV2',
 		'Rowan-GemStone-Definitions-Extensions-37x',
 		'Rowan-GemStone-Specifications',
@@ -120,6 +119,7 @@
 		'Rowan-DefinitionsV2',
 		'Rowan-GemStone-3215',
 		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-Core',
 		'Rowan-GemStone-Core-36x',
 		'Rowan-GemStone-Core-37x',
@@ -271,6 +271,7 @@
 					'platforms_gemstone_Core',
 					'platforms_gemstone_CoreUpgrade',
 					'platforms_gemstone_Definitions',
+					'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
 					'platforms_gemstone_gemstoneBase_Core',
 					'platforms_gemstone_Tools',
 					'Rowan-Core',
