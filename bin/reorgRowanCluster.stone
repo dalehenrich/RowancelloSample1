@@ -339,7 +339,7 @@ refactorV4
 method
 refactorRowanCommon
 	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
-	| rowanCluster rowanSubcluster testRowanSubcluster |
+	| rowanCluster rowanSubcluster testRowanSubcluster testGemStoneRowanSubcluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
 		comment: 'Collection of packages and subclusters defining the Rowan core functionality'.
@@ -368,11 +368,26 @@ refactorRowanCommon
 		condition: 'tests'
 		comment: 'test packages for Rowan-Core'.
 	{
-			'common_tests_v3_Tests'.	"V4 functionality that is included in 3.7.5 Rowan 3 extent - companion to common_v3_Core"
+			'common_tests_v3_Tests'. 									"V4 functionality that is included in 3.7.5 Rowan 3 extent - companion to common_v3_Core"
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName. 
+		testRowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
+
+	"Rowan Core gemstone/test subcluster"
+	testGemStoneRowanSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Core-GemStone-Tests' 
+		toClusterNamed: 'Rowan-Core'
+		condition: 'gemstone & tests'
+		comment: 'test packages for GemStone/Rowan-Core'.
+	{
+			'common_tests_platforms_gemstone_Tests'		"pick up the tests not included in AST"
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
-		testRowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
+		testGemStoneRowanSubcluster := projectClusters subclusterNamed: subclusterName.
+				"pick up the non-AST packages ... AST packages included in AST cluster"
+				testRowanSubcluster addPackagesNamed: ((originalSubcluster packageNames) reject: [:each | each beginsWith: 'AST']) ].
 
 	"done with rowanCluster ... add it to the slices"
 	rowanV35Slice addClusterNamed: rowanCluster clusterName.
@@ -389,7 +404,8 @@ refactorRowanCommon
 		'common_platforms_gemstone36-_Core' .
 		'common_platforms_gemstone36-_CoreUpgrade' .
 		'common_platforms_gemstone37-_Core' .
-		'common_platforms_gemstone_gemstoneBase_Core'
+		'common_platforms_gemstone_gemstoneBase_Core'.
+		'common_platforms_gemstone_Definitions' .
 	} do:  [:subclusterName |
 		| subcluster originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.

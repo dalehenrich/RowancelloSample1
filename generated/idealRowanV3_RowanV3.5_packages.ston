@@ -11,18 +11,13 @@
 		'v2'
 	],
 	'dif A-C' : [
-		'Rowan-Cypress-Definitions',
-		'Rowan-Cypress-Kernel',
-		'Rowan-DataCurator-Tests',
 		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-ComponentsV2',
-		'Rowan-GemStone-Definitions',
 		'Rowan-GemStone-Definitions-Extensions-37x',
 		'Rowan-GemStone-Specifications',
 		'Rowan-Obsolete',
 		'Rowan-Tests',
 		'Rowan-Tests-Core',
-		'Rowan-Tests-GemStone',
 		'Rowan-Tests-GemStone-36x',
 		'Rowan-Tests-Shared-GemStone',
 		'Rowan-Tools-Examples',
@@ -117,6 +112,9 @@
 		'Rowan-CoreV2',
 		'Rowan-CoreV4',
 		'Rowan-Cypress-Core',
+		'Rowan-Cypress-Definitions',
+		'Rowan-Cypress-Kernel',
+		'Rowan-DataCurator-Tests',
 		'Rowan-Definitions',
 		'Rowan-Definitions-Common',
 		'Rowan-DefinitionsV2',
@@ -126,6 +124,7 @@
 		'Rowan-GemStone-Core-36x',
 		'Rowan-GemStone-Core-37x',
 		'Rowan-GemStone-CoreV2',
+		'Rowan-GemStone-Definitions',
 		'Rowan-GemStone-Definitions-ExtensionsV2',
 		'Rowan-GemStone-Definitions-OnlyV2',
 		'Rowan-GemStone-DefinitionsV2',
@@ -144,6 +143,7 @@
 		'Rowan-SpecificationsV2',
 		'Rowan-Tests-ComponentsV2',
 		'Rowan-Tests-ComponentsV2-OnlyV2',
+		'Rowan-Tests-GemStone',
 		'Rowan-Tests-SpecificationsV2',
 		'Rowan-TestsV2',
 		'Rowan-TestsV3',
@@ -270,30 +270,24 @@
 					'platforms_gemstone37-_Core',
 					'platforms_gemstone_Core',
 					'platforms_gemstone_CoreUpgrade',
+					'platforms_gemstone_Definitions',
 					'platforms_gemstone_gemstoneBase_Core',
 					'platforms_gemstone_Tools',
 					'Rowan-Core',
+					'Rowan-Core-GemStone-Tests',
 					'Rowan-Core-Tests'
 				],
 				#comment : 'Collection of packages and subclusters defining the Rowan core functionality'
 			}
 		},
 		#subclusters : {
-			'GemStone-Stubs' : RwSubcluster {
-				#subclusterName : 'GemStone-Stubs',
+			'v2_v2Only_platforms_gemstone_Definitions' : RwSubcluster {
+				#subclusterName : 'v2_v2Only_platforms_gemstone_Definitions',
 				#packageNames : [
-					'Rowan-GemStone-Kernel-Stubs-37x'
+					'Rowan-GemStone-Definitions-OnlyV2'
 				],
-				#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
-				#condition : 'gs3.[7-]'
-			},
-			'platforms_gemstone37-_Core' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone37-_Core',
-				#packageNames : [
-					'Rowan-GemStone-Core-37x'
-				],
-				#comment : 'Core gs3.[7-]  packages ',
-				#condition : 'gs3.[7-]'
+				#comment : '',
+				#condition : 'gemstone'
 			},
 			'tests_v2_Components' : RwSubcluster {
 				#subclusterName : 'tests_v2_Components',
@@ -303,53 +297,28 @@
 				#comment : 'subcluster generated from common/tests/v2/Components',
 				#condition : 'tests'
 			},
-			'v2_platforms_gemstone_Loader' : RwSubcluster {
-				#subclusterName : 'v2_platforms_gemstone_Loader',
+			'platforms_gemstone_CoreUpgrade' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone_CoreUpgrade',
 				#packageNames : [
-					'Rowan-GemStone-LoaderV2'
-				],
-				#comment : '',
-				#condition : 'gemstone'
-			},
-			'platforms_gemstone_gemstoneBase_ComponentsUpgrade' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
-				#packageNames : [
-					'Rowan-GemStone-Components-Kernel'
+					'Rowan-GemStone-Kernel'
 				],
 				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 				#condition : 'gemstone'
 			},
-			'v2_platforms_gemstone_Core' : RwSubcluster {
-				#subclusterName : 'v2_platforms_gemstone_Core',
+			'platforms_gemstone_gemstoneBase_Core' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone_gemstoneBase_Core',
 				#packageNames : [
-					'Rowan-GemStone-CoreV2'
+					'Rowan-GemStone-Url'
 				],
-				#comment : 'Core vw gemstone packages',
+				#comment : 'Core gemstone or gemstoneBase packages',
 				#condition : 'gemstone'
 			},
-			'v2_Specifications' : RwSubcluster {
-				#subclusterName : 'v2_Specifications',
+			'platforms_gemstone_Core' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone_Core',
 				#packageNames : [
-					'Rowan-SpecificationsV2'
+					'Rowan-GemStone-Core'
 				],
-				#comment : 'subcluster generated from common/v2/Specifications',
-				#condition : 'common'
-			},
-			'v2_Components' : RwSubcluster {
-				#subclusterName : 'v2_Components',
-				#packageNames : [
-					'Rowan-ComponentsV2'
-				],
-				#comment : 'subcluster generated from common/v2/Components',
-				#condition : 'common'
-			},
-			'AST-Core' : RwSubcluster {
-				#subclusterName : 'AST-Core',
-				#packageNames : [
-					'AST-Core',
-					'AST-Kernel-Core'
-				],
-				#comment : 'AST core',
+				#comment : 'Core gemstone  packages ',
 				#condition : 'gemstone'
 			},
 			'v2_Core' : RwSubcluster {
@@ -360,47 +329,39 @@
 				#comment : 'subcluster generated from common/v2/Core',
 				#condition : 'common'
 			},
-			'v2_v2Only_platforms_gemstone_Definitions' : RwSubcluster {
-				#subclusterName : 'v2_v2Only_platforms_gemstone_Definitions',
+			'platforms_gemstone36-_CoreUpgrade' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone36-_CoreUpgrade',
 				#packageNames : [
-					'Rowan-GemStone-Definitions-OnlyV2'
+					'Rowan-GemStone-Kernel-36x',
+					'Rowan-GemStone-Kernel-Extensions-36x'
 				],
-				#comment : '',
-				#condition : 'gemstone'
-			},
-			'tests_v2_v2Only_Components' : RwSubcluster {
-				#subclusterName : 'tests_v2_v2Only_Components',
-				#packageNames : [
-					'Rowan-Tests-ComponentsV2-OnlyV2'
-				],
-				#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
-				#condition : 'tests'
-			},
-			'v2_Definitions' : RwSubcluster {
-				#subclusterName : 'v2_Definitions',
-				#packageNames : [
-					'Rowan-Core-DefinitionsV2',
-					'Rowan-Definitions-Common',
-					'Rowan-DefinitionsV2'
-				],
-				#comment : 'subcluster generated from common/v2/Definitions',
-				#condition : 'common'
-			},
-			'Obsolete-GemStone' : RwSubcluster {
-				#subclusterName : 'Obsolete-GemStone',
-				#packageNames : [
-					'Rowan-Obsolete-GemStone'
-				],
-				#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
-				#condition : 'gemstone'
-			},
-			'v2_platforms_gemstone36-_Loader' : RwSubcluster {
-				#subclusterName : 'v2_platforms_gemstone36-_Loader',
-				#packageNames : [
-					'Rowan-GemStone-LoaderV2-36x'
-				],
-				#comment : '',
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage [common_v2_v2Only_platforms_gemstone36-_Loader] ',
 				#condition : 'gs3.[6-]'
+			},
+			'AST-Core' : RwSubcluster {
+				#subclusterName : 'AST-Core',
+				#packageNames : [
+					'AST-Core',
+					'AST-Kernel-Core'
+				],
+				#comment : 'AST core',
+				#condition : 'gemstone'
+			},
+			'platforms_gemstone37-_Core' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone37-_Core',
+				#packageNames : [
+					'Rowan-GemStone-Core-37x'
+				],
+				#comment : 'Core gs3.[7-]  packages ',
+				#condition : 'gs3.[7-]'
+			},
+			'v2_Tools' : RwSubcluster {
+				#subclusterName : 'v2_Tools',
+				#packageNames : [
+					'Rowan-Tools-CoreV2'
+				],
+				#comment : 'subcluster generated from common/v2/Tools',
+				#condition : 'common'
 			},
 			'tests_v2_Specifications' : RwSubcluster {
 				#subclusterName : 'tests_v2_Specifications',
@@ -419,22 +380,6 @@
 				#comment : 'Definitions vw gemstone packages',
 				#condition : 'gemstone'
 			},
-			'v2_Tools' : RwSubcluster {
-				#subclusterName : 'v2_Tools',
-				#packageNames : [
-					'Rowan-Tools-CoreV2'
-				],
-				#comment : 'subcluster generated from common/v2/Tools',
-				#condition : 'common'
-			},
-			'v2_v2Only_platforms_gemstone_Loader' : RwSubcluster {
-				#subclusterName : 'v2_v2Only_platforms_gemstone_Loader',
-				#packageNames : [
-					'Rowan-GemStone-Loader-Extensions-OnlyV2'
-				],
-				#comment : '',
-				#condition : 'gemstone'
-			},
 			'v2_v2Only_Tools' : RwSubcluster {
 				#subclusterName : 'v2_v2Only_Tools',
 				#packageNames : [
@@ -443,21 +388,21 @@
 				#comment : 'subcluster generated from common/v2/v2Only/Tools',
 				#condition : 'common'
 			},
-			'AST-Core-Tests' : RwSubcluster {
-				#subclusterName : 'AST-Core-Tests',
+			'v2_Components' : RwSubcluster {
+				#subclusterName : 'v2_Components',
 				#packageNames : [
-					'AST-Kernel-Tests-Core',
-					'AST-Tests-Core'
+					'Rowan-ComponentsV2'
 				],
-				#comment : 'AST tests',
-				#condition : 'tests & gemstone'
+				#comment : 'subcluster generated from common/v2/Components',
+				#condition : 'common'
 			},
-			'V4' : RwSubcluster {
-				#subclusterName : 'V4',
+			'tests_v2_v2Only_Components' : RwSubcluster {
+				#subclusterName : 'tests_v2_v2Only_Components',
 				#packageNames : [
-					'Rowan-CoreV4'
+					'Rowan-Tests-ComponentsV2-OnlyV2'
 				],
-				#comment : 'V4 packages from common_v3_Core component'
+				#comment : 'subcluster generated from common/tests/v2/v2Only/Components',
+				#condition : 'tests'
 			},
 			'V4-Tests' : RwSubcluster {
 				#subclusterName : 'V4-Tests',
@@ -496,21 +441,42 @@
 				#comment : 'packages Rowan-Core',
 				#condition : 'true'
 			},
-			'Rowan-Core-Tests' : RwSubcluster {
-				#subclusterName : 'Rowan-Core-Tests',
+			'GemStone-Stubs' : RwSubcluster {
+				#subclusterName : 'GemStone-Stubs',
 				#packageNames : [
-					'Rowan-TestsV3',
-					'Rowan-TestsV4'
+					'Rowan-GemStone-Kernel-Stubs-37x'
 				],
-				#comment : 'test packages for Rowan-Core',
-				#condition : 'tests'
+				#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
+				#condition : 'gs3.[7-]'
 			},
-			'platforms_gemstone_Core' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone_Core',
+			'Rowan-Core-GemStone-Tests' : RwSubcluster {
+				#subclusterName : 'Rowan-Core-GemStone-Tests',
+				#packageNames : [ ],
+				#comment : 'test packages for GemStone/Rowan-Core',
+				#condition : 'gemstone & tests'
+			},
+			'v2_v2Only_platforms_gemstone_Loader' : RwSubcluster {
+				#subclusterName : 'v2_v2Only_platforms_gemstone_Loader',
 				#packageNames : [
-					'Rowan-GemStone-Core'
+					'Rowan-GemStone-Loader-Extensions-OnlyV2'
 				],
-				#comment : 'Core gemstone  packages ',
+				#comment : '',
+				#condition : 'gemstone'
+			},
+			'v2_platforms_gemstone36-_Loader' : RwSubcluster {
+				#subclusterName : 'v2_platforms_gemstone36-_Loader',
+				#packageNames : [
+					'Rowan-GemStone-LoaderV2-36x'
+				],
+				#comment : '',
+				#condition : 'gs3.[6-]'
+			},
+			'Obsolete-GemStone' : RwSubcluster {
+				#subclusterName : 'Obsolete-GemStone',
+				#packageNames : [
+					'Rowan-Obsolete-GemStone'
+				],
+				#comment : 'GemStone Behavior, Class and GsNMethod glue methods',
 				#condition : 'gemstone'
 			},
 			'platforms_gemstone_Tools' : RwSubcluster {
@@ -523,13 +489,13 @@
 				#comment : 'Tools gemstone  packages ',
 				#condition : 'gemstone'
 			},
-			'platforms_gemstone_CoreUpgrade' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone_CoreUpgrade',
+			'v2_Specifications' : RwSubcluster {
+				#subclusterName : 'v2_Specifications',
 				#packageNames : [
-					'Rowan-GemStone-Kernel'
+					'Rowan-SpecificationsV2'
 				],
-				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
-				#condition : 'gemstone'
+				#comment : 'subcluster generated from common/v2/Specifications',
+				#condition : 'common'
 			},
 			'platforms_gemstone32-_Core' : RwSubcluster {
 				#subclusterName : 'platforms_gemstone32-_Core',
@@ -541,6 +507,30 @@
 				#comment : 'Core gs3.[2-]  packages ',
 				#condition : 'gs3.[2-]'
 			},
+			'v2_platforms_gemstone_Loader' : RwSubcluster {
+				#subclusterName : 'v2_platforms_gemstone_Loader',
+				#packageNames : [
+					'Rowan-GemStone-LoaderV2'
+				],
+				#comment : '',
+				#condition : 'gemstone'
+			},
+			'V4' : RwSubcluster {
+				#subclusterName : 'V4',
+				#packageNames : [
+					'Rowan-CoreV4'
+				],
+				#comment : 'V4 packages from common_v3_Core component'
+			},
+			'AST-Core-Tests' : RwSubcluster {
+				#subclusterName : 'AST-Core-Tests',
+				#packageNames : [
+					'AST-Kernel-Tests-Core',
+					'AST-Tests-Core'
+				],
+				#comment : 'AST tests',
+				#condition : 'tests & gemstone'
+			},
 			'platforms_gemstone35-_Core' : RwSubcluster {
 				#subclusterName : 'platforms_gemstone35-_Core',
 				#packageNames : [
@@ -548,6 +538,17 @@
 				],
 				#comment : 'Core gs3.[5-]  packages ',
 				#condition : 'gs3.[5-]'
+			},
+			'Rowan-Core-Tests' : RwSubcluster {
+				#subclusterName : 'Rowan-Core-Tests',
+				#packageNames : [
+					'Rowan-TestsV3',
+					'Rowan-TestsV4',
+					'Rowan-DataCurator-Tests',
+					'Rowan-Tests-GemStone'
+				],
+				#comment : 'test packages for Rowan-Core',
+				#condition : 'tests'
 			},
 			'v2_v2Only_platforms_gemstone36-_Loader' : RwSubcluster {
 				#subclusterName : 'v2_v2Only_platforms_gemstone36-_Loader',
@@ -565,21 +566,40 @@
 				#comment : 'Core gs3.[6-]  packages ',
 				#condition : 'gs3.[6-]'
 			},
-			'platforms_gemstone36-_CoreUpgrade' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone36-_CoreUpgrade',
+			'v2_platforms_gemstone_Core' : RwSubcluster {
+				#subclusterName : 'v2_platforms_gemstone_Core',
 				#packageNames : [
-					'Rowan-GemStone-Kernel-36x',
-					'Rowan-GemStone-Kernel-Extensions-36x'
+					'Rowan-GemStone-CoreV2'
 				],
-				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage [common_v2_v2Only_platforms_gemstone36-_Loader] ',
-				#condition : 'gs3.[6-]'
+				#comment : 'Core vw gemstone packages',
+				#condition : 'gemstone'
 			},
-			'platforms_gemstone_gemstoneBase_Core' : RwSubcluster {
-				#subclusterName : 'platforms_gemstone_gemstoneBase_Core',
+			'platforms_gemstone_Definitions' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone_Definitions',
 				#packageNames : [
-					'Rowan-GemStone-Url'
+					'Rowan-Cypress-Definitions',
+					'Rowan-Cypress-Kernel',
+					'Rowan-GemStone-Definitions'
 				],
-				#comment : 'Core gemstone or gemstoneBase packages',
+				#comment : 'Definitions gemstone  packages ',
+				#condition : 'gemstone'
+			},
+			'v2_Definitions' : RwSubcluster {
+				#subclusterName : 'v2_Definitions',
+				#packageNames : [
+					'Rowan-Core-DefinitionsV2',
+					'Rowan-Definitions-Common',
+					'Rowan-DefinitionsV2'
+				],
+				#comment : 'subcluster generated from common/v2/Definitions',
+				#condition : 'common'
+			},
+			'platforms_gemstone_gemstoneBase_ComponentsUpgrade' : RwSubcluster {
+				#subclusterName : 'platforms_gemstone_gemstoneBase_ComponentsUpgrade',
+				#packageNames : [
+					'Rowan-GemStone-Components-Kernel'
+				],
+				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 				#condition : 'gemstone'
 			}
 		},
