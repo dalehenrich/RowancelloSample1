@@ -101,6 +101,8 @@ DESCRIPTION
 			common_platforms_gemstone36-_CoreUpgrade .
 			common_platforms_gemstone37-_Core .
 			common_platforms_gemstone_gemstoneBase_Core
+			common_v3_Core
+			common_tests_v3_Tests
 		RowanV3.5_upgrade (slice):
 			common_platforms_gemstone35-_Core
 			common_platforms_gemstone_CoreUpgrade
