@@ -105,6 +105,7 @@ RwResolvedProjectClusters {
 			#clusterName : 'Rowan-Core',
 			#subclusterNames : [
 				'Rowan-Core',
+				'Rowan-Core-Tests',
 				'platforms_gemstone_Tools',
 				'platforms_gemstone_Core',
 				'platforms_gemstone_CoreUpgrade',
@@ -330,10 +331,20 @@ RwResolvedProjectClusters {
 				'Rowan-Specifications',
 				'Rowan-Cypress-Core',
 				'Rowan-Tools-Core',
-				'Rowan-Tonel-Core'
+				'Rowan-Tonel-Core',
+				'Rowan-CoreV4'
 			],
 			#comment : 'packages Rowan-Core',
 			#condition : 'true'
+		},
+		'Rowan-Core-Tests' : RwSubcluster {
+			#subclusterName : 'Rowan-Core-Tests',
+			#packageNames : [
+				'Rowan-TestsV3',
+				'Rowan-TestsV4'
+			],
+			#comment : 'test packages for Rowan-Core',
+			#condition : 'tests'
 		},
 		'platforms_gemstone_Core' : RwSubcluster {
 			#subclusterName : 'platforms_gemstone_Core',

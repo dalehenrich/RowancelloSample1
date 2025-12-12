@@ -1,42 +1,32 @@
 [
 	'context attributes' : [
+		'common',
 		'gemstone'
 	],
 	'rowan attributes' : [
-		'common',
 		'gemstone',
+		'tests',
 		'tests',
 		'testsV2',
 		'v2'
 	],
 	'dif A-C' : [
-		'Rowan-ComponentsV2',
-		'Rowan-Core-DefinitionsV2',
-		'Rowan-CoreV2',
-		'Rowan-CoreV4',
 		'Rowan-Cypress-Definitions',
 		'Rowan-Cypress-Kernel',
 		'Rowan-DataCurator-Tests',
-		'Rowan-Definitions-Common',
-		'Rowan-DefinitionsV2',
 		'Rowan-GemStone-Components-Kernel',
 		'Rowan-GemStone-ComponentsV2',
 		'Rowan-GemStone-Definitions',
 		'Rowan-GemStone-Definitions-Extensions-37x',
 		'Rowan-GemStone-Specifications',
 		'Rowan-Obsolete',
-		'Rowan-SpecificationsV2',
 		'Rowan-Tests',
 		'Rowan-Tests-Core',
 		'Rowan-Tests-GemStone',
 		'Rowan-Tests-GemStone-36x',
 		'Rowan-Tests-Shared-GemStone',
-		'Rowan-TestsV3',
-		'Rowan-TestsV4',
-		'Rowan-Tools-CoreV2',
 		'Rowan-Tools-Examples',
-		'Rowan-Tools-GemStone-35x',
-		'Rowan-Tools-OnlyV2'
+		'Rowan-Tools-GemStone-35x'
 	],
 	'dif C-A' : [ ],
 	'actual' : [
@@ -119,11 +109,17 @@
 		'GemStone-Interactions-Core',
 		'GemStone-Interactions-Kernel',
 		'Rowan-Components',
+		'Rowan-ComponentsV2',
 		'Rowan-Core',
 		'Rowan-Core-Conditional-Support',
 		'Rowan-Core-Definitions-Extensions',
+		'Rowan-Core-DefinitionsV2',
+		'Rowan-CoreV2',
+		'Rowan-CoreV4',
 		'Rowan-Cypress-Core',
 		'Rowan-Definitions',
+		'Rowan-Definitions-Common',
+		'Rowan-DefinitionsV2',
 		'Rowan-GemStone-3215',
 		'Rowan-GemStone-35x',
 		'Rowan-GemStone-Core',
@@ -145,15 +141,20 @@
 		'Rowan-Loader',
 		'Rowan-Obsolete-GemStone',
 		'Rowan-Specifications',
+		'Rowan-SpecificationsV2',
 		'Rowan-Tests-ComponentsV2',
 		'Rowan-Tests-ComponentsV2-OnlyV2',
 		'Rowan-Tests-SpecificationsV2',
 		'Rowan-TestsV2',
+		'Rowan-TestsV3',
+		'Rowan-TestsV4',
 		'Rowan-Tonel-Core',
 		'Rowan-Tools-Core',
+		'Rowan-Tools-CoreV2',
 		'Rowan-Tools-Extensions-GemStone',
 		'Rowan-Tools-GemStone',
 		'Rowan-Tools-Kernel',
+		'Rowan-Tools-OnlyV2',
 		'Rowan-Url-Core'
 	],
 	'projectClusters' : RwResolvedProjectClusters {
@@ -271,7 +272,8 @@
 					'platforms_gemstone_CoreUpgrade',
 					'platforms_gemstone_gemstoneBase_Core',
 					'platforms_gemstone_Tools',
-					'Rowan-Core'
+					'Rowan-Core',
+					'Rowan-Core-Tests'
 				],
 				#comment : 'Collection of packages and subclusters defining the Rowan core functionality'
 			}
@@ -488,10 +490,20 @@
 					'Rowan-Specifications',
 					'Rowan-Cypress-Core',
 					'Rowan-Tools-Core',
-					'Rowan-Tonel-Core'
+					'Rowan-Tonel-Core',
+					'Rowan-CoreV4'
 				],
 				#comment : 'packages Rowan-Core',
 				#condition : 'true'
+			},
+			'Rowan-Core-Tests' : RwSubcluster {
+				#subclusterName : 'Rowan-Core-Tests',
+				#packageNames : [
+					'Rowan-TestsV3',
+					'Rowan-TestsV4'
+				],
+				#comment : 'test packages for Rowan-Core',
+				#condition : 'tests'
 			},
 			'platforms_gemstone_Core' : RwSubcluster {
 				#subclusterName : 'platforms_gemstone_Core',
@@ -573,6 +585,7 @@
 		},
 		#expressionContext : RwCAQContext {
 			#variables : {
+				'common' : true,
 				'tests' : true,
 				'gemstone' : true,
 				'gemstone-kernel' : true,

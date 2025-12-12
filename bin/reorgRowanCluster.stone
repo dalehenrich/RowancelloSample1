@@ -337,7 +337,7 @@ refactorV4
 method
 refactorRowanCommon
 	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
-	| rowanCluster rowanSubcluster |
+	| rowanCluster rowanSubcluster testRowanSubcluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
 		comment: 'Collection of packages and subclusters defining the Rowan core functionality'.
@@ -353,10 +353,26 @@ refactorRowanCommon
 			'common_Specifications'.
 			'common_Tools'.
 			'common_tonel_Core'.
+			'common_v3_Core'.					"V4 functionality that is included in 3.7.5 Rowan 3 extent"
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
 		rowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
+
+	"Rowan Core test subcluster"
+	testRowanSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Core-Tests' 
+		toClusterNamed: 'Rowan-Core'
+		condition: 'tests'
+		comment: 'test packages for Rowan-Core'.
+	{
+			'common_tests_v3_Tests'.	"V4 functionality that is included in 3.7.5 Rowan 3 extent - companion to common_v3_Core"
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		testRowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
+
+	"done with rowanCluster ... add it to the slices"
 	rowanV35Slice addClusterNamed: rowanCluster clusterName.
 	rowanV40Slice  addClusterNamed: rowanCluster clusterName.
 	rowanV40_loadedSlice  addClusterNamed: rowanCluster clusterName.
