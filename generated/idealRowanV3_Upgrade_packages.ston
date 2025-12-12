@@ -1,33 +1,19 @@
 [
 	'context attributes' : [
-		'upgrade'
+		'gemstone',
+		'tests'
 	],
-	'dif A-C' : [
-		'Rowan-GemStone-35x',
-		'Rowan-GemStone-Components-Kernel',
-		'Rowan-GemStone-Kernel',
-		'Rowan-GemStone-Kernel-36x',
-		'Rowan-GemStone-Kernel-Extensions-36x',
-		'Rowan-GemStone-Url'
+	'rowan attributes' : [
+		'common',
+		'gemstone',
+		'tests',
+		'tests',
+		'testsV2',
+		'upgrade',
+		'v2'
 	],
-	'dif C-A' : [
-		'Rowan-Components',
-		'Rowan-Core',
-		'Rowan-Core-Conditional-Support',
-		'Rowan-Core-Definitions-Extensions',
-		'Rowan-Cypress-Core',
-		'Rowan-Definitions',
-		'Rowan-Kernel',
-		'Rowan-Loader',
-		'Rowan-Specifications',
-		'Rowan-Tests-ComponentsV2',
-		'Rowan-Tests-ComponentsV2-OnlyV2',
-		'Rowan-Tests-SpecificationsV2',
-		'Rowan-TestsV2',
-		'Rowan-Tonel-Core',
-		'Rowan-Tools-Core',
-		'Rowan-Url-Core'
-	],
+	'dif A-C' : [ ],
+	'dif C-A' : [ ],
 	'actual' : [
 		'Rowan-GemStone-35x',
 		'Rowan-GemStone-Components-Kernel',
@@ -37,22 +23,12 @@
 		'Rowan-GemStone-Url'
 	],
 	'calculated' : [
-		'Rowan-Components',
-		'Rowan-Core',
-		'Rowan-Core-Conditional-Support',
-		'Rowan-Core-Definitions-Extensions',
-		'Rowan-Cypress-Core',
-		'Rowan-Definitions',
-		'Rowan-Kernel',
-		'Rowan-Loader',
-		'Rowan-Specifications',
-		'Rowan-Tests-ComponentsV2',
-		'Rowan-Tests-ComponentsV2-OnlyV2',
-		'Rowan-Tests-SpecificationsV2',
-		'Rowan-TestsV2',
-		'Rowan-Tonel-Core',
-		'Rowan-Tools-Core',
-		'Rowan-Url-Core'
+		'Rowan-GemStone-35x',
+		'Rowan-GemStone-Components-Kernel',
+		'Rowan-GemStone-Kernel',
+		'Rowan-GemStone-Kernel-36x',
+		'Rowan-GemStone-Kernel-Extensions-36x',
+		'Rowan-GemStone-Url'
 	],
 	'projectClusters' : RwResolvedProjectClusters {
 		#slices : {
@@ -434,7 +410,9 @@
 		#expressionContext : RwCAQContext {
 			#variables : {
 				'tests' : true,
-				'upgrade' : true
+				'gemstone' : true,
+				'gemstone-kernel' : true,
+				'gemstone.version' : RwGemStoneVersionNumber [ '3.7.5' ]
 			}
 		}
 	}

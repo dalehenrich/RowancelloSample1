@@ -22,12 +22,6 @@ RwSlice >> addClusterNamed: aClusterName [
 ]
 
 { #category : 'accessing' }
-RwSlice >> addSubclusterNamed: aSubclusterName [
-	(self subclusterNames includes: aSubclusterName)
-		ifFalse: [ self subclusterNames add: aSubclusterName ]
-]
-
-{ #category : 'accessing' }
 RwSlice >> clusterNames [
 	^clusterNames
 ]
