@@ -70,7 +70,7 @@ EXAMPLES
   $basename --debugGem <script-arguments>    <topaz-arguments>
   $basename <script-arguments>               <topaz-arguments>
 
-	# Rowan:masterV3.5 - Rowan :: Upgrade (Upgrade component; RowanV3.5_upgrade slice
+	# Rowan:masterV3.5 - Rowan :: Upgrade component; RowanV3.5_upgrade slice
   $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
             --projectName=RowanV3 \
             --specUrl=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
@@ -79,6 +79,14 @@ EXAMPLES
             --addedContextAttributes='tests' \
 						--addedRowanAttributes='tests upgrade' \
             RowanV3.5_upgrade Upgrade -D
+
+	# Rowan:masterV3.5 - Rowan :: Rowan component; RowanV3.5 slice
+  $basename --projectsHome=/bosch1/users/dhenrich/_stones/git/ \
+            --projectName=RowanV3 \
+            --specUrl=file:///bosch1/users/dhenrich/_stones/git/RowanV3/rowan/specs/Rowan.ston \
+            --projectClusters='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_Rowan_components.ston' \
+            --resultsFile='/bosch1/users/dhenrich/_stones/git/RowancelloSample1/generated/idealRowanV3_RowanV3.5_packages.ston' \
+            RowanV3.5 Rowan -D
 
   -----
 %

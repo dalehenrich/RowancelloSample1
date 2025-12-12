@@ -93,6 +93,14 @@ DESCRIPTION
 			common_Tools
 			(conditional)
 			common_platforms_gemstone_Tools
+			common_platforms_gemstone_Core .
+			common_platforms_gemstone_CoreUpgrade .
+			common_platforms_gemstone32-_Core .
+			common_platforms_gemstone35-_Core .
+			common_platforms_gemstone36-_Core .
+			common_platforms_gemstone36-_CoreUpgrade .
+			common_platforms_gemstone37-_Core .
+			common_platforms_gemstone_gemstoneBase_Core
 		RowanV3.5_upgrade (slice):
 			common_platforms_gemstone35-_Core
 			common_platforms_gemstone_CoreUpgrade
@@ -327,23 +335,6 @@ refactorV4
 		condition: 'tests'.
 %
 method
-refactorTonel
-	"Create a cluster for tonel support in gemstone -- NOW INCLUDED IN Rowan-Core cluster"
-	| common_tonel_Core tonelCluster tonelSubcluster |
-self halt: 'No longer used ... included in Rowan-Core cluster'.
-	common_tonel_Core := projectClusters subclusterNamed: 'common_tonel_Core'.
-	tonelCluster :=  proposedProjectClusters 
-		addClusterNamed: 'Tonel' 
-		comment: 'The methods in Tonel cluster implement tonel package format.'.
-	rowanV40Slice addClusterNamed: tonelCluster clusterName.
-	rowanV40_loadedSlice addClusterNamed: tonelCluster clusterName.
-
-	tonelSubcluster := proposedProjectClusters addSubclusterNamed: 'Tonel' toClusterNamed: 'Tonel' comment: 'Tonel support'.
-	tonelSubcluster 
-		addPackagesNamed: common_tonel_Core packageNames;
-		condition: 'gemstone'.
-%
-method
 refactorRowanCommon
 	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
 	| rowanCluster rowanSubcluster |
@@ -373,6 +364,14 @@ refactorRowanCommon
 	"Collection of subclusters (conditional) to be added to Rowan-Core cluster"
 	{
 		'common_platforms_gemstone_Tools' .
+		'common_platforms_gemstone_Core' .
+		'common_platforms_gemstone_CoreUpgrade' .
+		'common_platforms_gemstone32-_Core' .
+		'common_platforms_gemstone35-_Core' .
+		'common_platforms_gemstone36-_Core' .
+		'common_platforms_gemstone36-_CoreUpgrade' .
+		'common_platforms_gemstone37-_Core' .
+		'common_platforms_gemstone_gemstoneBase_Core'
 	} do:  [:subclusterName |
 		| subcluster originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
