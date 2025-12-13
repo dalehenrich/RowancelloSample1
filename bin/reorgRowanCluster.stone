@@ -244,19 +244,27 @@ refactorObsolete
 				#condition : 'obsolete & gemstone'
 			},
 	"
-	| common_obsolete_gemstone_Obsolete obsoleteCluster obsoleteSubcluster |
+	| common_obsolete_gemstone_Obsolete obsoleteCluster common_obsolete_Obsolete |
 	common_obsolete_gemstone_Obsolete :=  projectClusters subclusterNamed: 'common_obsolete_gemstone_Obsolete'.
+	common_obsolete_Obsolete := projectClusters subclusterNamed: 'common_obsolete_Obsolete'.
 	obsoleteCluster :=  proposedProjectClusters 
-		addClusterNamed: 'Obsolete-GemStone' 
+		addClusterNamed: 'Obsolete' 
 		comment: 'The methods in the Obsolete-GemStone cluster are scheduled to be removed from the system for Rowan V4 in favor of the standard API methods, i.e., those methods that have been stubbed out (see the Stubs cluster). Currently they are present in a standard V3 image. They will be removed when the Stubs work is complete'.
 	rowanV35Slice addClusterNamed: obsoleteCluster clusterName.
-	obsoleteSubcluster := proposedProjectClusters 
+	(proposedProjectClusters 
 		addSubclusterNamed: 'Obsolete-GemStone' 
-		toClusterNamed: 'Obsolete-GemStone' 
-		comment: 'GemStone Behavior, Class and GsNMethod glue methods'.
-	obsoleteSubcluster
-		addPackagesNamed: common_obsolete_gemstone_Obsolete packageNames;
-		condition: 'gemstone'.
+		toClusterNamed: 'Obsolete'
+		condition: 'gemstone' 
+		comment: 'GemStone Behavior, Class and GsNMethod glue methods')
+			addPackagesNamed:common_obsolete_gemstone_Obsolete packageNames;
+			yourself.
+	(proposedProjectClusters
+		addSubclusterNamed: 'Obsolete'
+		toClusterNamed: 'Obsolete'
+		condition: 'common' 
+		comment: 'Obsolete common behavior')		
+			addPackagesNamed: common_obsolete_Obsolete packageNames;
+			yourself
 %
 method
 refactorV2
@@ -339,7 +347,7 @@ refactorV4
 method
 refactorRowanCommon
 	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
-	| rowanCluster rowanSubcluster testRowanSubcluster testGemStoneRowanSubcluster |
+	| rowanCluster rowanSubcluster testRowanSubcluster testRowan36_Subcluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
 		comment: 'Collection of packages and subclusters defining the Rowan core functionality'.
@@ -371,25 +379,33 @@ refactorRowanCommon
 		comment: 'test packages for Rowan-Core'.
 	{
 			'common_tests_v3_Tests'. 									"V4 functionality that is included in 3.7.5 Rowan 3 extent - companion to common_v3_Core"
+			'common_tests_Tests' .
+			'common_tests_Core' .
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName. 
 		testRowanSubcluster addPackagesNamed: originalSubcluster packageNames ].
 
-	"Rowan Core gemstone/test subcluster"
-	testGemStoneRowanSubcluster := proposedProjectClusters 
-		addSubclusterNamed: 'Rowan-Core-GemStone-Tests' 
-		toClusterNamed: 'Rowan-Core'
-		condition: 'gemstone & tests'
-		comment: 'test packages for GemStone/Rowan-Core'.
 	{
 			'common_tests_platforms_gemstone_Tests'		"pick up the tests not included in AST"
 	} do: [:subclusterName |
 		| originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
-		testGemStoneRowanSubcluster := projectClusters subclusterNamed: subclusterName.
-				"pick up the non-AST packages ... AST packages included in AST cluster"
-				testRowanSubcluster addPackagesNamed: ((originalSubcluster packageNames) reject: [:each | each beginsWith: 'AST']) ].
+		"pick up the non-AST packages ... AST packages included in AST cluster"
+		testRowanSubcluster addPackagesNamed: ((originalSubcluster packageNames) reject: [:each | each beginsWith: 'AST']) ].
+
+	testRowan36_Subcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Core-36x-Tests' 
+		toClusterNamed: 'Rowan-Core'
+		condition: 'tests & gs3.[6-]'
+		comment: 'test packages for Rowan-Core '.
+	{
+		'common_tests_platforms_gemstone36-_Tests' .
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		"pick up the non-AST packages ... AST packages included in AST cluster"
+		testRowan36_Subcluster addPackagesNamed: originalSubcluster packageNames ].
 
 	"done with rowanCluster ... add it to the slices"
 	rowanV35Slice addClusterNamed: rowanCluster clusterName.
@@ -408,6 +424,8 @@ refactorRowanCommon
 		'common_platforms_gemstone37-_Core' .
 		'common_platforms_gemstone_gemstoneBase_Core'.
 		'common_platforms_gemstone_Definitions' .
+		'common_platforms_gemstone37-_Definitions' .
+		'common_platforms_gemstone_gemstoneBase_Specifications' .
 	} do:  [:subclusterName |
 		| subcluster originalSubcluster |
 		originalSubcluster := projectClusters subclusterNamed: subclusterName.
