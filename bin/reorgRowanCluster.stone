@@ -110,6 +110,10 @@ DESCRIPTION
 			common_platforms_gemstone_gemstoneBase_ComponentsUpgrade
 			common_platforms_gemstone_gemstoneBase_Core
 			common_v2_v2Only_platforms_gemstone36-_Loader			
+		Rowan-Shared (slice)
+			common_tests_platforms_shared_Tests
+			common_examples_Tools
+			common_platforms_gemstone35-_Tools
 	"
 
 OPTIONS
@@ -143,6 +147,7 @@ rowanV40Slice
 rowanV40_loadedSlice
 rowanV35Slice
 rowanUpgradeSlice
+rowanSharedSlice
 %
 method
 defineSlices
@@ -158,6 +163,8 @@ defineSlices
 			comment: 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus Rowan V3 and V2 functionality to allow RowanV4.0 to read V3 and V2 format repositories';
 		addSliceNamed: 'RowanV3.5_upgrade'
 			comment: 'The RowanV3.5_upgrade slice is used for generating some Rowan upgrade .gs files as part of the GemStone product build process ... (see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName: for the usage of this slice during the upgrade process). This slice is not intended to be loaded into the standard Rowan image ... The packages are loaded into the standard image by the V2 slice';
+		addSliceNamed: 'Rowan-Shared'
+			comment: 'Common code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project'
 		yourself	
 %
 method
@@ -184,8 +191,8 @@ refactorStubs
 %
 method
 refactorAST	
-	"common_platforms_gemstone_AST"
-	"AST project was ported from GLASS implementation"
+	"rowanV40Slice, rowanV40_loadedSlice, and rowanV35Slice"
+	"AST project was ported from GLASS implementation and will not be needed for Pharo"
 	| common_platforms_gemstone_AST common_tests_platforms_gemstone_Tests astCluster astSubcluster astTestSubcluster |
 	common_platforms_gemstone_AST := projectClusters subclusterNamed: 'common_platforms_gemstone_AST'.
 	common_tests_platforms_gemstone_Tests := projectClusters subclusterNamed: 'common_tests_platforms_gemstone_Tests'.
@@ -212,7 +219,7 @@ refactorAST
 %
 method
 refactorObsolete
-	"
+	"rowanV35Slice ...
 		The Rowan-Obsolete-Core and Rowan-Obsolete-Tests (obsoleteReaderWriter) packages are not loaded in a 
 		standard Rowan:masterV3.5 image and are kept around for historical reasons.
 
@@ -268,7 +275,7 @@ refactorObsolete
 %
 method
 refactorV2
-	"Create a cluster that collects all of the v2 subclusters"
+	"rowanV35Slice and rowanV40_loadedSlice ... Create a cluster that collects all of the v2 subclusters"
 	| v2Cluster reverseConditionMap |
 	v2Cluster := proposedProjectClusters
 		addClusterNamed: 'V2'
@@ -323,7 +330,7 @@ refactorV2
 %
 method
 refactorV4
-	"Create a cluster that collects all of the v3 subclusters ... which are actually V4 functionality"
+	"rowanV40Slice and rowanV40Slice add v3 subclusters for V4 functionality. Create a cluster that collects all of the v3 subclusters"
 	| common_v3_Core common_tests_v3_Tests v4Cluster v4Subcluster v4TestsSubcluster |
 	common_v3_Core := projectClusters subclusterNamed: 'common_v3_Core'.
 	common_tests_v3_Tests := projectClusters subclusterNamed: 'common_tests_v3_Tests'.
@@ -346,7 +353,8 @@ refactorV4
 %
 method
 refactorRowanCommon
-	"Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
+	"rowanV35Slice, rowanV40Slice, and rowanV40_loadedSlice are slices that are used to define a Rowan stone.
+		Create a cluster for the common Rowan functionality ... parts of this guy might be distrbuted to V3/V4 as neeed"
 	| rowanCluster rowanSubcluster testRowanSubcluster testRowan36_Subcluster |
 	rowanCluster := proposedProjectClusters
 		addClusterNamed: 'Rowan-Core'
@@ -439,7 +447,7 @@ refactorRowanCommon
 %
 method
 refactorUpgrade
-	"The slice collects all of the Upgrade subclusters (no need for a cluster ... the subclusters are shared, but the cluster is not ... so no need for cluster)"
+	"The refactorUpgrade slice collects all of the Upgrade subclusters (no need for a cluster ... the subclusters are shared, but the cluster is not ... so no need for cluster)"
 	| reverseConditionMap upgradeCluster |
 	reverseConditionMap := Dictionary new.
 	{
@@ -502,6 +510,50 @@ refactorUpgrade
 							comment: existingSubcluster comment, ' [', originalSubcluster subclusterName, '] ', originalSubcluster comment ] ] ].
 %
 method
+refactorSharedForRCSTests
+"rowanSharedSlice"
+"Code and tests needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project" 
+	| rowanSharedCluster rowanSharedSubcluster rowanSharedTestsSubcluster |
+	rowanSharedCluster := proposedProjectClusters
+		addClusterNamed: 'Rowan-Shared'
+		comment: 'Common code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project'.
+
+	rowanSharedSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Shared' 
+		toClusterNamed: rowanSharedCluster clusterName
+		condition: 'true'
+		comment: 'Code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project'.
+	{
+		'common_examples_Tools' .
+		'common_platforms_gemstone35-_Tools'
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		rowanSharedSubcluster addPackagesNamed: originalSubcluster packageNames.	"do not copy over conditions ... using slice to isolate" ].
+
+	rowanSharedTestsSubcluster := proposedProjectClusters 
+		addSubclusterNamed: 'Rowan-Shared-Tests' 
+		toClusterNamed: rowanSharedCluster clusterName
+		condition: 'tests'
+		comment: 'Tests tests shared between RCS and Rowan'.
+	{
+		'common_tests_platforms_shared_Tests' .
+	} do: [:subclusterName |
+		| originalSubcluster |
+		originalSubcluster := projectClusters subclusterNamed: subclusterName.
+		rowanSharedTestsSubcluster addPackagesNamed: originalSubcluster packageNames. ].
+
+	"Add the cluster to all of the slices ... standard part of Rowan V3/V4 images and Rowan-Shared slice used by RowanClientServices"
+	rowanV40Slice 
+		addClusterNamed: rowanSharedCluster clusterName.
+	rowanV40_loadedSlice
+		addClusterNamed: rowanSharedCluster clusterName.
+	rowanV35Slice
+		addClusterNamed: rowanSharedCluster clusterName.
+	rowanSharedSlice 
+		addClusterNamed: rowanSharedCluster clusterName.
+%
+method
 stripUnnecessaryVariable: variable from: expression 
 	| newExpression |
 	expression = variable 
@@ -552,6 +604,7 @@ doit
 	rowanV40_loadedSlice := proposedProjectClusters sliceNamed: 'RowanV4.0_loaded'.
 	rowanV35Slice := proposedProjectClusters sliceNamed: 'RowanV3.5'.
 	rowanUpgradeSlice := proposedProjectClusters sliceNamed: 'RowanV3.5_upgrade'.
+	rowanSharedSlice := proposedProjectClusters sliceNamed: 'Rowan-Shared'.
 	self
 		refactorAST;
 		refactorStubs;
@@ -560,6 +613,7 @@ doit
 		refactorV4;
 		refactorRowanCommon;
 		refactorUpgrade;
+		refactorSharedForRCSTests;
 		yourself.
 	self resultsFile asFileReference writeStreamDo: [:stream |
 		stream truncate.

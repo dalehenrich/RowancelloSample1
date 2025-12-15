@@ -10,11 +10,7 @@
 		'testsV2',
 		'v2'
 	],
-	'dif A-C' : [
-		'Rowan-Tests-Shared-GemStone',
-		'Rowan-Tools-Examples',
-		'Rowan-Tools-GemStone-35x'
-	],
+	'dif A-C' : [ ],
 	'dif C-A' : [ ],
 	'actual' : [
 		'AST-Core',
@@ -144,6 +140,7 @@
 		'Rowan-Tests-Core',
 		'Rowan-Tests-GemStone',
 		'Rowan-Tests-GemStone-36x',
+		'Rowan-Tests-Shared-GemStone',
 		'Rowan-Tests-SpecificationsV2',
 		'Rowan-TestsV2',
 		'Rowan-TestsV3',
@@ -151,8 +148,10 @@
 		'Rowan-Tonel-Core',
 		'Rowan-Tools-Core',
 		'Rowan-Tools-CoreV2',
+		'Rowan-Tools-Examples',
 		'Rowan-Tools-Extensions-GemStone',
 		'Rowan-Tools-GemStone',
+		'Rowan-Tools-GemStone-35x',
 		'Rowan-Tools-Kernel',
 		'Rowan-Tools-OnlyV2',
 		'Rowan-Url-Core'
@@ -166,19 +165,10 @@
 					'Stubs',
 					'Obsolete',
 					'V2',
-					'Rowan-Core'
+					'Rowan-Core',
+					'Rowan-Shared'
 				],
 				#comment : 'The RowanV3.5 slice is intended to duplicate the packages loaded into the standard 3.7.5 Rowan3 extent'
-			},
-			'RowanV4.0' : RwSlice {
-				#sliceName : 'RowanV4.0',
-				#clusterNames : [
-					'AST',
-					'Stubs',
-					'V4',
-					'Rowan-Core'
-				],
-				#comment : 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. '
 			},
 			'RowanV4.0_loaded' : RwSlice {
 				#sliceName : 'RowanV4.0_loaded',
@@ -187,7 +177,8 @@
 					'Stubs',
 					'V2',
 					'V4',
-					'Rowan-Core'
+					'Rowan-Core',
+					'Rowan-Shared'
 				],
 				#comment : 'The RowanV4.0_loaded slice is intended to include RowanV4.0 plus Rowan V3 and V2 functionality to allow RowanV4.0 to read V3 and V2 format repositories'
 			},
@@ -197,6 +188,24 @@
 					'RowanV3.5_upgrade'
 				],
 				#comment : 'The RowanV3.5_upgrade slice is used for generating some Rowan upgrade .gs files as part of the GemStone product build process ... (see GgsGenerator371Common>>generateRowanUpgradeGs:gsDestDir:rowanBaseName: for the usage of this slice during the upgrade process). This slice is not intended to be loaded into the standard Rowan image ... The packages are loaded into the standard image by the V2 slice'
+			},
+			'RowanV4.0' : RwSlice {
+				#sliceName : 'RowanV4.0',
+				#clusterNames : [
+					'AST',
+					'Stubs',
+					'V4',
+					'Rowan-Core',
+					'Rowan-Shared'
+				],
+				#comment : 'The RowanV4.0 slice is intended to include only RowanV4.0 functionality. '
+			},
+			'Rowan-Shared' : RwSlice {
+				#sliceName : 'Rowan-Shared',
+				#clusterNames : [
+					'Rowan-Shared'
+				],
+				#comment : 'Common code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project'
 			}
 		},
 		#clusters : {
@@ -222,14 +231,6 @@
 					'v2_v2Only_Tools'
 				],
 				#comment : 'Collection of subclusters that are conditional on v2 condition. Referencing this cluster with v2 condition set will load v2 support into image'
-			},
-			'Obsolete' : RwCluster {
-				#clusterName : 'Obsolete',
-				#subclusterNames : [
-					'Obsolete',
-					'Obsolete-GemStone'
-				],
-				#comment : 'The methods in the Obsolete-GemStone cluster are scheduled to be removed from the system for Rowan V4 in favor of the standard API methods, i.e., those methods that have been stubbed out (see the Stubs cluster). Currently they are present in a standard V3 image. They will be removed when the Stubs work is complete'
 			},
 			'RowanV3.5_upgrade' : RwCluster {
 				#clusterName : 'RowanV3.5_upgrade',
@@ -282,6 +283,22 @@
 					'Rowan-Core-Tests'
 				],
 				#comment : 'Collection of packages and subclusters defining the Rowan core functionality'
+			},
+			'Obsolete' : RwCluster {
+				#clusterName : 'Obsolete',
+				#subclusterNames : [
+					'Obsolete',
+					'Obsolete-GemStone'
+				],
+				#comment : 'The methods in the Obsolete-GemStone cluster are scheduled to be removed from the system for Rowan V4 in favor of the standard API methods, i.e., those methods that have been stubbed out (see the Stubs cluster). Currently they are present in a standard V3 image. They will be removed when the Stubs work is complete'
+			},
+			'Rowan-Shared' : RwCluster {
+				#clusterName : 'Rowan-Shared',
+				#subclusterNames : [
+					'Rowan-Shared',
+					'Rowan-Shared-Tests'
+				],
+				#comment : 'Common code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project'
 			}
 		},
 		#subclusters : {
@@ -634,6 +651,23 @@
 				],
 				#comment : 'gemstone conditional packages required to restore Rowan functionality immediately after running upgradeImage',
 				#condition : 'gemstone'
+			},
+			'Rowan-Shared' : RwSubcluster {
+				#subclusterName : 'Rowan-Shared',
+				#packageNames : [
+					'Rowan-Tools-Examples',
+					'Rowan-Tools-GemStone-35x'
+				],
+				#comment : 'Code needed for running RowanClientServices tests in 3.7.5 extent without having to attach/load the full Rowan project',
+				#condition : 'true'
+			},
+			'Rowan-Shared-Tests' : RwSubcluster {
+				#subclusterName : 'Rowan-Shared-Tests',
+				#packageNames : [
+					'Rowan-Tests-Shared-GemStone'
+				],
+				#comment : 'Tests tests shared between RCS and Rowan',
+				#condition : 'tests'
 			}
 		},
 		#expressionContext : RwCAQContext {
